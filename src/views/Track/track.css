@@ -6,7 +6,7 @@
     align-items: center;
 }
 
-.track-input-container {
+.track-form {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -33,5 +33,11 @@
 
 .track-button {
     background-color: #009FDB;
+    color: white;
+}
+
+.track-button:hover {
+    transition: 0.5s all;
+    background-color: #7F5AF6;
     color: white;
 }

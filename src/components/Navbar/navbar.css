@@ -1,0 +1,34 @@
+.navbar {
+    background: rgb(112,80,216);
+    background: linear-gradient(90deg, rgba(112,80,216,1) 0%, rgba(0,137,189,1) 100%);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    height: 100px;
+}
+
+.navbar-logo {
+    width: 122px;
+}
+
+.nav-link {
+    color: #FFF;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    text-decoration: none;
+}
+
+.nav-link:hover {
+    color: #303030;
+    text-decoration: none;
+}
+
+.nav-item {
+    margin-left: 20px;
+}
+
+li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

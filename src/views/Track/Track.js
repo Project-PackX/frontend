@@ -1,9 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import PackageDataService from "../../services/package.js";
+import axios from 'axios';
 
 import './track.css';
 
 export const Track = () => {
+
+    const getPackages = async () => {
+        axios.get('http://localhost:4444/api/packages')
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+      };
 
     const [packageID, setPackageID] = useState('');
 
@@ -32,8 +43,9 @@ export const Track = () => {
             <div className="track-input-container">
                 <form className='track-form'>
                     <input type='text' value={packageID} onChange={searchPackage} className="track-input my-3" placeholder="Enter your tracking number" />
-                    <button type='submit' onSubmit={getPackageById} className="button track-button mx-3">Track</button>
+                    <button onSubmit={getPackageById} className="button track-button mx-3">Track</button>
                 </form>
+                <button onClick={getPackages}>Get Packages</button>
             </div>
         </div>
     )

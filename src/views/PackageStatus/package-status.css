@@ -1,0 +1,89 @@
+.package-details {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 70%;
+}
+
+.package-details h2 {
+    color: #303030;
+    text-align: center;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.package-details h3 {
+    color: #808080;
+    text-align: center;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.package-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin-bottom: 1rem;
+    color: #212529;
+    background-color: transparent;
+    border-color: #dee2e6;
+}
+
+.package-table .package-table-title {
+    color: #303030;
+    text-align: right;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    padding-right: 20px;
+}
+
+.package-table .package-table-info {
+    color: #7F5AF6;
+    text-align: left;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    padding-left: 20px;
+}
+
+/* Styles for the timeline */
+.timeline {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 60px; /* Adjust the margin as needed */
+    margin-top: 60px;
+}
+
+/* Styles for the dots */
+.dot {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin: 0 10px; /* Adjust the margin as needed */
+}
+
+/* Green dot */
+.green-dot {
+    background-color: #00cc00; /* Green color */
+}
+
+/* Gray dot */
+.gray-dot {
+    background-color: #ccc; /* Gray color */
+}
+
+.stage-name {
+    margin-top: 16px; /* Adjust the margin as needed */
+    text-align: center; /* Center the text */
+    color: #333; /* Text color */
+    width: 100px;
+    color: #303030;
+}

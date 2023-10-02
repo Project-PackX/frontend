@@ -16,7 +16,7 @@ export const Track = () => {
         })
       };
 
-    const [packageID, setPackageID] = useState('');
+    /* const [packageID, setPackageID] = useState('');
 
     useEffect(() => {
         getPackageById();
@@ -35,16 +35,16 @@ export const Track = () => {
         .catch((error) => {
             console.log(error);
         })
-    }
+    } */
 
     return (
         <div className="track-container mx-5">
             <h1 className="track-title">Track & trace</h1>
             <div className="track-input-container">
-                <form className='track-form'>
+                {/* <form className='track-form'>
                     <input type='text' value={packageID} onChange={searchPackage} className="track-input my-3" placeholder="Enter your tracking number" />
                     <button onSubmit={getPackageById} className="button track-button mx-3">Track</button>
-                </form>
+                </form> */}
                 <button onClick={getPackages}>Get Packages</button>
             </div>
         </div>

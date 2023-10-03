@@ -1,3 +1,13 @@
+:root {
+  --purple: #7F5AF6;
+  --blue: #009FDB;
+  --white: #EEEEEE;
+  --black: #303030;
+  --red: #E53A45;
+  --green: #9BC53D;
+  --gray: #8E9AAF;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -32,33 +42,33 @@ code {
 }
 
 .button-primary {
-  background-color: #FFF;
-  border: 3px solid #FFF;
+  background-color: var(--white);
+  border: 3px solid var(--white);
 }
 
 .button-primary:hover {
   transition: 0.5s all;
-  border: 3px solid #303030;
-  background-color: #303030;
+  border: 3px solid var(--black);
+  background-color: var(--black);
 }
 
 .button-primary .button-text {
-  background: -webkit-linear-gradient(#7F5AF6, #009FDB);
+  background: -webkit-linear-gradient(var(--purple), var(--blue));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .button-secondary {
-  border: 3px solid #FFF;
+  border: 3px solid var(--white);
   background-color: transparent;
 }
 
 .button-secondary:hover {
   transition: 0.5s all;
-  border: 3px solid #303030;
-  background-color: #303030;
+  border: 3px solid var(--black);
+  background-color: var(--black);
 }
 
 .button-secondary .button-text {
-  color: #FFF;
+  color: var(--white);
 }

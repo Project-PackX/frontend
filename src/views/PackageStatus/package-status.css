@@ -2,6 +2,10 @@
     margin-top: 20px;
     margin-bottom: 20px;
     width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
 }
 
 .package-details h2 {
@@ -81,4 +85,11 @@
     text-align: center;
     width: 100px;
     color: var(--black);
+}
+
+.back-button {
+    text-decoration: none;
+    text-align: center;
+    margin: 3rem;
+    color: var(--purple);
 }

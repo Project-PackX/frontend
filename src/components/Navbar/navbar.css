@@ -1,7 +1,7 @@
 .navbar {
     background: var(--purple);
     background: linear-gradient(90deg, var(--purple) 0%, var(--blue) 100%);
-    box-shadow: 0 4px 4px 0 var(--black);
+    box-shadow: 0 4px 4px 0 var(--gray);
     height: 100px;
 }
 

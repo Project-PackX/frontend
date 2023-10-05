@@ -11,7 +11,7 @@ export const Login = () => {
                 <p className="subtitle">Please enter your details</p>
                 <form>
                     <div className="mb-3">
-                        <label htmlFor="username" className="form-label">Username</label>
+                        <label htmlFor="username" className="form-label">Email</label>
                         <input
                             type="text"
                             className="form-input"

@@ -13,35 +13,13 @@ export const Track = () => {
     }
 
     const getPackageById = () => {
-        /* PackageDataService.get(packageID)
+        PackageDataService.get(packageID)
             .then((response) => {
                 setPackageData(response.data);
             })
             .catch((error) => {
                 console.log(error);
-            }); */
-            const jsonData = {
-                "Data": {
-                  "ID": 1,
-                  "CreatedAt": "2023-10-02T13:45:53.031287+02:00",
-                  "UpdatedAt": "2023-10-02T13:45:53.031287+02:00",
-                  "DeletedAt": null,
-                  "TrackID": "",
-                  "UserID": 2,
-                  "SenderLockerId": "",
-                  "DestinationLockerId": "",
-                  "Size": "Medium",
-                  "Price": 37990,
-                  "Code": "",
-                  "DeliveryDate": "2023-10-02T13:45:53.031287+02:00",
-                  "Note": "Utánvét",
-                  "CourierID": 1
-                },
-                "Status": "In Warehouse"
-              };
-          
-              // Set the JSON data as the packageData state
-              setPackageData(jsonData);
+            });
     }
 
     return (

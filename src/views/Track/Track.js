@@ -13,14 +13,14 @@ export const Track = () => {
     }
 
     const getPackageById = () => {
-        PackageDataService.get(packageID)
+        /* PackageDataService.get(packageID)
             .then((response) => {
                 setPackageData(response.data);
             })
             .catch((error) => {
                 console.log(error);
-            });
-            /* const jsonData = {
+            }); */
+            const jsonData = {
                 "Data": {
                   "ID": 1,
                   "CreatedAt": "2023-10-02T13:45:53.031287+02:00",
@@ -41,7 +41,7 @@ export const Track = () => {
               };
           
               // Set the JSON data as the packageData state
-              setPackageData(jsonData); */
+              setPackageData(jsonData);
     }
 
     return (

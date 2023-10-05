@@ -10,7 +10,7 @@ export const Register = () => {
                 <img src={require("../../assets/images/undraw_order_delivered_re_v4ab.svg").default} alt="register" />
             </div>
             <div className="form-container col-md-6 mt-5">
-                <h1 className="title">Welcome back!</h1>
+                <h1 className="title">Welcome here!</h1>
                 <p className="subtitle">Please enter your details</p>
                 <form>
                     <div className="mb-3">

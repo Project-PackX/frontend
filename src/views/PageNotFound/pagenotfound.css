@@ -4,18 +4,17 @@
     align-items: center;
     justify-content: center;
     height: calc(100vh - 100px);
+    text-align: center;
 }
 
-.error-container img {
+.error-image {
     height: 50%;
     width: 50%;
-    border-radius: 20px;
 }
 
-.error-container p {
-    color: var(--black);
-    text-align: center;
-    font-size: 20px;
-    font-style: normal;
-    line-height: normal;
+.error-text {
+    color: #333;
+    font-size: 24px;
+    margin-top: 20px;
+    font-weight: bold;
 }

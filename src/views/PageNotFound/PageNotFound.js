@@ -1,12 +1,15 @@
 import React from 'react';
-
 import './pagenotfound.css';
 
 export const PageNotFound = () => {
     return (
         <div className="error-container">
-            <img src={require('../../assets/images/404.webp')} alt="404" />
-            <p className="my-5"> Error: This page has gone on a digital vacation!</p>
+            <img
+                src={require('../../assets/images/undraw_page_not_found_re_e9o6.svg').default}
+                alt="404"
+                className="error-image"
+            />
+            <p className="error-text">Oops! It seems this page has gone on a digital vacation.</p>
         </div>
     );
 };

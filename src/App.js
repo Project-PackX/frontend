@@ -9,6 +9,7 @@ import { Login } from './views/Login/Login';
 import { Register } from './views/Register/Register';
 import { Contact } from './views/Contact/Contact'
 import { PackageStatus } from './views/PackageStatus/PackageStatus';
+import { PageNotFound } from "./views/PageNotFound/PageNotFound";
 
 function App() {
 
@@ -17,14 +18,15 @@ function App() {
       <Router>
         <Navbar />
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/track" element={<Track />} />
-          <Route path="/track/:id" element={<PackageStatus />} />
-          <Route path="/aboutus" element={<h1>About us</h1>} />
-          <Route path="/contactus" element={<h1>Contact us</h1>} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/contact" element={<Contact />} />
+          <Route exact path="/" element={<Home />} />
+          <Route exact path="/track" element={<Track />} />
+          <Route exact path="/track/:id" element={<PackageStatus />} />
+          <Route exact path="/aboutus" element={<h1>About us</h1>} />
+          <Route exact path="/contactus" element={<h1>Contact us</h1>} />
+          <Route exact path="/login" element={<Login />} />
+          <Route exact path="/register" element={<Register />} />
+          <Route exact path="/contact" element={<Contact />} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </Router>
     </div>

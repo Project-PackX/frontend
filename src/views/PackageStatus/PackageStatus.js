@@ -40,7 +40,7 @@ export const PackageStatus = () => {
     };
 
     return (
-        <div className="package-details">
+        <div className="package-details container">
             <h2>{packageData.Status}</h2>
             <h3>{`${dayOfWeek}, ${formattedDate}`}</h3>
             <div className="timeline">

@@ -1,0 +1,150 @@
+.home {
+    height: calc(100vh - 100px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.title {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.title-left {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+
+.subtitle {
+    font-size: 18px;
+    color: var(--gray);
+    margin-bottom: 25px;
+    text-align: center; /* Center-align the text horizontally */
+}
+
+.home-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.home-label {
+    font-weight: bold;
+    font-size: 12px;
+    color: #303030;
+    margin-bottom: 5px;
+}
+
+.home-input {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.home-btn {
+    padding: 10px;
+    width: 100%;
+    border: none;
+    background-color: var(--purple);
+    color: var(--white);
+    font-weight: bold;
+    border-radius: 15px;
+}
+
+.home-btn:hover {
+    transition: 0.3s all ease-in-out;
+    background-color: var(--black);
+}
+
+.register-text {
+    margin-top: 20px;
+    font-size: 12px;
+    color: var(--black);
+}
+
+.register-link {
+    font-size: 14px;
+    color: var(--blue);
+    text-decoration: none;
+    font-weight: bold;
+    display: inline;
+}
+
+.error-message {
+    color: var(--red);
+    font-size: 12px;
+    margin-top: 10px;
+}
+
+.seperator-line {
+    background: var(--purple);
+    background: linear-gradient(90deg, var(--purple) 0%, var(--blue) 100%);
+    box-shadow: 0 4px 4px 0 var(--gray);
+    height: 50px;
+}
+
+.empty-space {
+    height: 5px;
+}
+
+.text {
+    opacity: 1 !important;
+    z-index: 2 !important;
+}
+
+.background-image {
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 800px;
+    width: 100%; 
+    position: relative;
+    animation: slide 12s infinite;
+    /*opacity: 0.35;*/
+    z-index: 1;
+}
+
+.content-left {
+    flex: 1; 
+    padding: 20px; 
+    text-align: left;
+}
+
+.content-right {
+    flex: 1; 
+    padding: 20px; 
+    text-align: right;
+}
+
+.image-right {
+    flex: 1; 
+    text-align: right; 
+}
+
+.image-left {
+    flex: 1; 
+    text-align: left; 
+}
+
+
+
+
+
+@keyframes slide {
+    0% {
+        background-image: url("../../assets/images/slider/1.webp");
+    }
+    25% {
+        background-image: url("../../assets/images/slider/2.webp");
+    }
+    50% {
+        background-image: url("../../assets/images/slider/3.webp");
+    }
+    75% {
+        background-image: url("../../assets/images/slider/4.webp");
+    }
+    100% {
+        background-image: url("../../assets/images/slider/1.webp");
+    }
+}

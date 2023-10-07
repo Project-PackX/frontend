@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom'
 import PackageDataService from "../../services/package.js";
 
+import loader from '../../assets/loading/loading_trans.gif';
 import './package-status.css';
 
 export const PackageStatus = () => {
 
     const [packageData, setPackageData] = useState(null)
+    const [isLoading, setIsLoading] = useState(true); // Add loading state
 
     const { id } = useParams()
 
@@ -21,11 +23,19 @@ export const PackageStatus = () => {
     }
 
     useEffect(() => {
-        getPackageStatus(id);
-    }, [id])
+        // Delay the loading completion by 2 seconds
+        const loadingTimeout = setTimeout(() => {
+            setIsLoading(false);
+        }, 5000);
 
-    if (packageData === null) {
-        return <div>Loading...</div>;
+        getPackageStatus(id);
+
+        // Clear the timeout to prevent memory leaks
+        return () => clearTimeout(loadingTimeout);
+    }, [id]);
+
+    if (isLoading) {
+        return <img src={loader} alt="loading..." />;
     }
 
     const deliveryDate = new Date(packageData.Data.DeliveryDate);

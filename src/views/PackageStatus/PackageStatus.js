@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import PackageDataService from '../../services/package.js';
-import loader from '../../assets/loading/loading_trans.gif';
+import { Loading } from '../../components/Loading/Loading.js';
 import './package-status.css';
 
 // Import your SVGs here (replace these with your SVGs)
@@ -37,7 +37,7 @@ export const PackageStatus = () => {
     }, [id]);
 
     if (isLoading) {
-        return <img src={loader} alt="loading..." />;
+        return <Loading className="loading" />;
     }
 
     const deliveryDate = new Date(packageData.Data.DeliveryDate);

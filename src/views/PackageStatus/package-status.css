@@ -1,9 +1,9 @@
 .package-details {
     height: calc(100vh - 100px);
-    width: 70%;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
 }
 
 .package-details h2 {
@@ -63,26 +63,11 @@
     margin-top: 60px;
 }
 
-.dot {
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    margin: 0 10px;
-}
-
-.green-dot {
-    background-color: var(--green);
-}
-
-.gray-dot {
-    background-color: var(--gray);
-}
-
 .stage-name {
     margin-top: 16px;
     text-align: center;
-    width: 100px;
     color: var(--black);
+    font-weight: bold;
 }
 
 .back-button {
@@ -90,4 +75,16 @@
     text-align: center;
     margin: 3rem;
     color: var(--purple);
+}
+
+.state-images {
+    border: 2px solid var(--gray);
+    border-radius: 15px;
+    margin: 0 1%;
+    padding: 10px;
+}
+
+.state-image {
+    width: 150px;
+    height: 150px;
 }

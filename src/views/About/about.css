@@ -147,8 +147,8 @@
 .image-center{
     text-align: center; 
     padding: 50px;
-    max-width: 80%;
-    height: auto;
+    max-width: auto;
+    height: 100px;
 }
 
 
@@ -171,6 +171,6 @@
 }
 
 .logo-column img {
-    max-width: 80px;
+    max-width: 300px;
     height: auto;
 }

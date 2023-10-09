@@ -1,31 +1,43 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom'
-import PackageDataService from "../../services/package.js";
-
+import { useParams } from 'react-router-dom';
+import PackageDataService from '../../services/package.js';
+import { Loading } from '../../components/Loading/Loading.js';
 import './package-status.css';
 
+// Import your SVGs here (replace these with your SVGs)
+import DispatchSvg from '../../assets/images/undraw_data_processing_yrrv.svg';
+import TransitSvg from '../../assets/images/undraw_aircraft_re_m05i.svg';
+import InWarehouseSvg from '../../assets/images/undraw_building_re_xfcm.svg';
+import InDeliverySvg from '../../assets/images/undraw_delivery_truck_vt6p.svg';
+import DeliveredSvg from '../../assets/images/undraw_order_delivered_re_v4ab.svg';
+
 export const PackageStatus = () => {
+    const [packageData, setPackageData] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const { id } = useParams();
 
-    const [packageData, setPackageData] = useState(null)
-
-    const { id } = useParams()
-
-    const getPackageStatus = id => {
+    const getPackageStatus = (id) => {
         PackageDataService.get(id)
-            .then(response => {
+            .then((response) => {
                 setPackageData(response.data);
             })
-            .catch(e => {
+            .catch((e) => {
                 console.log(e);
             });
-    }
+    };
 
     useEffect(() => {
-        getPackageStatus(id);
-    }, [id])
+        const loadingTimeout = setTimeout(() => {
+            setIsLoading(false);
+        }, 2000);
 
-    if (packageData === null) {
-        return <div>Loading...</div>;
+        getPackageStatus(id);
+
+        return () => clearTimeout(loadingTimeout);
+    }, [id]);
+
+    if (isLoading) {
+        return <Loading className="loading" />;
     }
 
     const deliveryDate = new Date(packageData.Data.DeliveryDate);
@@ -35,8 +47,16 @@ export const PackageStatus = () => {
     const stages = ['Dispatch', 'Transit', 'In Warehouse', 'In Delivery', 'Delivered'];
     const currentState = packageData.Status;
 
-    const getDotColor = (stageIndex) => {
-        return stageIndex <= stages.indexOf(currentState) ? 'green-dot' : 'gray-dot';
+    const getSvgForStage = (stage) => {
+        const svgMap = {
+            'Dispatch': DispatchSvg,
+            'Transit': TransitSvg,
+            'In Warehouse': InWarehouseSvg,
+            'In Delivery': InDeliverySvg,
+            'Delivered': DeliveredSvg,
+        };
+
+        return svgMap[stage];
     };
 
     return (
@@ -45,28 +65,37 @@ export const PackageStatus = () => {
             <h3>{`${dayOfWeek}, ${formattedDate}`}</h3>
             <div className="timeline">
                 {stages.map((stage, index) => (
-                    <div key={index} className={`dot ${getDotColor(index)}`}>
-                        <p className='stage-name'>{stage}</p>
+                    <div key={index} className="state-images">
+                        {/* Render the SVG for the current stage and apply color conditionally */}
+                        <img
+                            src={getSvgForStage(stage)}
+                            alt={stage}
+                            className="state-image"
+                            style={{
+                                filter: index <= stages.indexOf(currentState) ? 'none' : 'grayscale(100%)',
+                            }}
+                        />
+                        <p className="stage-name">{stage}</p>
                     </div>
                 ))}
             </div>
-            <table className='package-table'>
+            <table className="package-table">
                 <tbody>
                 <tr>
-                    <td className='package-table-title'>Tracking number:</td>
-                    <td className='package-table-info'>{packageData.Data.ID}</td>
+                    <td className="package-table-title">Tracking number:</td>
+                    <td className="package-table-info">{packageData.Data.ID}</td>
                 </tr>
                 <tr>
-                    <td className='package-table-title'>Size:</td>
-                    <td className='package-table-info'>{packageData.Data.Size}</td>
+                    <td className="package-table-title">Size:</td>
+                    <td className="package-table-info">{packageData.Data.Size}</td>
                 </tr>
                 <tr>
-                    <td className='package-table-title'>Price:</td>
-                    <td className='package-table-info'>{packageData.Data.Price}</td>
+                    <td className="package-table-title">Price:</td>
+                    <td className="package-table-info">{packageData.Data.Price}</td>
                 </tr>
                 <tr>
-                    <td className='package-table-title'>Est. delivery date:</td>
-                    <td className='package-table-info'>{formattedDate}</td>
+                    <td className="package-table-title">Est. delivery date:</td>
+                    <td className="package-table-info">{formattedDate}</td>
                 </tr>
                 </tbody>
             </table>

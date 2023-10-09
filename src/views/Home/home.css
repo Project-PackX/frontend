@@ -7,22 +7,20 @@
 
 .title {
     font-size: 48px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
+
+.title-left {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
 
 .subtitle {
     font-size: 18px;
     color: var(--gray);
     margin-bottom: 25px;
-    text-align: center;
-}
-
-.data {
-    font-size: 20px;
-    margin-top: 25px;
-    margin-bottom: 25px;
-    margin-left: 50px;
-    margin-right: 50px;
+    text-align: center; /* Center-align the text horizontally */
 }
 
 .home-container {
@@ -100,87 +98,35 @@
     background-repeat: no-repeat;
     background-position: center;
     height: 800px;
-    width: 100%; 
+    width: 100%;
     position: relative;
     animation: slide 12s infinite;
     /*opacity: 0.35;*/
     z-index: 1;
 }
 
-
-.data-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.data-subtitle-left {
-    font-size: 18px;
-    color: var(--gray);
-    margin-bottom: 25px;
-    margin-left: 50px;
-    text-align: left;
-}
-
-.data-subtitle-right {
-    font-size: 18px;
-    color: var(--gray);
-    margin-bottom: 25px;
-    margin-right: 50px;
-    text-align: right;
-}
-
 .content-left {
-    flex: 1; 
-    margin-left: 50px;
+    flex: 1;
+    padding: 20px;
     text-align: left;
 }
 
 .content-right {
-    flex: 1; 
-    margin-right: 50px;
+    flex: 1;
+    padding: 20px;
     text-align: right;
 }
 
 .image-right {
-    text-align: right; 
-    padding: 50px;
-    max-width: 80%;
-    height: auto;
+    flex: 1;
+    text-align: right;
 }
 
 .image-left {
-    text-align: left; 
-    padding: 50px;
-    max-width: 80%;
-    height: auto;
-}
-
-
-/* Trusted by and awards section*/
-
-.trusted-awards-container {
-    background-color: #f8f8f8;
-    padding: 50px 0;
-    text-align: center;
-}
-
-.logo-container {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin-top: 20px;
-}
-
-.logo-column {
     flex: 1;
-    padding: 10px;
+    text-align: left;
 }
 
-.logo-column img {
-    max-width: 80px;
-    height: auto;
-}
 
 
 

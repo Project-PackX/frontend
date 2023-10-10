@@ -44,16 +44,16 @@ export const Home = () => {
                 <h2 className="title">Trusted by</h2>
                 <div className="logo-container">
                     <div className="logo-column">
-                        <img src={require("../../assets/logos/otp.png").default} alt="Logo 1" />
+                        <img src={require("../../assets/logos/otp.png")} alt="Logo 1" />
                     </div>
                     <div className="logo-column">
-                        <img src={require("../../assets/logos/aqua.png").default} alt="Logo 2" />
+                        <img src={require("../../assets/logos/aqua.png")} alt="Logo 2" />
                     </div>
                     <div className="logo-column">
-                        <img src={require("../../assets/logos/alza.png").default} alt="Logo 3" />
+                        <img src={require("../../assets/logos/alza.png")} alt="Logo 3" />
                     </div>
                     <div className="logo-column">
-                        <img src={require("../../assets/logos/emag.png").default} alt="Logo 4" />
+                        <img src={require("../../assets/logos/emag.png")} alt="Logo 4" />
                     </div>
                 </div>
             </div>
@@ -62,13 +62,13 @@ export const Home = () => {
                 <h2 className="title">Awards and certificates</h2>
                 <div className="logo-container">
                     <div className="logo-column">
-                        <img src={require("../../assets/logos/pay.png").default} alt="Logo 1" />
+                        <img src={require("../../assets/logos/pay.png")} alt="Logo 1" />
                     </div>
                     <div className="logo-column">
-                        <img src={require("../../assets/logos/startup.png").default} alt="Logo 2" />
+                        <img src={require("../../assets/logos/startup.png")} alt="Logo 2" />
                     </div>
                     <div className="logo-column">
-                        <img src={require("../../assets/logos/iso.png").default} alt="Logo 3" />
+                        <img src={require("../../assets/logos/iso.png")} alt="Logo 3" />
                     </div>
                 </div>
             </div>

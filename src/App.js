@@ -13,26 +13,30 @@ import { PackageStatus } from './views/PackageStatus/PackageStatus';
 import { PageNotFound } from "./views/PageNotFound/PageNotFound";
 import { Dashboard } from "./views/Dashboard/Dashboard";
 
+import { AuthProvider } from './context/auth';
+
 function App() {
 
   return (
-    <div>
-      <Router>
-        <Navbar />
-        <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route exact path="/track" element={<Track />} />
-          <Route exact path="/track/:id" element={<PackageStatus />} />
-          <Route exact path="/aboutus" element={<About />} />
-          <Route exact path="/contactus" element={<Contact />} />
-          <Route exact path="/login" element={<Login />} />
-          <Route exact path="/register" element={<Register />} />
-          <Route exact path="/contact" element={<Contact />} />
-          <Route exact path="/dashboard" element={<Dashboard />} />
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
-      </Router>
-    </div>
+      <AuthProvider>
+        <div>
+          <Router>
+            <Navbar />
+            <Routes>
+              <Route exact path="/" element={<Home />} />
+              <Route exact path="/track" element={<Track />} />
+              <Route exact path="/track/:id" element={<PackageStatus />} />
+              <Route exact path="/aboutus" element={<About />} />
+              <Route exact path="/contactus" element={<Contact />} />
+              <Route exact path="/login" element={<Login />} />
+              <Route exact path="/register" element={<Register />} />
+              <Route exact path="/contact" element={<Contact />} />
+              <Route exact path="/dashboard" element={<Dashboard />} />
+              <Route path="*" element={<PageNotFound />} />
+            </Routes>
+          </Router>
+        </div>
+      </AuthProvider>
   );
 }
 

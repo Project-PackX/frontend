@@ -1,9 +1,53 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import UserDataService from '../../services/user';
 
 import './register.css';
 
 export const Register = () => {
+
+    const navigate = useNavigate();
+
+    const [formData, setFormData] = useState({
+        name: '',
+        address: '',
+        phone: '',
+        email: '',
+        password: '',
+    });
+
+    const handleInputChange = (e) => {
+        const { id, value } = e.target;
+        setFormData({
+            ...formData,
+            [id]: value,
+        });
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        // Create a JSON object to send to the server
+        const requestData = {
+            Name: formData.name,
+            Address: formData.address,
+            Phone: formData.phone,
+            Email: formData.email,
+            Password: formData.password,
+        };
+
+        // Call the register method from UserDataService to send the data to the server
+        UserDataService.register(requestData)
+            .then((response) => {
+                navigate("/login")
+                console.log("user registered successfully", response.data);
+            })
+            .catch((error) => {
+                console.error("error while registering the user", error)
+            });
+    };
+
+
     return (
         <div className="register container row col-12">
             <div className="col-md-6">
@@ -12,13 +56,37 @@ export const Register = () => {
             <div className="form-container col-md-6 mt-5">
                 <h1 className="title">Welcome here!</h1>
                 <p className="subtitle">Please enter your details</p>
-                <form>
+                <form onSubmit={handleSubmit}>
                     <div className="mb-3">
                         <label htmlFor="name" className="form-label">Name</label>
                         <input
                             type="text"
                             className="form-input"
                             id="name"
+                            value={formData.name}
+                            onChange={handleInputChange}
+                            required
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="address" className="form-label">Address</label>
+                        <input
+                            type="text"
+                            className="form-input"
+                            id="address"
+                            value={formData.address}
+                            onChange={handleInputChange}
+                            required
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="phone" className="form-label">Phone</label>
+                        <input
+                            type="text"
+                            className="form-input"
+                            id="phone"
+                            value={formData.phone}
+                            onChange={handleInputChange}
                             required
                         />
                     </div>
@@ -28,6 +96,8 @@ export const Register = () => {
                             type="email"
                             className="form-input"
                             id="email"
+                            value={formData.email}
+                            onChange={handleInputChange}
                             required
                         />
                     </div>
@@ -37,37 +107,10 @@ export const Register = () => {
                             type="password"
                             className="form-input"
                             id="password"
+                            value={formData.password}
+                            onChange={handleInputChange}
                             required
                         />
-                    </div>
-                    <div className="mb-3">
-                        <label htmlFor="repassword" className="form-label">Re-Password</label>
-                        <input
-                            type="password"
-                            className="form-input"
-                            id="repassword"
-                            required
-                        />
-                    </div>
-                    <div className="mb-3">
-                        <label htmlFor="phone" className="form-label">Phone</label>
-                        <input
-                            type="phone"
-                            className="form-input"
-                            id="phone"
-                            required
-                        />
-                    </div>
-                    <div className="mb-3">
-                        <div className="form-check">
-                            <input
-                                type="checkbox"
-                                className="form-check-input"
-                                id="terms"
-                                required
-                            />
-                            <label htmlFor="terms" className="form-check-label">Terms and Conditions</label>
-                        </div>
                     </div>
 
                     <button type="submit" className="register-btn">Register</button>

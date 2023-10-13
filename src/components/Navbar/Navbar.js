@@ -39,11 +39,11 @@ export const Navbar = () => {
                             className="button button-primary"
                             onClick={logout}
                         >
-                            <p className='button-text mb-0'>Log Out</p>
+                            <p className='button-text mb-0'>Log out</p>
                         </button>
                     ) : (
                         <Link className="button button-primary" to="/login">
-                            <p className='button-text mb-0'>Log In</p>
+                            <p className='button-text mb-0'>Log in</p>
                         </Link>
                     )}
                 </li>

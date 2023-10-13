@@ -1,22 +1,65 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import UserDataService from '../../services/user';
+import { useAuth } from '../../context/auth';
 
 import './login.css';
 
 export const Login = () => {
+
+    const navigate = useNavigate();
+    const { login } = useAuth(); // Access the login function from the authentication context
+
+    const [formData, setFormData] = useState({
+        email: '',
+        password: '',
+    });
+
+    const handleInputChange = (e) => {
+        const { id, value } = e.target;
+        setFormData({
+            ...formData,
+            [id]: value,
+        });
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        // Create a JSON object to send to the server
+        const requestData = {
+            Email: formData.email,
+            Password: formData.password,
+        };
+
+        // Call the login method from UserDataService to send the data to the server
+        UserDataService.login(requestData)
+            .then((response) => {
+                localStorage.setItem("token", response.data.token)
+                login(); // Call the login function from the authentication context
+                navigate("/")
+                console.log("user logged in successfully", response.data.token);
+            })
+            .catch((error) => {
+                console.error("error while logging in the user", error)
+            });
+    };
+
     return (
         <div className="login container row col-12">
             <div className="form-container col-md-6 mt-5">
                 <h1 className="title">Welcome back!</h1>
                 <p className="subtitle">Please enter your details</p>
-                <form>
+                <form onSubmit={handleSubmit}>
                     <div className="mb-3">
                         <label htmlFor="username" className="form-label">Email</label>
                         <input
                             type="text"
                             className="form-input"
-                            id="username"
+                            id="email"
                             required
+                            value={formData.email}
+                            onChange={handleInputChange}
                         />
                     </div>
                     <div className="mb-3">
@@ -26,6 +69,8 @@ export const Login = () => {
                             className="form-input"
                             id="password"
                             required
+                            value={formData.password}
+                            onChange={handleInputChange}
                         />
                     </div>
 

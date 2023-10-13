@@ -14,6 +14,7 @@ import { PageNotFound } from "./views/PageNotFound/PageNotFound";
 import { Dashboard } from "./views/Dashboard/Dashboard";
 
 import { AuthProvider } from './context/auth';
+import Dispatch from "./views/Dispatch/Dispatch";
 
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
               <Route exact path="/register" element={<Register />} />
               <Route exact path="/contact" element={<Contact />} />
               <Route exact path="/dashboard" element={<Dashboard />} />
+              <Route exact path="/dispatch" element={<Dispatch />} />
               <Route path="*" element={<PageNotFound />} />
             </Routes>
           </Router>

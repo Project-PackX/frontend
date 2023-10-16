@@ -14,6 +14,7 @@ export const Login = () => {
         email: '',
         password: '',
     });
+    const [error, setError] = useState(''); // Error state to display error message if login fails
 
     const handleInputChange = (e) => {
         const { id, value } = e.target;
@@ -41,7 +42,7 @@ export const Login = () => {
                 console.log("user logged in successfully", response.data.token);
             })
             .catch((error) => {
-                console.error("error while logging in the user", error)
+                setError("Error while logging in. Please check your email and password.");
             });
     };
 
@@ -50,6 +51,7 @@ export const Login = () => {
             <div className="form-container col-md-6 mt-5">
                 <h1 className="title">Welcome back!</h1>
                 <p className="subtitle">Please enter your details</p>
+                {error && <div className="error-message">{error}</div>} {/* Display error message if error state is set */}
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3">
                         <label htmlFor="username" className="form-label">Email</label>

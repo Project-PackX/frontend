@@ -18,11 +18,32 @@ export const Navbar = () => {
           </button>
           <div class="collapse navbar-collapse justify-content-end align-items-end mx-5" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-              <li class="nav-item">
-                <Link className="nav-link" to="/track">
-                  <p className='button-text mb-0'>Track</p>
-                </Link>
-              </li>
+                { isLoggedIn ? (
+                    <li className="nav-item dropdown">
+                        <a className="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Package
+                        </a>
+                        <ul className="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkDropdownMenuLink">
+                            <li>
+                                <Link className="dropdown-item" to="/track">
+                                    <p className='button-text mb-0'>Track</p>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link className="dropdown-item" to="/dispatch">
+                                    <p className='button-text mb-0'>Dispatch</p>
+                                </Link>
+                            </li>
+                            <li><a class="dropdown-item" href="#">History</a></li>
+                        </ul>
+                    </li>
+                ) : (
+                  <li class="nav-item">
+                    <Link className="nav-link" to="/track">
+                      <p className='button-text mb-0'>Track</p>
+                    </Link>
+                  </li>
+                )}
               <li className="nav-item">
                 <Link className="nav-link" to="/aboutus">
                   <p className='button-text mb-0'>About us</p>

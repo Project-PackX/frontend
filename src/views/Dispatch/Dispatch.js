@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/auth';
 import UserDataService from '../../services/user';
+import LockerDataService from '../../services/locker';
 
 const Dispatch = () => {
     const { isLoggedIn } = useAuth();
 
+    const [lockerOptions, setLockerOptions] = useState([]);
     const [formData, setFormData] = useState({
         senderLocker: '',
         receiverLocker: '',
@@ -21,6 +23,23 @@ const Dispatch = () => {
             [name]: value,
         });
     };
+
+    const loadLockerOptions = async () => {
+        try {
+            const lockers = await LockerDataService.getAll();
+            const lockerOptions = lockers.map((locker) => ({
+                value: locker.id,
+                label: `${locker.city} - ${locker.address}`,
+            }));
+            setLockerOptions(lockerOptions);
+        } catch (error) {
+            console.error("Error while loading locker options", error);
+        }
+    };
+
+    useEffect(() => {
+        loadLockerOptions();
+    }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -69,9 +88,12 @@ const Dispatch = () => {
                         value={formData.senderLocker}
                         onChange={handleInputChange}
                     >
-                        <option value="locker1">Locker 1</option>
-                        <option value="locker2">Locker 2</option>
-                        <option value="locker3">Locker 3</option>
+                        <option value="">Select Sender Locker</option>
+                        {lockerOptions.map((option) => (
+                            <option key={option.value} value={option.value}>
+                                {option.label}
+                            </option>
+                        ))}
                     </select>
                 </div>
                 <div className="mb-3">
@@ -82,9 +104,12 @@ const Dispatch = () => {
                         value={formData.receiverLocker}
                         onChange={handleInputChange}
                     >
-                        <option value="lockerA">Locker A</option>
-                        <option value="lockerB">Locker B</option>
-                        <option value="lockerC">Locker C</option>
+                        <option value="">Select Receiver Locker</option>
+                        {lockerOptions.map((option) => (
+                            <option key={option.value} value={option.value}>
+                                {option.label}
+                            </option>
+                        ))}
                     </select>
                 </div>
                 <div className="mb-3">

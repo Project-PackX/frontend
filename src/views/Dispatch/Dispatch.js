@@ -143,7 +143,7 @@ const Dispatch = () => {
     }
 
     return (
-        <div className="container my-3">
+        <div className="container my-5 col-md-8">
             <h1>Send Package</h1>
             <div className="user-data p-4 my-4">
                 <p>Your email address: <strong>{ localStorage.getItem("email") }</strong></p>

@@ -28,7 +28,7 @@ export const History = () => {
                 {history.map((item, index) => (
                     <div className="col-md-4" key={index}>
                         <div className="card mb-4">
-                            <div className="card-body">
+                            <div className="history-item">
                                 <h5 className="card-title">Package ID: {item.ID}</h5>
                                 <p className="card-text">Created At: {item.CreatedAt}</p>
                                 <p className="card-text">Track ID: {item.TrackID}</p>

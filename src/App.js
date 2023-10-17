@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 import { Navbar } from './components/Navbar/Navbar';
+import { Footer } from './components/Footer/Footer';
 
 import { Home } from './views/Home/Home';
 import { Track } from './views/Track/Track';
@@ -38,6 +39,7 @@ function App() {
               <Route exact path="/history" element={<History />} />
               <Route path="*" element={<PageNotFound />} />
             </Routes>
+            <Footer />
           </Router>
         </div>
       </AuthProvider>

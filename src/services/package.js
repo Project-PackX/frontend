@@ -6,7 +6,7 @@ class PackageDataService {
     }
 
     get(id) {
-        return http.get(`/packages/${id}`);
+        return http.get(`/packages/get/${id}`);
     }
 }
 

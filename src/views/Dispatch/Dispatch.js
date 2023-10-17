@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/auth';
-import UserDataService from '../../services/user';
 import LockerDataService from '../../services/locker';
+import PackageDataService from '../../services/package';
+import decode from 'jwt-decode';
 
 const Dispatch = () => {
     const { isLoggedIn } = useAuth();
@@ -13,7 +14,9 @@ const Dispatch = () => {
         receiverName: '',
         receiverEmail: '',
         packageSize: 'small',
+        isRapid: false,
         note: '',
+        userId: decode(localStorage.getItem("token")).user_id
     });
 
     const handleInputChange = (e) => {
@@ -28,10 +31,11 @@ const Dispatch = () => {
         LockerDataService.getAll()
             .then((response) => {
                 const lockerOptions = response.data.lockers.map((locker) => ({
-                    value: locker.id,
+                    id: locker.ID,
                     label: `${locker.City} - ${locker.Address}`,
                 }));
                 setLockerOptions(lockerOptions);
+                console.log(lockerOptions)
             })
             .catch((error) => {
                 console.error("Error while loading locker options", error);
@@ -42,21 +46,34 @@ const Dispatch = () => {
         loadLockerOptions();
     }, []);
 
+    const calculatePrice = () => {
+
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        // Check if the senderLocker and receiverLocker are the same
+        if (formData.senderLocker === formData.receiverLocker) {
+            console.error("Sender locker and receiver locker cannot be the same");
+            // You can also display an error message to the user
+            return;
+        }
+
         // Create a JSON object to send to the server
         const requestData = {
-            senderLocker: formData.senderLocker,
-            receiverLocker: formData.receiverLocker,
+            SenderLockerId: formData.senderLocker,
+            DestinationLockerId: formData.receiverLocker,
             receiverName: formData.receiverName,
             receiverEmail: formData.receiverEmail,
             packageSize: formData.packageSize,
+            isRapid: formData.isRapid,
             note: formData.note,
+            userId: formData.userId
         };
 
         // Call the dispatch method from UserDataService to send the data to the server
-        UserDataService.dispatch(requestData)
+        PackageDataService.new(requestData, localStorage.getItem("token"))
             .then((response) => {
                 // Handle success or navigation to another page
                 console.log("Package dispatched successfully");
@@ -91,7 +108,7 @@ const Dispatch = () => {
                     >
                         <option value="">Select Sender Locker</option>
                         {lockerOptions.map((option) => (
-                            <option key={option.value} value={option.value}>
+                            <option key={option.id} value={option.id}>
                                 {option.label}
                             </option>
                         ))}
@@ -107,7 +124,7 @@ const Dispatch = () => {
                     >
                         <option value="">Select Receiver Locker</option>
                         {lockerOptions.map((option) => (
-                            <option key={option.value} value={option.value}>
+                            <option key={option.id} value={option.id}>
                                 {option.label}
                             </option>
                         ))}
@@ -181,6 +198,22 @@ const Dispatch = () => {
                         value={formData.note}
                         onChange={handleInputChange}
                     />
+                </div>
+                <div className="mb-3 form-check">
+                    <input
+                        type="checkbox"
+                        className="form-check-input"
+                        id="acceptTerms"
+                        checked={formData.isRapid} // Use checked attribute instead of value
+                        onChange={() => {
+                            // Toggle the value of formData.isRapid when the checkbox is clicked
+                            setFormData({
+                                ...formData,
+                                isRapid: !formData.isRapid,
+                            });
+                        }}
+                    />
+                    <label className="form-check-label" htmlFor="acceptTerms">Rapid delivery</label>
                 </div>
 
                 <button type="submit" className="btn btn-primary">Dispatch</button>

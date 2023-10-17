@@ -3,6 +3,7 @@ import { useAuth } from '../../context/auth';
 import LockerDataService from '../../services/locker';
 import PackageDataService from '../../services/package';
 import decode from 'jwt-decode';
+import "./dispatch.css"
 
 const Dispatch = () => {
     const { isLoggedIn } = useAuth();
@@ -92,10 +93,10 @@ const Dispatch = () => {
     }
 
     return (
-        <div className="container">
+        <div className="container my-3">
             <h1>Send Package</h1>
-            <p>User's Email: { localStorage.getItem("email") }</p>
-            <p>User's Name: { localStorage.getItem("name") }</p>
+            <p>Your email address: { localStorage.getItem("email") }</p>
+            <p>Your name: { localStorage.getItem("name") }</p>
 
             <form onSubmit={handleSubmit}>
                 <div className="mb-3">
@@ -154,39 +155,57 @@ const Dispatch = () => {
                 </div>
                 <div className="mb-3">
                     <label className="form-label">Package Size</label>
-                    <div>
-                        <div className="form-check">
-                            <input
-                                type="radio"
-                                className="form-check-input"
-                                name="packageSize"
-                                value="small"
-                                checked={formData.packageSize === "small"}
-                                onChange={handleInputChange}
-                            />
-                            <label className="form-check-label">Small</label>
+                    <div className="d-flex">
+                        {/* Small Package */}
+                        <div className="card package-size-card mx-2">
+                            <label className={`card-body ${formData.packageSize === 'small' ? 'border border-primary' : ''}`}>
+                                <input
+                                    type="radio"
+                                    className="form-check-input d-none"
+                                    name="packageSize"
+                                    value="small"
+                                    checked={formData.packageSize === 'small'}
+                                    onChange={handleInputChange}
+                                />
+                                <div className="text-center">
+                                    <img src={require("../../assets/images/box.png")} alt="Small Package" className="img-fluid small" />
+                                    <p className="mb-0">Small</p>
+                                </div>
+                            </label>
                         </div>
-                        <div className="form-check">
-                            <input
-                                type="radio"
-                                className="form-check-input"
-                                name="packageSize"
-                                value="medium"
-                                checked={formData.packageSize === "medium"}
-                                onChange={handleInputChange}
-                            />
-                            <label className="form-check-label">Medium</label>
+                        {/* Medium Package */}
+                        <div className="card package-size-card mx-2">
+                            <label className={`card-body ${formData.packageSize === 'medium' ? 'border border-primary' : ''}`}>
+                                <input
+                                    type="radio"
+                                    className="form-check-input d-none"
+                                    name="packageSize"
+                                    value="medium"
+                                    checked={formData.packageSize === 'medium'}
+                                    onChange={handleInputChange}
+                                />
+                                <div className="text-center">
+                                    <img src={require("../../assets/images/box.png")} alt="Medium Package" className="img-fluid medium" />
+                                    <p className="mb-0">Medium</p>
+                                </div>
+                            </label>
                         </div>
-                        <div className="form-check">
-                            <input
-                                type="radio"
-                                className="form-check-input"
-                                name="packageSize"
-                                value="large"
-                                checked={formData.packageSize === "large"}
-                                onChange={handleInputChange}
-                            />
-                            <label className="form-check-label">Large</label>
+                        {/* Large Package */}
+                        <div className="card package-size-card mx-2">
+                            <label className={`card-body ${formData.packageSize === 'large' ? 'border border-primary' : ''}`}>
+                                <input
+                                    type="radio"
+                                    className="form-check-input d-none"
+                                    name="packageSize"
+                                    value="large"
+                                    checked={formData.packageSize === 'large'}
+                                    onChange={handleInputChange}
+                                />
+                                <div className="text-center">
+                                    <img src={require("../../assets/images/box.png")} alt="Large Package" className="img-fluid large" />
+                                    <p className="mb-0">Large</p>
+                                </div>
+                            </label>
                         </div>
                     </div>
                 </div>

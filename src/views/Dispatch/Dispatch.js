@@ -24,17 +24,18 @@ const Dispatch = () => {
         });
     };
 
-    const loadLockerOptions = async () => {
-        try {
-            const lockers = await LockerDataService.getAll();
-            const lockerOptions = lockers.map((locker) => ({
-                value: locker.id,
-                label: `${locker.city} - ${locker.address}`,
-            }));
-            setLockerOptions(lockerOptions);
-        } catch (error) {
-            console.error("Error while loading locker options", error);
-        }
+    const loadLockerOptions = () => {
+        LockerDataService.getAll()
+            .then((response) => {
+                const lockerOptions = response.data.lockers.map((locker) => ({
+                    value: locker.id,
+                    label: `${locker.City} - ${locker.Address}`,
+                }));
+                setLockerOptions(lockerOptions);
+            })
+            .catch((error) => {
+                console.error("Error while loading locker options", error);
+            });
     };
 
     useEffect(() => {

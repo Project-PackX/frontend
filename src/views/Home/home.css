@@ -8,10 +8,6 @@
 .hero-content {
     max-width: calc(100% / 2);
     padding: 0 1rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
 }
 
 .hero-content h1 {
@@ -49,6 +45,23 @@
 .hero-image img {
     width: 100%;
     height: auto;
+}
+
+.login-btn {
+    margin-top: 20px;
+    padding: 12px 15px;
+    width: 100%;
+    border: none;
+    background-color: var(--purple);
+    color: var(--white);
+    font-weight: bold;
+    border-radius: 15px;
+    text-decoration: none;
+}
+
+.login-btn:hover {
+    transition: 0.3s all ease-in-out;
+    background-color: var(--black);
 }
 
 .features {
@@ -136,4 +149,28 @@
     text-align: center;
 }
 
+.checkrates {
+    margin: 180px auto;
+    padding: 5rem;
+}
 
+.checkrates-img {
+    display: flex;
+}
+
+.checkrates img {
+    width: 50%;
+    height: auto;
+    margin: 0 auto;
+}
+
+.checkrates-form .title {
+    text-align: left;
+    letter-spacing: -2px;
+    font-weight: bold;
+}
+
+.checkrates-form select {
+    border: none;
+    border-bottom: 1px solid var(--gray);
+}

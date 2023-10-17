@@ -24,12 +24,8 @@ code {
 }
 
 .button {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-
   border: none;
-  border-radius: 5px;
+  border-radius: 15px;
 
   text-decoration: none;
 
@@ -82,4 +78,13 @@ code {
 .button-accent:hover {
   transition: 0.5s all;
   background-color: var(--blue);
+}
+
+.link {
+    color: var(--purple);
+    text-decoration: none;
+}
+
+.link:hover {
+    color: var(--blue);
 }

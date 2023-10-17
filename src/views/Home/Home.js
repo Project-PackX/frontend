@@ -10,7 +10,7 @@ export const Home = () => {
                     <div className="hero-content col-md-6">
                         <h1>Make your life easier <br/> with <span>PackX!</span></h1>
                         <p>Send and receive packages was never quicker and easier.</p>
-                        <Link to="/login" className="button button-accent">Get Started</Link>
+                        <Link to="/register" className="login-btn py-3 px-4 my-5">Get Started</Link>
                     </div>
                     <div className="hero-image col-md-6">
                         <img src={require('../../assets/images/undraw_delivery_truck_vt6p.svg').default} alt="hero" />
@@ -46,7 +46,7 @@ export const Home = () => {
                     <div className="sending-box col-md-4">
                         <h2>Create an account</h2>
                         <img src={require('../../assets/images/undraw_female_avatar_efig.svg').default} alt="box" />
-                        <p>You can only dispatch a package if you have a PackX Account</p>
+                        <p>You can only dispatch a package if you have a PackX Account. <Link to="/register" className="link">Register now</Link> and get the full experience.</p>
                     </div>
                     <div className="sending-box col-md-4">
                         <h2>Give the package details</h2>
@@ -60,11 +60,32 @@ export const Home = () => {
                     </div>
                 </div>
             </div>
-            <div className="container">
-                <div className="receiving row col-12">
-                    <div className="title col-md-6">
+            <div className="checkrates features row col-12">
+                <div className="container">
+                    <div className="checkrates-img col-md-6">
+                        <img src={require("../../assets/images/undraw_mobile_search_jxq5.svg").default} alt="login" />
                     </div>
-                    <div className="image col-md-6">
+                    <div className="checkrates-form form-container col-md-6 mt-5">
+                        <h1 className="title">Check rates</h1>
+                        <form>
+                            <div className="mb-3">
+                                <label htmlFor="username" className="form-label">From</label>
+                                <select className="form-select" aria-label="Default select example">
+                                    <option defaultValue>Select the starting location</option>
+                                    <option value="1">Győr</option>
+                                    <option value="2">Szombathely</option>
+                                </select>
+                            </div>
+                            <div className="mb-3">
+                                <label htmlFor="password" className="form-label">To</label>
+                                <select className="form-select" aria-label="Default select example">
+                                    <option defaultValue>Select the destination</option>
+                                    <option value="1">Győr</option>
+                                    <option value="2">Szombathely</option>
+                                </select>
+                            </div>
+                            <button type="submit" className="login-btn">Check rates</button>
+                        </form>
                     </div>
                 </div>
             </div>

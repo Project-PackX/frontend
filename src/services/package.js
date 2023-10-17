@@ -1,8 +1,12 @@
 import http from "../http-common";
 
 class PackageDataService {
-    getAll() {
-        return http.get("/packages");
+    getAll(token) {
+        return http.get("/packages/all", {
+            headers: {
+                Authorization: `${token}`
+            }
+        });
     }
     get(id) {
         return http.get(`/packages/get/${id}`);

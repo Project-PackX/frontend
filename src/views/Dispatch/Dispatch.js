@@ -77,8 +77,8 @@ const Dispatch = () => {
     return (
         <div className="container">
             <h1>Send Package</h1>
-            <p>User's Email: {isLoggedIn.email}</p>
-            <p>User's Name: {isLoggedIn.name}</p>
+            <p>User's Email: { localStorage.getItem("email") }</p>
+            <p>User's Name: { localStorage.getItem("name") }</p>
 
             <form onSubmit={handleSubmit}>
                 <div className="mb-3">

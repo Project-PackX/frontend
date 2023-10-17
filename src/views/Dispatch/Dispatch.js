@@ -8,10 +8,11 @@ import "./dispatch.css"
 const Dispatch = () => {
     const { isLoggedIn } = useAuth();
 
+    const [cost, setCost] = useState(0);
     const [lockerOptions, setLockerOptions] = useState([]);
     const [formData, setFormData] = useState({
-        senderLocker: '',
-        receiverLocker: '',
+        senderLocker: 0,
+        receiverLocker: 0,
         receiverName: '',
         receiverEmail: '',
         packageSize: 'small',
@@ -22,6 +23,7 @@ const Dispatch = () => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
+        calculatePrice();
         setFormData({
             ...formData,
             [name]: value,
@@ -36,7 +38,6 @@ const Dispatch = () => {
                     label: `${locker.City} - ${locker.Address}`,
                 }));
                 setLockerOptions(lockerOptions);
-                console.log(lockerOptions)
             })
             .catch((error) => {
                 console.error("Error while loading locker options", error);
@@ -45,10 +46,59 @@ const Dispatch = () => {
 
     useEffect(() => {
         loadLockerOptions();
+        calculatePrice();
     }, []);
 
     const calculatePrice = () => {
+        let deliveryCost = 0;
 
+        console.log(formData);
+
+        // Determine package size cost
+        switch (formData.packageSize) {
+            case "small":
+                deliveryCost += 490;
+                break;
+            case "medium":
+                deliveryCost += 790;
+                break;
+            case "large":
+                deliveryCost += 990;
+                break;
+            default:
+                // Handle invalid package size
+                console.error("Invalid package size");
+                return;
+        }
+
+        // Add rapid delivery cost if selected
+        if (formData.isRapid) {
+            deliveryCost += 990;
+        }
+
+        // Determine locker location cost
+
+        // find the name of the sender and receiver locker by the id
+        const senderLocker = lockerOptions.find((locker) => String(locker.id) === String(formData.senderLocker));
+        const receiverLocker = lockerOptions.find((locker) => String(locker.id) === String(formData.receiverLocker));
+
+        if (senderLocker && receiverLocker) {
+            if (senderLocker.label.split(" - ")[0] === receiverLocker.label.split(" - ")[0]) {
+                // Lockers are in the same city
+                deliveryCost += 390;
+            } else {
+                // Lockers are in different cities
+                deliveryCost += 790;
+            }
+        } else {
+            // Handle invalid locker selection
+            console.error("Invalid sender or receiver locker selection");
+            return;
+        }
+
+        // Now, the 'deliveryCost' variable contains the total cost.
+        console.log("Delivery Cost:", deliveryCost);
+        setCost(deliveryCost);
     };
 
     const handleSubmit = (e) => {
@@ -95,8 +145,10 @@ const Dispatch = () => {
     return (
         <div className="container my-3">
             <h1>Send Package</h1>
-            <p>Your email address: { localStorage.getItem("email") }</p>
-            <p>Your name: { localStorage.getItem("name") }</p>
+            <div className="user-data p-4 my-4">
+                <p>Your email address: <strong>{ localStorage.getItem("email") }</strong></p>
+                <p>Your name: <strong>{ localStorage.getItem("name") }</strong></p>
+            </div>
 
             <form onSubmit={handleSubmit}>
                 <div className="mb-3">
@@ -107,7 +159,7 @@ const Dispatch = () => {
                         value={formData.senderLocker}
                         onChange={handleInputChange}
                     >
-                        <option value="">Select Sender Locker</option>
+                        <option value="0">Select Sender Locker</option>
                         {lockerOptions.map((option) => (
                             <option key={option.id} value={option.id}>
                                 {option.label}
@@ -123,7 +175,7 @@ const Dispatch = () => {
                         value={formData.receiverLocker}
                         onChange={handleInputChange}
                     >
-                        <option value="">Select Receiver Locker</option>
+                        <option value="0">Select Receiver Locker</option>
                         {lockerOptions.map((option) => (
                             <option key={option.id} value={option.id}>
                                 {option.label}
@@ -235,7 +287,11 @@ const Dispatch = () => {
                     <label className="form-check-label" htmlFor="acceptTerms">Rapid delivery</label>
                 </div>
 
-                <button type="submit" className="btn btn-primary">Dispatch</button>
+                <div className="mb-3">
+                    <p>Delivery cost: <span>{ cost }</span> </p>
+                </div>
+
+                <button type="submit" className="btn submit-btn">Send</button>
             </form>
         </div>
     );

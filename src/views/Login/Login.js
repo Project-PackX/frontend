@@ -37,6 +37,8 @@ export const Login = () => {
         UserDataService.login(requestData)
             .then((response) => {
                 localStorage.setItem("token", response.data.token)
+                localStorage.setItem("name", response.data.name)
+                localStorage.setItem("email", response.data.email)
                 login(); // Call the login function from the authentication context
                 navigate("/")
                 console.log("user logged in successfully", response.data.token);

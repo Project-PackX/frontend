@@ -60,7 +60,7 @@ export const Navbar = () => {
                             className="button button-primary"
                             onClick={logout}
                         >
-                            <p className='button-text mb-0'>Log out</p>
+                            <p className='button-text mb-0'>Log out, {localStorage.getItem("name")}</p>
                         </button>
                     ) : (
                         <Link className="button button-primary" to="/login">

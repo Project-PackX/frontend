@@ -34,7 +34,11 @@ export const Navbar = () => {
                                     <p className='button-text mb-0'>Dispatch</p>
                                 </Link>
                             </li>
-                            <li><a class="dropdown-item" href="#">History</a></li>
+                            <li>
+                                <Link className="dropdown-item" to="/history">
+                                    <p className='button-text mb-0'>History</p>
+                                </Link>
+                            </li>
                         </ul>
                     </li>
                 ) : (

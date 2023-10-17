@@ -1,28 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import UserDataService from '../../services/user';
-import PackageDataService from '../../services/package';
 import decode from 'jwt-decode';
 
-export const History = () => {
+import "./history.css"
 
+export const History = () => {
     const [history, setHistory] = useState([])
 
     const loadHistory = () => {
-        // TODO: get the users ID from the token
         UserDataService.history(decode(localStorage.getItem("token")).user_id, localStorage.getItem("token"))
             .then((response) => {
-                setHistory(response.data.message)
-                console.log(history)
-            })
-            .catch((error) => {
-                console.error("Error while loading history", error);
-            });
-    }
-
-    const getAllPackage = () => {
-        PackageDataService.getAll(localStorage.getItem("token"))
-            .then((response) => {
-                console.log(response.data)
+                setHistory(response.data.message);
             })
             .catch((error) => {
                 console.error("Error while loading history", error);
@@ -36,14 +24,24 @@ export const History = () => {
     return (
         <div>
             <h1>History</h1>
-            <button onClick={getAllPackage}>Get all packages</button>
-            {history.map((item, index) => {
-                return (
-                    <div key={index}>
-                        <p>{item.ID}</p>
+            <div className="row">
+                {history.map((item, index) => (
+                    <div className="col-md-4" key={index}>
+                        <div className="card mb-4">
+                            <div className="card-body">
+                                <h5 className="card-title">Package ID: {item.ID}</h5>
+                                <p className="card-text">Created At: {item.CreatedAt}</p>
+                                <p className="card-text">Track ID: {item.TrackID}</p>
+                                <p className="card-text">Sender Locker ID: {item.SenderLockerId}</p>
+                                <p className="card-text">Destination Locker ID: {item.DestinationLockerId}</p>
+                                <p className="card-text">Price: {item.Price}</p>
+                                <p className="card-text">Delivery Date: {item.DeliveryDate}</p>
+                                <p className="card-text">Note: {item.Note}</p>
+                            </div>
+                        </div>
                     </div>
-                )
-            })}
+                ))}
+            </div>
         </div>
-    )
+    );
 }

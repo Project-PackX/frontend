@@ -174,7 +174,11 @@ const Dispatch = () => {
                             ))}
                         </select>
                     </div>
-                    <a href={"https://www.google.com/maps/place/" + senderLockerAddress} target="_blank" rel="noreferrer" className="btn submit-btn map-btn" >Map</a>
+                    {
+                        senderLockerAddress && (
+                            <a href={"https://www.google.com/maps/place/" + senderLockerAddress} target="_blank" rel="noreferrer" className="btn submit-btn map-btn" >Map</a>
+                        )
+                    }
                 </div>
                 <div className="mb-3 d-flex align-items-center">
                     <div style={{ flex: 1 }}>
@@ -193,7 +197,11 @@ const Dispatch = () => {
                             ))}
                         </select>
                     </div>
-                    <a href={"https://www.google.com/maps/place/" + receiverLockerAddress} target="_blank" rel="noreferrer" className="btn submit-btn map-btn" >Map</a>
+                    {
+                        receiverLockerAddress && (
+                            <a href={"https://www.google.com/maps/place/" + receiverLockerAddress} target="_blank" rel="noreferrer" className="btn submit-btn map-btn" >Map</a>
+                        )
+                    }
                 </div>
 
                 <div className="mb-3">

@@ -138,7 +138,8 @@ const Dispatch = () => {
             packageSize: formData.packageSize,
             isRapid: formData.isRapid,
             note: formData.note,
-            userId: formData.userId
+            userId: formData.userId,
+            price: cost
         };
 
         // Call the dispatch method from UserDataService to send the data to the server

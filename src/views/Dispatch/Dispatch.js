@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import { useAuth } from '../../context/auth';
 import LockerDataService from '../../services/locker';
 import PackageDataService from '../../services/package';
@@ -7,6 +8,7 @@ import "./dispatch.css"
 
 const Dispatch = () => {
     const { isLoggedIn } = useAuth();
+    const navigate = useNavigate();
 
     const [error, setError] = useState("");
     const [cost, setCost] = useState(0);
@@ -149,6 +151,8 @@ const Dispatch = () => {
                 console.error("Error while dispatching the package", error)
                 setError("Error while dispatching the package");
             });
+
+            navigate("/successful-send")
     };
 
     if (!isLoggedIn) {

@@ -17,6 +17,7 @@ import { Dashboard } from "./views/Dashboard/Dashboard";
 import { AuthProvider } from './context/auth';
 import Dispatch from "./views/Dispatch/Dispatch";
 import {History} from "./views/History/History";
+import {SuccessfulSend} from "./components/Slave/SuccessfulSend/SuccessfulSend";
 
 function App() {
 
@@ -36,6 +37,7 @@ function App() {
               <Route exact path="/contact" element={<Contact />} />
               <Route exact path="/dashboard" element={<Dashboard />} />
               <Route exact path="/dispatch" element={<Dispatch />} />
+              <Route exact path="/successful-send" element={<SuccessfulSend />} />
               <Route exact path="/history" element={<History />} />
               <Route path="*" element={<PageNotFound />} />
             </Routes>

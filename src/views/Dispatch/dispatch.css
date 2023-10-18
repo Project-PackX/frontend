@@ -84,3 +84,7 @@ textarea.form-control {
     color: var(--white);
     background-color: var(--black);
 }
+
+.map-btn {
+    margin-left: 2rem;
+}

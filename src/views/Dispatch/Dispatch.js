@@ -9,6 +9,7 @@ const Dispatch = () => {
     const { isLoggedIn } = useAuth();
 
     const [cost, setCost] = useState(0);
+    const [estDeliveryDate, setEstDeliveryDate] = useState(""); // 3 days from now if rapid, 7 days from now if not
     const [lockerOptions, setLockerOptions] = useState([]);
     const [senderLockerAddress, setSenderLockerAddress] = useState("");
     const [receiverLockerAddress, setReceiverLockerAddress] = useState("");
@@ -25,6 +26,7 @@ const Dispatch = () => {
 
     useEffect(() => {
         calculatePrice();
+        calculateDeliveryDate();
         setSenderLockerAddress(formData.senderLocker ? (lockerOptions.find((locker) => String(locker.id) === String(formData.senderLocker))?.label || "") : "");
         setReceiverLockerAddress(formData.receiverLocker ? (lockerOptions.find((locker) => String(locker.id) === String(formData.receiverLocker))?.label || "") : "");
     }, [formData]);
@@ -54,6 +56,13 @@ const Dispatch = () => {
     useEffect(() => {
         loadLockerOptions();
     }, []);
+
+    const calculateDeliveryDate = () => {
+        // if the package is rapid, the delivery date is 3 days from now, otherwise 7 days from now
+        const deliveryDate = new Date();
+        deliveryDate.setDate(deliveryDate.getDate() + (formData.isRapid ? 3 : 7));
+        setEstDeliveryDate(deliveryDate.toLocaleDateString());
+    }
 
     const calculatePrice = () => {
         let deliveryCost = 0;
@@ -310,6 +319,10 @@ const Dispatch = () => {
 
                 <div className="mb-3">
                     <p>Delivery cost: <span>{ cost }</span> </p>
+                </div>
+
+                <div className="mb-3">
+                    <p>Estimated delivery date: <span>{ estDeliveryDate }</span> </p>
                 </div>
 
                 <button type="submit" className="btn submit-btn">Send</button>

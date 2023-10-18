@@ -8,6 +8,7 @@ import "./dispatch.css"
 const Dispatch = () => {
     const { isLoggedIn } = useAuth();
 
+    const [error, setError] = useState("");
     const [cost, setCost] = useState(0);
     const [estDeliveryDate, setEstDeliveryDate] = useState(""); // 3 days from now if rapid, 7 days from now if not
     const [lockerOptions, setLockerOptions] = useState([]);
@@ -121,7 +122,7 @@ const Dispatch = () => {
 
         // Check if the senderLocker and receiverLocker are the same
         if (formData.senderLocker === formData.receiverLocker) {
-            console.error("Sender locker and receiver locker cannot be the same");
+            setError("Sender locker and receiver locker cannot be the same");
             // You can also display an error message to the user
             return;
         }
@@ -145,7 +146,8 @@ const Dispatch = () => {
                 console.log("Package dispatched successfully");
             })
             .catch((error) => {
-                console.error("Error while dispatching the package", error);
+                console.error("Error while dispatching the package", error)
+                setError("Error while dispatching the package");
             });
     };
 
@@ -326,6 +328,10 @@ const Dispatch = () => {
                 </div>
 
                 <button type="submit" className="btn submit-btn">Send</button>
+
+                <div className="my-3">
+                    <p className="text-danger">{ error }</p>
+                </div>
             </form>
         </div>
     );

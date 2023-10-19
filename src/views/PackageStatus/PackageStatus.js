@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import PackageDataService from '../../services/package.js';
 import { Loading } from '../../components/Loading/Loading.js';
 import './package-status.css';
@@ -40,6 +40,17 @@ export const PackageStatus = () => {
         return <Loading className="loading" />;
     }
 
+    if (!packageData) {
+        return (
+            <div className="container send-container">
+                <div className="send-box">
+                    <h2>Package Not Found</h2>
+                    <p>Sorry, we couldn't find a package with that ID.</p>
+                    <Link to="/track" className="btn login-btn">Track another package</Link>
+                </div>
+            </div>
+        );
+    }
     const deliveryDate = new Date(packageData.Data.DeliveryDate);
     const dayOfWeek = deliveryDate.toLocaleDateString('en-US', { weekday: 'long' });
     const formattedDate = deliveryDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });

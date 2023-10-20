@@ -3,6 +3,12 @@ import { Link } from 'react-router-dom';
 import './home.css';
 
 export const Home = () => {
+
+    const calculateCO2= () => {
+        let totalkm  = 500;
+        return (totalkm * 105) //average truck co2 emissions per km
+        }
+
     return (
         <main>
             <div className="container">
@@ -30,6 +36,16 @@ export const Home = () => {
                     <div className="feature col-md-4">
                         <h3>24/7 Accessibility</h3>
                         <p>Our package delivery service is available around the clock, ensuring you can send or receive your packages at any time that suits you.</p>
+                    </div>
+                </div>
+            </div>
+            <div className="features row col-12">
+                <div className="container">
+                    <div className="packxcolor feature col-md-4">
+                        <h3>Together we saved a total amount of</h3>
+                        <h5> {calculateCO2()} </h5>
+                        <h3>kilogramms of CO2</h3>
+                        <p>and counting...</p>
                     </div>
                 </div>
             </div>

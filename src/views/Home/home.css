@@ -20,7 +20,14 @@
     max-width: calc(100%);
 }
 
-.hero-content h1 span {
+.packxcolor h5 {
+    background: -webkit-linear-gradient(var(--purple), var(--blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 4rem;
+}
+
+.hero-content h1 span{
     background: -webkit-linear-gradient(var(--purple), var(--blue));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;

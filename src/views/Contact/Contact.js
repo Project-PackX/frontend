@@ -84,12 +84,19 @@ const Contact = () => {
             <div className="data-container">
                 <div className="text">
                     <h2 className="title content-left">Management warehouse</h2>
-                    <p className="data" >Hungary Győr-Moson-Sopron 9999 Kismacska Nagymacska street 69. </p>
-                    <p className="data" >+36 99 999 99 99 </p>
-                    <p className="data" >info@packx.com </p>
+                    <p className="data" >Hungary - Győr-Moson-Sopron - 9028 Győr, Tibormajori Utca 70 </p>
+                    <p className="data" >+36 20 123 45 67 </p>
+                    <p className="data" >info@packx.hu </p>
                 </div>
                 <div className="content-right">
-                <p className="data" >MAP HERE. </p>
+                <iframe
+                            title="Warehouse location"
+                            width="1000"
+                            height="500"
+                            style={{ border: 0 }}
+                            allowFullScreen
+                            src={`https://maps.google.com/maps?q=47.6804636,17.7461013&hl=es&z=14&output=embed`}
+                        />
                 </div>
             </div>
             <div className="seperator-line"></div>
@@ -116,11 +123,11 @@ const Contact = () => {
                     </div>
                 </div>
                 {/* Embed Google Map */}
-                <div className="content-right">
+                <div className="content-right def-picture">
                 {selectedLocker > 0 && lockerOptions[selectedLocker - 1]?.coordinates && (
                         <iframe
-                            title="Google Maps"
-                            width="500"
+                            title="Locker locations"
+                            width="1000"
                             height="500"
                             style={{ border: 0 }}
                             allowFullScreen
@@ -128,16 +135,9 @@ const Contact = () => {
                         />
                     )}
 
-                    {/* Default map of Hungary */}
+                    {/* Default */}
                     {selectedLocker === 0 && (
-                        <iframe
-                            title="Google Maps"
-                            width="500"
-                            height="500"
-                            style={{ border: 0 }}
-                            allowFullScreen
-                            src={`https://maps.google.com/maps?q=47.6920789, 17.6251658&hl=es&z=7&output=embed`} 
-                        />
+                        <img className="track-image" src={require("../../assets/images/undraw_current_location_re_j130.svg").default} alt="login" />                      
                     )}
                 </div>         
             </div>

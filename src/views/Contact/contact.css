@@ -123,3 +123,8 @@
     margin-right: 50px;
     text-align: right;
 }
+
+.def-picture {
+    width: 20%;
+    height: auto;
+}

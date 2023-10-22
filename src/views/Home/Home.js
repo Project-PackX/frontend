@@ -1,12 +1,84 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import LockerDataService from '../../services/locker';
 import { Link } from 'react-router-dom';
 import './home.css';
 
 export const Home = () => {
+    const [selectedLocker, setSelectedLocker] = useState(0);
+    const [lockerOptions, setLockerOptions] = useState([]);
+    const [senderLockerAddress, setSenderLockerAddress] = useState('');
+    const [formData, setFormData] = useState({
+        senderLocker: 0,
+        receiverLocker: 0,
+    });
+
+    useEffect(() => {
+        setSenderLockerAddress(
+            formData.senderLocker
+                ? lockerOptions.find((locker) => String(locker.id) === String(formData.senderLocker))?.label || ''
+                : ''
+        );
+    }, [formData, lockerOptions]);
+
+    const handleLockerChange = (e) => {
+        const value = parseInt(e.target.value, 10);
+        setSelectedLocker(value);
+    };
+
+    const fetchCoordinates = (address) => {
+        const apiUrl = `https://geocode.maps.co/search?q=${address}`;
+
+        fetch(apiUrl)
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.length > 0) {
+                    const latitude = data[0].lat;
+                    const longitude = data[0].lon;
+                    const updatedLockerOptions = [...lockerOptions];
+                    updatedLockerOptions[selectedLocker - 1].coordinates = { latitude, longitude };
+                    setLockerOptions(updatedLockerOptions);
+                }
+            })
+            .catch((error) => {
+                console.error('Error while fetching coordinates:', error);
+            });
+    };
+
+    const loadLockerOptions = () => {
+        LockerDataService.getAll()
+            .then((response) => {
+                const lockerOptions = response.data.lockers.map((locker) => ({
+                    id: locker.ID,
+                    label: `${locker.City} - ${locker.Address}`,
+                }));
+                setLockerOptions(lockerOptions);
+            })
+            .catch((error) => {
+                console.error('Error while loading locker options', error);
+            });
+    };
+
+    useEffect(() => {
+        loadLockerOptions();
+    }, []);
+
+    useEffect(() => {
+        if (selectedLocker > 0) {
+            const selectedLockerInfo = lockerOptions[selectedLocker - 1];
+            if (!selectedLockerInfo.coordinates) {
+                fetchCoordinates(selectedLockerInfo.label);
+            }
+        }
+
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            senderLocker: selectedLocker,
+        }));
+    }, [selectedLocker, lockerOptions]);
 
     const calculateCO2= () => {
-        let totalkm  = 500;
-        return (totalkm * 105) //average truck co2 emissions per km
+        let totalkm  = 5234569;
+        return (totalkm * 105 * 0.001) //average truck co2 emissions per km
         }
 
     return (
@@ -103,6 +175,50 @@ export const Home = () => {
                             <button type="submit" className="login-btn">Check rates</button>
                         </form>
                     </div>
+                </div>
+            </div>
+            <div className="checkrates features row col-12">
+            <h1 className="title">Package point locations</h1>
+                <div className="container">
+                <div className="checkrates-img col-md-6">
+                    <div style={{ flex: 1 }}>
+                        <label htmlFor="senderLocker" className="form-label">
+                            Locations
+                        </label>
+                        <select 
+                            name="senderLocker"
+                            className="form-select"
+                            value={formData.senderLocker}
+                            onChange={(e) => handleLockerChange(e)}
+                        >
+                            <option value="0">Select Sender Locker</option>
+                            {lockerOptions.map((option) => (
+                                <option key={option.id} value={option.id}>
+                                    {option.label}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
+                {/* Embed Google Map */}
+                <div className="checkrates-form form-container col-md-6 mt-5">
+                {selectedLocker > 0 && lockerOptions[selectedLocker - 1]?.coordinates && (
+                        <div style={{ borderRadius: '15px', overflow: 'hidden' }}>
+                        <iframe
+                            title="Locker locations"
+                            width="500"
+                            height="500"
+                            style={{ border: 0 }}
+                            allowFullScreen
+                            src={`https://maps.google.com/maps?q=${lockerOptions[selectedLocker - 1]?.coordinates.latitude},${lockerOptions[selectedLocker - 1]?.coordinates.longitude}&hl=es&z=14&output=embed`}
+                        />
+                        </div>
+                    )}
+                    {/* Default */}
+                    {selectedLocker === 0 && (
+                        <img className="track-image" src={require("../../assets/images/undraw_current_location_re_j130.svg").default} alt="login" />                      
+                    )}
+                </div>       
                 </div>
             </div>
         </main>

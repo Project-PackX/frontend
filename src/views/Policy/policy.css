@@ -1,0 +1,32 @@
+
+.container{
+    padding: 50px;
+}
+
+.container h1{
+    font-size: 50px;
+    text-align: center;
+}
+
+.container h2{
+    font-size: 30px;
+}
+
+.container h3{
+    font-size: 17px;
+}
+
+
+.picture {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 25px;
+}
+
+.picture img {
+    width: 25%; /* Adjust this value as needed */
+    height: auto;
+}
+

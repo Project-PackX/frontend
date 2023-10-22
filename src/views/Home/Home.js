@@ -190,6 +190,7 @@ export const Home = () => {
                             className="form-select"
                             value={formData.senderLocker}
                             onChange={(e) => handleLockerChange(e)}
+                            style={{ maxWidth: '300px' }}
                         >
                             <option value="0">Select Sender Locker</option>
                             {lockerOptions.map((option) => (
@@ -206,7 +207,7 @@ export const Home = () => {
                         <div style={{ borderRadius: '15px', overflow: 'hidden' }}>
                         <iframe
                             title="Locker locations"
-                            width="500"
+                            width="800"
                             height="500"
                             style={{ border: 0 }}
                             allowFullScreen

@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 import { Navbar } from './components/Navbar/Navbar';
 import { Footer } from './components/Footer/Footer';
+import { CookieButton } from './components/CookieButton/CookieButton';
 
 import { Home } from './views/Home/Home';
 import { Track } from './views/Track/Track';
@@ -45,6 +46,7 @@ function App() {
               <Route exact path="/policy" element={<Policy />} />
               <Route path="*" element={<PageNotFound />} />
             </Routes>
+            <CookieButton />
             <Footer />
           </Router>
         </div>

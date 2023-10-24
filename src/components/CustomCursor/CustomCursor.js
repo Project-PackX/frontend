@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import AnimatedCursor from "react-animated-cursor";
 
 export default function CustomCursor() {
   const defaultCursorColor = '127, 90, 246';
   const alternativeCursorColor = '0, 159, 219';
-  const colorChangeInterval = 1;
 
   const [cursorColor, setCursorColor] = useState(defaultCursorColor);
   const [lastColorChangeTime, setLastColorChangeTime] = useState(0);
@@ -56,18 +55,6 @@ export default function CustomCursor() {
 
     return distance / maxDistance < threshold;
   };
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      if (Date.now() - lastColorChangeTime >= colorChangeInterval) {
-        setCursorColor(defaultCursorColor);
-      }
-    }, 1000);
-
-    return () => {
-      clearInterval(timer);
-    };
-  }, [lastColorChangeTime]);
 
   return (
     <div className="App">

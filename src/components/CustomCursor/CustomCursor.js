@@ -25,7 +25,7 @@ export default function CustomCursor() {
       const elementStyles = window.getComputedStyle(elementUnderCursor);
       const backgroundColor = elementStyles.backgroundColor;
 
-      if (isSimilarColor(backgroundColor, cursorColor, 0.55)) {
+      if (isSimilarColor(backgroundColor, cursorColor, 0.75)) {
         if (cursorColor !== defaultCursorColor) {
           setCursorColor(defaultCursorColor);
           setLastColorChangeTime(Date.now());

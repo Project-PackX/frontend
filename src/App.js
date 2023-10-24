@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { Navbar } from './components/Navbar/Navbar';
 import { Footer } from './components/Footer/Footer';
 import { CookieButton } from './components/CookieButton/CookieButton';
+import  CustomCursor from './components/CustomCursor/CustomCursor';
 
 import { Home } from './views/Home/Home';
 import { Track } from './views/Track/Track';
@@ -27,6 +28,7 @@ function App() {
   return (
       <AuthProvider>
         <div>
+          <CustomCursor />
           <Router>
             <Navbar />
             <Routes>
@@ -46,9 +48,9 @@ function App() {
               <Route exact path="/policy" element={<Policy />} />
               <Route path="*" element={<PageNotFound />} />
             </Routes>
-            <CookieButton />
             <Footer />
           </Router>
+          <CookieButton />
         </div>
       </AuthProvider>
   );

@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 export const Loading = () => {
-    return (
-        <div className="loading">
-            <img src={require("../../assets/loading/loading_trans.gif")}  alt="loading..."/>
-        </div>
-    );
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    window.onload = () => {
+      // Delay the removal of the loading animation by 1.5 seconds
+      setTimeout(() => {
+        setLoading(false);
+      }, 1500);
+    };
+  }, []);
+
+  return loading ? (
+    <div className="loading">
+      <img src={require("../../assets/loading/loading_trans.gif")} alt="loading..." />
+    </div>
+  ) : null;
 };

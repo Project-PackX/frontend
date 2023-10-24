@@ -8,7 +8,6 @@ export default function CustomCursor() {
 
   const [cursorColor, setCursorColor] = useState(defaultCursorColor);
   const [lastColorChangeTime, setLastColorChangeTime] = useState(0);
-  const backgroundColorRef = useRef();
 
   useEffect(() => {
     const updateCursorColor = (event) => {
@@ -25,7 +24,7 @@ export default function CustomCursor() {
       const elementStyles = window.getComputedStyle(elementUnderCursor);
       const backgroundColor = elementStyles.backgroundColor;
 
-      if (isSimilarColor(backgroundColor, cursorColor, 0.75)) {
+      if (isSimilarColor(backgroundColor, cursorColor, 0.55)) {
         if (cursorColor !== defaultCursorColor) {
           setCursorColor(defaultCursorColor);
           setLastColorChangeTime(Date.now());

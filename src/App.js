@@ -4,7 +4,6 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 import { Navbar } from './components/Navbar/Navbar';
 import { Footer } from './components/Footer/Footer';
-import { CookieButton } from './components/CookieButton/CookieButton';
 import  CustomCursor from './components/CustomCursor/CustomCursor';
 import { Loading } from './components/Loading/Loading';
 
@@ -66,7 +65,6 @@ function App() {
               </Routes>
               <Footer />
             </Router>
-            <CookieButton />
           </>
         )}
       </div>

@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import UserDataService from '../../services/user';
-
+import ReCAPTCHA from "react-google-recaptcha";
+import SITE_KEY from '../../components/reCAPTCHA/reCAPTCHA';
 import './register.css';
 
 export const Register = () => {
 
     const navigate = useNavigate();
+    const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
 
     const [formData, setFormData] = useState({
         name: '',
@@ -26,6 +28,13 @@ export const Register = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        {/*
+        if (isRecaptchaVerified) {
+            // You can proceed with your form submission logic here
+          } else {
+            alert("Please complete the reCAPTCHA verification.");
+          }
+        */}
 
         // Create a JSON object to send to the server
         const requestData = {
@@ -47,6 +56,9 @@ export const Register = () => {
             });
     };
 
+    const handleRecaptchaChange = (value) => {
+        setIsRecaptchaVerified(!!value);
+    };
 
     return (
         <div className="register container row col-12">
@@ -112,6 +124,22 @@ export const Register = () => {
                             required
                         />
                     </div>
+                    <div className="mb-3 form-check">
+                        <input
+                            type="checkbox"
+                            className="form-check-input"
+                            id="acceptTerms"
+                            required
+                        />
+                        <label className="form-check-label" htmlFor="acceptTerms">
+                        I have read and agreed to the <a href="/policy" target="_blank">terms and conditions</a>.
+                        </label>
+
+                    </div>
+
+                    {/*<div>
+                    <ReCAPTCHA sitekey={SITE_KEY} onChange={handleRecaptchaChange} />
+                    </div> */}
 
                     <button type="submit" className="register-btn">Register</button>
                 </form>

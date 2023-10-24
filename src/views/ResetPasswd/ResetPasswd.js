@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import UserDataService from '../../services/user';
 import { useAuth } from '../../context/auth';
-
+import ReCAPTCHA from "react-google-recaptcha";
+import SITE_KEY from '../../components/reCAPTCHA/reCAPTCHA';
 import './resetpasswd.css';
 
 export const ResetPasswd = () => {
     const navigate = useNavigate();
     const { login } = useAuth(); // Access the login function from the authentication context
+    const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
 
     const [formData, setFormData] = useState({
         email: '',
@@ -28,6 +30,13 @@ export const ResetPasswd = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        {/*
+        if (isRecaptchaVerified) {
+            // You can proceed with your form submission logic here
+          } else {
+            alert("Please complete the reCAPTCHA verification.");
+          }
+        */}
 
         if (formData.password === formData.confirmPassword) {
             // Passwords match, you can proceed with form submission or other actions.
@@ -52,6 +61,10 @@ export const ResetPasswd = () => {
             .catch((error) => {
                 setError("Please check your email and your new password again.");
             });
+    };
+
+    const handleRecaptchaChange = (value) => {
+        setIsRecaptchaVerified(!!value);
     };
 
     return (
@@ -109,6 +122,10 @@ export const ResetPasswd = () => {
                     {passwordsMatch === false && (
                         <div className="alert alert-danger">Passwords do not match.</div>
                     )}
+
+                    {/*<div>
+                    <ReCAPTCHA sitekey={SITE_KEY} onChange={handleRecaptchaChange} />
+                    </div> */}
 
                     <button type="submit" className="login-btn">
                         Save

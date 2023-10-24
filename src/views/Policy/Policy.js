@@ -9,7 +9,7 @@ export const Policy = () => {
     Adatvédelmi tájékoztató
 </h1>
 <div className="picture">
-    <img className="track-image" src={require("../../assets/loading/loading_trans.gif")} alt="login" />
+    <img className="track-image" src={require("../../assets/logos/packx_logo.png")} alt="login" />
 </div>
     <h2>
     1. Bevezetés

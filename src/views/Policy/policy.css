@@ -26,7 +26,7 @@
 }
 
 .picture img {
-    width: 25%;
+    width: 37.245678969%; /*The magic number*/
     height: auto;
 }
 

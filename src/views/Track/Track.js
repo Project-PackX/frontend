@@ -21,7 +21,7 @@ export const Track = () => {
         <div className="tracking container row col-12">
             <div className="form-container col-md-6">
                 <h1 className="track-title">Package Tracking</h1>
-                <h1 className="track-subtitle">You can track your package status by entering your tracking number, which we send you via email.</h1>
+                <p className="track-subtitle">You can track your package status by entering your tracking number, which we send you via email.</p>
                 <div className="track-input-container">
                     <form className='track-form' onSubmit={(e) => {
                         e.preventDefault();
@@ -41,9 +41,22 @@ export const Track = () => {
                     </form>
                 </div>
             </div>
-            <div className="col-md-6">
-                <img className="track-image" src={require("../../assets/images/undraw_current_location_re_j130.svg").default} alt="login" />
-            </div>
+            <div className="col-md-6" style={{ width: '400px', height: '400px', overflow: 'hidden', borderRadius: '50%', position: 'relative' }}>
+                <img
+                    className="track-image"
+                    src={require("../../assets/images/track_background.gif")}
+                    alt="login"
+                    style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        borderRadius: '50%',
+                        position: 'absolute',
+                        top: 0,
+                        left: 0
+                    }}
+                />
+        </div>
         </div>
     )
 }

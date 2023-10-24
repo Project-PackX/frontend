@@ -28,8 +28,8 @@ const Contact = () => {
                                 height="500rem" 
                                 style={{ border: 0 }}
                                 allowFullScreen
-                                src={`https://maps.google.com/maps?q=47.6804636,17.7461013&hl=es&z=14&output=embed`}
-                            />
+                                src={`https://maps.google.com/maps?q=47.6804636,17.7461013&hl=en&z=14&output=embed`}
+                                />
                         </div>
                     </div>
                 </div>

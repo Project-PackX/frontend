@@ -86,7 +86,7 @@ export const Home = () => {
             <div className="container">
                 <div className="hero row col-12">
                     <div className="hero-content col-md-6">
-                        <h1>Make your life easier <br/> with <span>PackX!</span></h1>
+                        <h1 text-align= "left" >Make your life easier <br/> with <span>PackX!</span></h1>
                         <p>Send and receive packages was never quicker and easier.</p>
                         <Link to="/register" className="login-btn py-3 px-4 my-5">Get Started</Link>
                     </div>
@@ -203,23 +203,27 @@ export const Home = () => {
                 </div>
                 {/* Embed Google Map */}
                 <div className="checkrates-form form-container col-md-6 mt-5">
-                {selectedLocker > 0 && lockerOptions[selectedLocker - 1]?.coordinates && (
-                        <div style={{ borderRadius: '15px', overflow: 'hidden' }}>
+                <div style={{ position: 'relative', width: '100%', paddingTop: '70%', paddingBottom: '30%', paddingLeft: '70%', paddingRight: '70%' /* 16:9 aspect ratio */ }}>
+                    {selectedLocker > 0 && lockerOptions[selectedLocker - 1]?.coordinates && (
+                    <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, borderRadius: '15px', overflow: 'hidden' }}>
                         <iframe
-                            title="Locker locations"
-                            width="800"
-                            height="500"
-                            style={{ border: 0 }}
-                            allowFullScreen
-                            src={`https://maps.google.com/maps?q=${lockerOptions[selectedLocker - 1]?.coordinates.latitude},${lockerOptions[selectedLocker - 1]?.coordinates.longitude}&hl=es&z=14&output=embed`}
+                        title="Locker locations"
+                        width="100%"
+                        height="80%"
+                        style={{ border: 0 }}
+                        allowFullScreen
+                        src={`https://maps.google.com/maps?q=${lockerOptions[selectedLocker - 1]?.coordinates.latitude},${lockerOptions[selectedLocker - 1]?.coordinates.longitude}&hl=en&z=14&output=embed`}
                         />
-                        </div>
+                    </div>
                     )}
-                    {/* Default */}
                     {selectedLocker === 0 && (
-                        <img className="track-image" src={require("../../assets/images/undraw_current_location_re_j130.svg").default} alt="login" />                      
+                    <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <img className="track-image" src={require("../../assets/images/undraw_current_location_re_j130.svg").default} alt="login" />
+                    </div>
                     )}
-                </div>       
+                </div>
+                </div>
+     
                 </div>
             </div>
         </main>

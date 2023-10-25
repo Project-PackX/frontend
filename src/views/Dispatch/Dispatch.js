@@ -382,25 +382,25 @@ const Dispatch = () => {
                     />
                     <label className="form-check-label" htmlFor="acceptTerms">UltraRapid delivery</label>
                 </div>
-                {isMorning() && (
-                    <div className="mb-3 form-check">
-                        <input
-                        type="checkbox"
-                        className="form-check-input"
-                        id="acceptTerms"
-                        checked={formData.isUltraRapid} 
-                        onChange={() => {
-                            setFormData({
+                <div className="mb-3 form-check">
+                    <input
+                    type="checkbox"
+                    className="form-check-input"
+                    id="acceptTerms"
+                    checked={isMorning() ? formData.isUltraRapid : false}
+                    onChange={() => {
+                        if (isMorning()) {
+                        setFormData({
                             ...formData,
                             isSameDay: !formData.isSameDay,
                             isRapid: false,
-                            isUltraRapid: false,
-                            });
-                        }}
-                        />
-                        <label className="form-check-label" htmlFor="acceptTerms">SameDay delivery</label>
-                    </div>
-                    )}
+                            isUltraRapid: !formData.isUltraRapid,
+                        });
+                        }
+                    }}
+                    />
+                    <label className="form-check-label" htmlFor="acceptTerms">SameDay delivery</label>
+                </div>
 
 
                 <div className="mb-3">

@@ -1,23 +1,23 @@
 
-.container{
+.policy-container{
     padding: 50px;
 }
 
-.container h1{
+.policy-container h1{
     font-size: 50px;
     text-align: center;
 }
 
-.container h2{
+.policy-container h2{
     font-size: 30px;
 }
 
-.container h3{
+.policy-container h3{
     font-size: 17px;
 }
 
 
-.picture {
+.policy-picture {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -25,7 +25,7 @@
     padding: 25px;
 }
 
-.picture img {
+.policy-picture img {
     width: 37.245678969%; /*The magic number*/
     height: auto;
 }

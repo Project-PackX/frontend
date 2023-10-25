@@ -1,14 +1,13 @@
-.resetpasswd {
+.userdata {
     height: calc(100vh - 100px);
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.resetpasswd-title {
+.userdata-title {
     font-size: 48px;
     margin-bottom: 20px;
-    text-align: center;
 }
 
 .form-container {
@@ -31,7 +30,7 @@
     border-bottom: 1px solid var(--light-gray);
 }
 
-.resetpasswd-btn {
+.userdata-btn {
     margin-top: 20px;
     padding: 10px;
     width: 100%;
@@ -42,7 +41,7 @@
     border-radius: 15px;
 }
 
-.resetpasswd-btn:hover {
+.userdata-btn:hover {
     transition: 0.3s all ease-in-out;
     color: var(--white);
     background-color: var(--black);

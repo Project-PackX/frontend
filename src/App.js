@@ -11,6 +11,8 @@ import { Home } from './views/Home/Home';
 import { Track } from './views/Track/Track';
 import { Login } from './views/Login/Login';
 import { ResetPasswd } from './views/ResetPasswd/ResetPasswd';
+import { UserData } from './views/UserData/UserData';
+import { DeleteUser } from './views/DeleteUser/DeleteUser';
 import { Register } from './views/Register/Register';
 import  Contact from './views/Contact/Contact';
 import { About } from './views/About/About';
@@ -54,6 +56,8 @@ function App() {
                 <Route exact path="/contactus" element={<Contact />} />
                 <Route exact path="/login" element={<Login />} />
                 <Route exact path="/resetpasswd" element={<ResetPasswd />} />
+                <Route exact path="/userdata" element={<UserData />} />
+                <Route exact path="/deleteuser" element={<DeleteUser />} />
                 <Route exact path="/register" element={<Register />} />
                 <Route exact path="/contact" element={<Contact />} />
                 <Route exact path="/dashboard" element={<Dashboard />} />

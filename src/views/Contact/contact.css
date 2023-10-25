@@ -1,42 +1,21 @@
-.home {
-    height: calc(100vh - 100px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.title {
+.contact-title {
     font-size: 48px;
 }
 
-.subtitle {
+.contact-subtitle {
     font-size: 18px;
     color: var(--gray);
     margin-bottom: 25px;
     text-align: center;
 }
 
-.data {
+.contact-data {
     font-size: 25px;
 }
 
-.error-message {
-    color: var(--red);
-    font-size: 12px;
-    margin-top: 10px;
-}
-
-.seperator-line {
-    background: var(--purple);
-    background: linear-gradient(90deg, var(--purple) 0%, var(--blue) 100%);
-    box-shadow: 0 4px 4px 0 var(--gray);
-    height: 50px;
-}
-
-.data-container {
+.contact-data-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 100px;
 }
-

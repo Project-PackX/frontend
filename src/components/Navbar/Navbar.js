@@ -40,7 +40,29 @@ export const Navbar = () => {
                                 </Link>
                             </li>
                         </ul>
+                        <a className="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            User settings
+                        </a>
+                        <ul className="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkDropdownMenuLink">
+                            <li>
+                                <Link className="dropdown-item" to="/userdata">
+                                    <p className='button-text mb-0'>Edit user data</p>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link className="dropdown-item" to="/resetpasswd">
+                                    <p className='button-text mb-0'>Reset password</p>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link className="dropdown-item" to="/deleteuser">
+                                    <p className='button-text mb-0'>Delete account</p>
+                                </Link>
+                            </li>
+                        </ul>
                     </li>
+                    
+                    
                 ) : (
                   <li class="nav-item">
                     <Link className="nav-link" to="/track">

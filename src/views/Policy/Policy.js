@@ -4,11 +4,11 @@ import './policy.css';
 export const Policy = () => {
 
     return (
-<div className="container">
+<div className="policy-container">
 <h1>
     Adatvédelmi tájékoztató
 </h1>
-<div className="picture">
+<div className="policy-picture">
     <img className="track-image" src={require("../../assets/logos/packx_logo.png")} alt="login" />
 </div>
     <h2>

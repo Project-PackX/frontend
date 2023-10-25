@@ -1,14 +1,17 @@
-.resetpasswd {
+.delete {
     height: calc(100vh - 100px);
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.resetpasswd-title {
+.delete-title {
     font-size: 48px;
-    margin-bottom: 20px;
-    text-align: center;
+}
+
+.delete-subtitle {
+    font-size: 18px;
+    color: var(--gray);
 }
 
 .form-container {
@@ -31,18 +34,18 @@
     border-bottom: 1px solid var(--light-gray);
 }
 
-.resetpasswd-btn {
+.delete-btn {
     margin-top: 20px;
     padding: 10px;
     width: 100%;
     border: none;
-    background-color: var(--purple);
+    background-color: var(--red);
     color: var(--white);
     font-weight: bold;
     border-radius: 15px;
 }
 
-.resetpasswd-btn:hover {
+.delete-btn:hover {
     transition: 0.3s all ease-in-out;
     color: var(--white);
     background-color: var(--black);

@@ -1,35 +1,35 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import UserDataService from '../../services/user';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import { useAuth } from '../../context/auth';
+import decode from 'jwt-decode';
 import ReCAPTCHA from "react-google-recaptcha";
 import SITE_KEY from '../../components/reCAPTCHA/reCAPTCHA';
-import './resetpasswd.css';
+import './deleteuser.css';
 
-export const ResetPasswd = () => {
+export const DeleteUser = () => {
+    const { isLoggedIn } = useAuth();
     const navigate = useNavigate();
-    const { resetpasswd } = useAuth(); // Access the resetpasswd function from the authentication context
     const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
-
     const [formData, setFormData] = useState({
         email: '',
         password: '',
         confirmPassword: '',
     });
-    const [error, setError] = useState(''); // Error state to display error message if resetpasswd fails
+    const [error, setError] = useState('');
 
     const handleInputChange = (e) => {
-        const { id, value } = e.target;
+        const { name, value } = e.target;
         setFormData({
             ...formData,
-            [id]: value,
+            [name]: value,
         });
     };
-
     const [passwordsMatch, setPasswordsMatch] = useState(true);
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
         {/*
         if (isRecaptchaVerified) {
             // You can proceed with your form submission logic here
@@ -48,30 +48,30 @@ export const ResetPasswd = () => {
             setPasswordsMatch(false);
         }
 
-        // Create a JSON object to send to the server
-        const requestData = {
-            //Email: formData.email,
-            //Password: formData.password,
+        // Create a JSON object to send to the server with updated data
+        const updatedUserData = {
+            Email: formData.email,
+            Password: formData.password,
         };
-
-        UserDataService.resetpasswd(requestData)
-            .then((response) => {
-                //To be implemented
-            })
-            .catch((error) => {
-                setError("Please check your email and your new password again.");
-            });
     };
+
+    if (!isLoggedIn) {
+        return (
+            <div className="container">
+                <p>Please log in to access this feature.</p>
+            </div>
+        );
+    }
 
     const handleRecaptchaChange = (value) => {
         setIsRecaptchaVerified(!!value);
     };
 
     return (
-        <div className="resetpasswd container row col-12">
+        <div className="delete container row col-12">
             <div className="form-container col-md-6 mt-5">
-                <h1 className="resetpasswd-title">Please enter your new login credentials</h1>
-                <p className="resetpasswd-subtitle">Make sure to always use a different password for security reasons.</p>
+                <h1 className="delete-title">Delete your account</h1>
+                <p className="delete-subtitle">Please note that this process cannot be undone.</p>
                 {error && <div className="error-message">{error}</div>}
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3">
@@ -81,9 +81,7 @@ export const ResetPasswd = () => {
                         <input
                             type="text"
                             className="form-input"
-                            id="email"
                             name="email"
-                            required
                             value={formData.email}
                             onChange={handleInputChange}
                         />
@@ -91,12 +89,11 @@ export const ResetPasswd = () => {
 
                     <div className="mb-3">
                         <label htmlFor="password" className="form-label">
-                            New password
+                            Password
                         </label>
                         <input
-                            type="password"
+                            type="text"
                             className="form-input"
-                            id="password"
                             name="password"
                             required
                             value={formData.password}
@@ -106,7 +103,7 @@ export const ResetPasswd = () => {
 
                     <div className="mb-3">
                         <label htmlFor="confirmPassword" className="form-label">
-                            Confirm new password
+                            Confirm password
                         </label>
                         <input
                             type="password"
@@ -123,17 +120,13 @@ export const ResetPasswd = () => {
                         <div className="alert alert-danger">Passwords do not match.</div>
                     )}
 
-                    {/*<div>
-                    <ReCAPTCHA sitekey={SITE_KEY} onChange={handleRecaptchaChange} />
-                    </div> */}
-
-                    <button type="submit" className="resetpasswd-btn">
-                        Save
+                    <button type="submit" className="delete-btn">
+                        Delete
                     </button>
                 </form>
             </div>
             <div className="col-md-6">
-                <img src={require("../../assets/images/undraw_secure_login_pdn4.svg").default} alt="resetpasswd" />
+                <img src={require("../../assets/images/undraw_private_data_re_4eab.svg").default} alt="user-data" />
             </div>
         </div>
     );

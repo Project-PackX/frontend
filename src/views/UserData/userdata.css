@@ -10,6 +10,11 @@
     margin-bottom: 20px;
 }
 
+.userdata-subtitle {
+    font-size: 18px;
+    color: var(--gray);
+}
+
 .form-container {
     display: flex;
     flex-direction: column;

@@ -52,7 +52,7 @@ export const History = () => {
             ) : ( // If there is no history data, display the image and text
                 <div className="no-history">
                     <img src={require("../../assets/images/undraw_void_-3-ggu.svg").default} alt="login" />
-                    <h1>You have not sent a package with us yet.</h1>
+                    <h1>You have not sent any package with us yet.</h1>
                     <Link to="/dispatch" className="history-btn ">Send now</Link>
                 </div>
             )}

@@ -26,6 +26,8 @@ const Dispatch = () => {
         receiverEmail: '',
         packageSize: 'small',
         isRapid: false,
+        isUltraRapid: false,
+        isSameDay: false,
         note: '',
         userId: decode(localStorage.getItem("token")).user_id
     });
@@ -43,6 +45,38 @@ const Dispatch = () => {
             ...formData,
             [name]: value,
         });
+    };
+
+    const isMorning = () => {
+        const now = new Date();
+        const currentHour = now.getHours();
+        // Consider it as morning until noon (12:00 PM)
+        return currentHour < 12;
+    };
+
+    const handleDeliveryOptionChange = (option) => {
+        if (option === "rapid") {
+            setFormData({
+                isRapid: true,
+                isUltraRapid: false,
+                isSameDay: false,
+            });
+        } else if (option === "ultraRapid") {
+            setFormData({
+                isRapid: false,
+                isUltraRapid: true,
+                isSameDay: false,
+            });
+        } else if (option === "sameDay" && isMorning()) {
+            setFormData({
+                isRapid: false,
+                isUltraRapid: false,
+                isSameDay: true,
+            });
+        } else {
+            // Display an alert or error message for invalid selection
+            alert("Invalid delivery option selection.");
+        }
     };
 
     const loadLockerOptions = () => {
@@ -64,11 +98,25 @@ const Dispatch = () => {
     }, []);
 
     const calculateDeliveryDate = () => {
-        // if the package is rapid, the delivery date is 3 days from now, otherwise 7 days from now
         const deliveryDate = new Date();
-        deliveryDate.setDate(deliveryDate.getDate() + (formData.isRapid ? 3 : 7));
+      
+        if (formData.isSameDay) {
+          // SameDay delivery
+          deliveryDate.setDate(deliveryDate.getDate());
+        } else if (formData.isUltraRapid) {
+          // UltraRapid delivery
+          deliveryDate.setDate(deliveryDate.getDate() + 1);
+        } else if (formData.isRapid) {
+          // Rapid delivery
+          deliveryDate.setDate(deliveryDate.getDate() + 3);
+        } else {
+          // Standard delivery
+          deliveryDate.setDate(deliveryDate.getDate() + 7);
+        }
+      
         setEstDeliveryDate(deliveryDate.toLocaleDateString());
-    }
+      }
+      
 
     const calculatePrice = () => {
         let deliveryCost = 0;
@@ -95,6 +143,12 @@ const Dispatch = () => {
         // Add rapid delivery cost if selected
         if (formData.isRapid) {
             deliveryCost += 990;
+        }
+        if (formData.isUltraRapid) {
+            deliveryCost += 1290;
+        }
+        if (formData.isSameDay) {
+            deliveryCost += 1690;
         }
 
         // Determine locker location cost
@@ -147,6 +201,8 @@ const Dispatch = () => {
             receiverEmail: formData.receiverEmail,
             packageSize: formData.packageSize,
             isRapid: formData.isRapid,
+            isUltraRapid: formData.isUltraRapid,
+            isSameDay: formData.isSameDay,            
             note: formData.note,
             userId: formData.userId,
             price: cost
@@ -327,17 +383,55 @@ const Dispatch = () => {
                         type="checkbox"
                         className="form-check-input"
                         id="acceptTerms"
-                        checked={formData.isRapid} // Use checked attribute instead of value
+                        checked={formData.isRapid}
                         onChange={() => {
-                            // Toggle the value of formData.isRapid when the checkbox is clicked
                             setFormData({
                                 ...formData,
                                 isRapid: !formData.isRapid,
+                                isUltraRapid: false,
+                                isSameDay: false,
                             });
                         }}
                     />
                     <label className="form-check-label" htmlFor="acceptTerms">Rapid delivery</label>
                 </div>
+                <div className="mb-3 form-check">
+                    <input
+                        type="checkbox"
+                        className="form-check-input"
+                        id="acceptTerms"
+                        checked={formData.isUltraRapid} 
+                        onChange={() => {
+                            setFormData({
+                                ...formData,
+                                isUltraRapid: !formData.isUltraRapid,
+                                isRapid: false,
+                                isSameDay: false,
+                            });
+                        }}
+                    />
+                    <label className="form-check-label" htmlFor="acceptTerms">UltraRapid delivery</label>
+                </div>
+                {isMorning() && (
+                    <div className="mb-3 form-check">
+                        <input
+                        type="checkbox"
+                        className="form-check-input"
+                        id="acceptTerms"
+                        checked={formData.isUltraRapid} 
+                        onChange={() => {
+                            setFormData({
+                            ...formData,
+                            isSameDay: !formData.isSameDay,
+                            isRapid: false,
+                            isUltraRapid: false,
+                            });
+                        }}
+                        />
+                        <label className="form-check-label" htmlFor="acceptTerms">SameDay delivery</label>
+                    </div>
+                    )}
+
 
                 <div className="mb-3">
                     <p>Delivery cost: <span>{ cost }</span> </p>

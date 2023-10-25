@@ -26,3 +26,31 @@
     font-size: 1rem;
     margin-bottom: 5px;
 }
+
+.no-history {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 230px;
+    margin-top: 100px;
+  }
+  
+  .no-history img {
+    max-width: 200px; /* Adjust the size as needed */
+    margin-bottom: 20px;
+  }
+
+  .history-btn {
+    margin-top: 20px;
+    padding: 12px 15px;
+    width: 100%;
+    border: none;
+    background-color: var(--purple);
+    color: var(--white);
+    font-weight: bold;
+    border-radius: 15px;
+    text-decoration: none;
+    max-width: 300px;
+}

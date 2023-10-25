@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import './about.css';
 
 export const About = () => {
@@ -43,27 +42,27 @@ export const About = () => {
                 <div className="row justify-content-center logo-container">
                     <div className="col-md-2 logo-column">
                         <img src={require("../../assets/people/karcsi.jpg")} alt="Szakály Károly" className="img-profile" />
-                        <a href="https://github.com/szkly" className="about-data">Szakály Károly</a>
+                        <a href="https://github.com/szkly" className="about-data" target="_blank" rel="noreferrer">Szakály Károly</a>
                         <p className="about-data">DevOps and Backend</p>
                     </div>
                     <div className="col-md-2 logo-column">
                         <img src={require("../../assets/people/artur.jpg")} alt="Friedrich Artúr" className="img-profile" />
-                        <a href="https://github.com/arturfriedrich" className="about-data">Friedrich Artúr</a>
+                        <a href="https://github.com/arturfriedrich" className="about-data" target="_blank" rel="noreferrer">Friedrich Artúr</a>
                         <p className="about-data">Frontend and UX Design</p>
                     </div>
                     <div className="col-md-2 logo-column">
                         <img src={require("../../assets/people/domi.jpg")} alt="Szilágyi Dominik" className="img-profile" />
-                        <a href="https://github.com/dominikszilagyi" className="about-data">Szilágyi Dominik</a>
+                        <a href="https://github.com/dominikszilagyi" className="about-data" target="_blank" rel="noreferrer">Szilágyi Dominik</a>
                         <p className="about-data">Backend</p>
                     </div>
                     <div className="col-md-2 logo-column">
                         <img src={require("../../assets/people/zsombi.jpg")} alt="Töreky Zsombor" className="img-profile" />
-                        <a href="https://github.com/tzsombi01" className="about-data">Töreky Zsombor</a>
+                        <a href="https://github.com/tzsombi01" className="about-data" target="_blank" rel="noreferrer">Töreky Zsombor</a>
                         <p className="about-data">Backend</p>
                     </div>
                     <div className="col-md-2 logo-column">
                         <img src={require("../../assets/people/danci.jpg")} alt="Székely Dániel" className="img-profile" />
-                        <a href="https://github.com/MrHumanRebel" className="about-data">Székely Dániel</a>
+                        <a href="https://github.com/MrHumanRebel" className="about-data" target="_blank" rel="noreferrer">Székely Dániel</a>
                         <p className="about-data">Frontend and UX Design</p>
                     </div>
                 </div>

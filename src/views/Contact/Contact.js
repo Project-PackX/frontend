@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import LockerDataService from '../../services/locker';
 import './contact.css';
 
-const Contact = () => {   
+export const Contact = () => {
 
     return (
         <>
@@ -35,5 +35,3 @@ const Contact = () => {
         </>
     );
 };
-
-export default Contact;

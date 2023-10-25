@@ -8,7 +8,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import SITE_KEY from '../../components/reCAPTCHA/reCAPTCHA';
 import "./dispatch.css"
 
-const Dispatch = () => {
+export const Dispatch = () => {
     const { isLoggedIn } = useAuth();
     const navigate = useNavigate();
     const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
@@ -424,5 +424,3 @@ const Dispatch = () => {
         </div>
     );
 };
-
-export default Dispatch;

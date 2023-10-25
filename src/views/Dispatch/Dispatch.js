@@ -54,31 +54,6 @@ const Dispatch = () => {
         return currentHour < 12;
     };
 
-    const handleDeliveryOptionChange = (option) => {
-        if (option === "rapid") {
-            setFormData({
-                isRapid: true,
-                isUltraRapid: false,
-                isSameDay: false,
-            });
-        } else if (option === "ultraRapid") {
-            setFormData({
-                isRapid: false,
-                isUltraRapid: true,
-                isSameDay: false,
-            });
-        } else if (option === "sameDay" && isMorning()) {
-            setFormData({
-                isRapid: false,
-                isUltraRapid: false,
-                isSameDay: true,
-            });
-        } else {
-            // Display an alert or error message for invalid selection
-            alert("Invalid delivery option selection.");
-        }
-    };
-
     const loadLockerOptions = () => {
         LockerDataService.getAll()
             .then((response) => {
@@ -101,16 +76,12 @@ const Dispatch = () => {
         const deliveryDate = new Date();
       
         if (formData.isSameDay) {
-          // SameDay delivery
           deliveryDate.setDate(deliveryDate.getDate());
         } else if (formData.isUltraRapid) {
-          // UltraRapid delivery
           deliveryDate.setDate(deliveryDate.getDate() + 1);
         } else if (formData.isRapid) {
-          // Rapid delivery
           deliveryDate.setDate(deliveryDate.getDate() + 3);
         } else {
-          // Standard delivery
           deliveryDate.setDate(deliveryDate.getDate() + 7);
         }
       
@@ -229,7 +200,6 @@ const Dispatch = () => {
             </div>
         );
     }
-
     
     const handleRecaptchaChange = (value) => {
         setIsRecaptchaVerified(!!value);

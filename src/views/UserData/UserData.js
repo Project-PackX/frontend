@@ -65,6 +65,7 @@ export const UserData = () => {
         <div className="userdata container row col-12">
             <div className="form-container col-md-6 mt-5">
                 <h1 className="userdata-title">Edit Your User Data</h1>
+                <p className="delete-subtitle">Here you can modify your account informations.</p>
                 {error && <div className="error-message">{error}</div>}
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3">

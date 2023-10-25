@@ -126,7 +126,7 @@ export const DeleteUser = () => {
                 </form>
             </div>
             <div className="col-md-6">
-                <img src={require("../../assets/images/undraw_private_data_re_4eab.svg").default} alt="user-data" />
+                <img src={require("../../assets/images/undraw_throw_away_re_x60k.svg").default} alt="user-data" />
             </div>
         </div>
     );

@@ -41,7 +41,7 @@ export const Navbar = () => {
                             </li>
                         </ul>
                         <a className="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            User settings
+                            User
                         </a>
                         <ul className="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkDropdownMenuLink">
                             <li>

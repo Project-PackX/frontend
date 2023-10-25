@@ -11,6 +11,11 @@
     text-align: center;
 }
 
+.resetpasswd-subtitle {
+    font-size: 18px;
+    color: var(--gray);
+}
+
 .form-container {
     display: flex;
     flex-direction: column;

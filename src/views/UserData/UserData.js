@@ -127,7 +127,7 @@ export const UserData = () => {
                 </form>
             </div>
             <div className="col-md-6">
-                <img src={require("../../assets/images/undraw_private_data_re_4eab.svg").default} alt="user-data" />
+                <img className="image" src={require("../../assets/images/undraw_private_data_re_4eab.svg").default} alt="user-data" />
             </div>
         </div>
     );

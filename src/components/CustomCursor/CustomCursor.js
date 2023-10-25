@@ -32,6 +32,8 @@ export default function CustomCursor() {
           '.link',
           '.dropdown-menu',
           'dropdown-menu',
+          'dropdown-item',
+          '.dropdown-item',
           '.form-select',
           'form-select',
           '.form-input',

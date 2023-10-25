@@ -3,7 +3,6 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 import { Navbar } from './components/Navbar/Navbar';
 import { Footer } from './components/Footer/Footer';
-import  CustomCursor from './components/CustomCursor/CustomCursor';
 
 import { Home } from './views/Home/Home';
 import { Track } from './views/Track/Track';
@@ -28,7 +27,6 @@ function App() {
 
   return (
     <AuthProvider>
-      <CustomCursor />
       <Router>
         <Navbar />
         <Routes>

@@ -6,7 +6,7 @@ import './home.css';
 export const Home = () => {
     const [selectedLocker, setSelectedLocker] = useState(0);
     const [lockerOptions, setLockerOptions] = useState([]);
-    const [senderLockerAddress, setSenderLockerAddress] = useState('');
+    const [, setSenderLockerAddress] = useState('');
     const [formData, setFormData] = useState({
         senderLocker: 0,
         receiverLocker: 0,
@@ -74,19 +74,19 @@ export const Home = () => {
             ...prevFormData,
             senderLocker: selectedLocker,
         }));
-    }, [selectedLocker, lockerOptions]);
+    }, [selectedLocker, lockerOptions, fetchCoordinates]);
 
     const calculateCO2= () => {
         let totalkm  = 5234569;
         return (totalkm * 105 * 0.001) //average truck co2 emissions per km
-        }
+    }
 
     return (
         <main>
             <div className="container">
                 <div className="hero row col-12">
                     <div className="hero-content col-md-6">
-                        <h1 text-align= "left" >Make your life easier <br/> with <span>PackX!</span></h1>
+                        <h1>Make your life easier <br/> with <span>PackX!</span></h1>
                         <p>Send and receive packages was never quicker and easier.</p>
                         <Link to="/register" className="login-btn py-3 px-4 my-5">Get Started</Link>
                     </div>
@@ -108,16 +108,6 @@ export const Home = () => {
                     <div className="feature col-md-4">
                         <h3>24/7 Accessibility</h3>
                         <p>Our package delivery service is available around the clock, ensuring you can send or receive your packages at any time that suits you.</p>
-                    </div>
-                </div>
-            </div>
-            <div className="features row col-12">
-                <div className="container">
-                    <div className="packxcolor feature col-md-4">
-                        <h3>Together we saved a total amount of</h3>
-                        <h5> {calculateCO2()} </h5>
-                        <h3>kilogramms of CO2</h3>
-                        <p>and counting...</p>
                     </div>
                 </div>
             </div>
@@ -177,7 +167,17 @@ export const Home = () => {
                     </div>
                 </div>
             </div>
-            <div className="checkrates features row col-12">
+            <div className="green row col-12">
+                <div className="container">
+                    <div className="packxcolor feature col-md-4">
+                        <h3>Together we saved a total amount of</h3>
+                        <h5> {calculateCO2()} </h5>
+                        <h3>kilogramms of CO2</h3>
+                        <p>and counting...</p>
+                    </div>
+                </div>
+            </div>
+            <div className="package-locations row col-12">
             <h1 className="title">Package point locations</h1>
                 <div className="container">
                 <div className="checkrates-img col-md-6">
@@ -205,7 +205,7 @@ export const Home = () => {
                 <div className="checkrates-form form-container col-md-6 mt-5">
                 <div style={{ position: 'relative', width: '100%', paddingTop: '70%', paddingBottom: '30%', paddingLeft: '70%', paddingRight: '70%' /* 16:9 aspect ratio */ }}>
                     {selectedLocker > 0 && lockerOptions[selectedLocker - 1]?.coordinates && (
-                    <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, borderRadius: '15px', overflow: 'hidden' }}>
+                    <div className="location-map" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, borderRadius: '15px', overflow: 'hidden' }}>
                         <iframe
                         title="Locker locations"
                         width="100%"

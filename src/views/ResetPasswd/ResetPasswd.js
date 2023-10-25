@@ -133,7 +133,7 @@ export const ResetPasswd = () => {
                 </form>
             </div>
             <div className="col-md-6">
-                <img src={require("../../assets/images/undraw_secure_login_pdn4.svg").default} alt="resetpasswd" />
+                <img className="image" src={require("../../assets/images/undraw_secure_login_pdn4.svg").default} alt="resetpasswd" />
             </div>
         </div>
     );

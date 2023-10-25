@@ -1,3 +1,5 @@
-body {
+.custom-cursor {
     cursor: none;
+    position: relative;
+    z-index: 9999;
   }

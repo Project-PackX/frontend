@@ -14,7 +14,7 @@ export default function CustomCursor() {
   };
 
   return (
-    <div className="App">
+    <div className="custom-cursor">
       <AnimatedCursor
         {...cursorStyle}
         clickables={[
@@ -34,15 +34,20 @@ export default function CustomCursor() {
           'dropdown-menu',
           'dropdown-item',
           '.dropdown-item',
+          'form-label',
+          '.form-label',
           '.form-select',
           'form-select',
           '.form-input',
           'form-input',
           '.form-check-input',
           'form-check-input',
+          '.card',
+          'card',
+          '.card.package-size-card label',
+          'card.package-size-card label',
         ]}
         hideNativeCursor={true}
-        style={{ zIndex: 9999 }}
       />
     </div>
   );

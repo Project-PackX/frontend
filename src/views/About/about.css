@@ -21,8 +21,7 @@
 
 .about-data {
     font-size: 18px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-top: 5px;
     color: #333;
 }
 
@@ -53,13 +52,21 @@
 .logo-column img {
     max-width: 150px;
     height: auto;
-    border-radius: 50%;
 }
 
 .img-sze{
-    width: 50%;
+    width: 35%;
     height: auto;
     justify-content: center;
     align-items: center;
     border-radius: 50px;
 }
+
+.img-profile {
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 15px;
+}
+
+

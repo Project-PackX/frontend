@@ -3,13 +3,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 50px;
+    padding: 40px;
+    margin-bottom: 20px;
 }
 
 .about-title {
     font-size: 36px;
     font-weight: 600;
     color: #333;
+    margin-bottom: 15px;
 }
 
 .about-subtitle {
@@ -19,10 +21,21 @@
     text-align: center;
 }
 
-.about-data {
+.about-data{
     font-size: 18px;
     margin-top: 5px;
-    color: #333;
+}
+
+.about-people-data{
+    font-size: 15px;
+    color: var(--gray);
+    
+}
+
+.about-people-link{
+    font-size: 18px;
+    text-decoration: none;
+    color: var(--purple);
 }
 
 .about-content {
@@ -30,31 +43,31 @@
     padding: 20px;
 }
 
-.person-container {
+.about-person-container {
     background-color: #f8f8f8;
     padding: 20px 0;
     text-align: center;
 }
 
-.logo-container {
+.about-logo-container {
     display: flex;
     justify-content: space-around;
     align-items: center;
     margin-top: 20px;
 }
 
-.logo-column {
+.about-logo-column {
     flex: 1;
     padding: 10px;
     text-align: center;
 }
 
-.logo-column img {
+.about-logo-column img {
     max-width: 150px;
     height: auto;
 }
 
-.img-sze{
+.about-img-sze{
     width: 35%;
     height: auto;
     justify-content: center;
@@ -62,11 +75,30 @@
     border-radius: 50px;
 }
 
-.img-profile {
+.about-img-profile {
     border-radius: 50%;
     display: block;
     margin: 0 auto;
     margin-bottom: 15px;
+}
+
+.about-img-right {
+    float: right;
+    justify-content: right;
+    align-items: right;
+    width: 65%;
+    height: auto;
+    clear: both;
+}
+
+.about-img-left {
+    display: flex;
+    float: left;
+    justify-content: left;
+    align-items: left;
+    width: 65%;
+    height: auto;
+    clear: both;
 }
 
 

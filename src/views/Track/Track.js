@@ -46,15 +46,6 @@ export const Track = () => {
                     className="track-image"
                     src={require("../../assets/images/track_background.gif")}
                     alt="login"
-                    style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        borderRadius: '50%',
-                        position: 'absolute',
-                        top: 0,
-                        left: 0
-                    }}
                 />
         </div>
         </div>

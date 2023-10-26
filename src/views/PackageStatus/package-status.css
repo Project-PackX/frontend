@@ -78,7 +78,6 @@
 }
 
 .state-images {
-    border: 2px solid var(--gray);
     border-radius: 15px;
     margin: 0 1%;
     padding: 10px;

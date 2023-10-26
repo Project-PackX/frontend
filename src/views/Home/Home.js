@@ -12,6 +12,24 @@ export const Home = () => {
         receiverLocker: 0,
     });
 
+    const [showMap, setShowMap] = useState(false);
+
+    useEffect(() => {
+        let timer;
+        setShowMap(false);
+    
+        if (selectedLocker > 0) {
+            const delay = 500;
+            
+            timer = setTimeout(() => {
+                setShowMap(true);
+            }, delay);
+        }
+    
+        return () => clearTimeout(timer);
+    }, [selectedLocker]);
+    
+
     useEffect(() => {
         setSenderLockerAddress(
             formData.senderLocker
@@ -22,7 +40,11 @@ export const Home = () => {
 
     const handleLockerChange = (e) => {
         const value = parseInt(e.target.value, 10);
-        setSelectedLocker(value);
+        // Check if the selected location is different from the current one
+        if (value !== selectedLocker) {
+            setSelectedLocker(value);
+            setShowMap(false); // Revert to false to show the loading again
+        }
     };
 
     const fetchCoordinates = (address) => {
@@ -205,23 +227,22 @@ export const Home = () => {
                 {/* Embed Google Map */}
                 <div className="checkrates-form form-container col-md-6 mt-5">
                     <div className="map-home">
-
-                        {selectedLocker != 0 && (
+                        {selectedLocker !== 0 && (
                             <div className="loading-logo">
-                            <img  src={require("../../assets/loading/loading_trans.gif")} alt="loading" />
+                                <img src={require("../../assets/loading/loading_trans.gif")} alt="loading" />
                             </div>
                         )}
                         {selectedLocker > 0 && lockerOptions[selectedLocker - 1]?.coordinates && (
-                            <div className="location-map">
-                                <iframe
-                                    title="Locker locations"
-                                    width="100%"
-                                    height="80%"
-                                    style={{ border: 0 }}
-                                    allowFullScreen
-                                    src={`https://maps.google.com/maps?q=${lockerOptions[selectedLocker - 1]?.coordinates.latitude},${lockerOptions[selectedLocker - 1]?.coordinates.longitude}&hl=en&z=14&output=embed`}
-                                />
-                            </div>
+                            <div className={`location-map ${showMap ? '' : 'hidden'}`}>
+                            <iframe
+                                title="Locker locations"
+                                width="100%"
+                                height="80%"
+                                style={{ border: 0, display: showMap ? 'block' : 'none' }}
+                                allowFullScreen
+                                src={`https://maps.google.com/maps?q=${lockerOptions[selectedLocker - 1]?.coordinates?.latitude || 0},${lockerOptions[selectedLocker - 1]?.coordinates?.longitude || 0}&hl=en&z=14&output=embed`}
+                            />
+                        </div>
                         )}
                         {selectedLocker === 0 && (
                             <div className="image-container">
@@ -230,6 +251,7 @@ export const Home = () => {
                         )}
                     </div>
                 </div>
+
 
      
                 </div>

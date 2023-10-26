@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import UserDataService from '../../services/user';
+import { useAuth } from '../../context/auth';
 import decode from 'jwt-decode';
 import './history.css'; // Import your custom CSS file
 
 export const History = () => {
     const [history, setHistory] = useState([]);
-
+    const { isLoggedIn } = useAuth();
+    
     const loadHistory = () => {
         UserDataService.history(
             decode(localStorage.getItem('token')).user_id,
@@ -23,6 +25,18 @@ export const History = () => {
     useEffect(() => {
         loadHistory();
     }, []);
+
+    if (!isLoggedIn) {
+        return (
+            <div className="container">
+                <div className="d-flex justify-content-center align-items-center vh-100">
+                    <div className="text-center">
+                        <h1>Please log in to access this feature.</h1>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="history-container">

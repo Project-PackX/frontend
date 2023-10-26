@@ -7,6 +7,7 @@ import { Footer } from './components/Footer/Footer';
 import { Home } from './views/Home/Home';
 import { Track } from './views/Track/Track';
 import { Login } from './views/Login/Login';
+import { CodeAuth } from './views/CodeAuth/CodeAuth';
 import { ResetPasswd } from './views/ResetPasswd/ResetPasswd';
 import { UserData } from './views/UserData/UserData';
 import { DeleteUser } from './views/DeleteUser/DeleteUser';
@@ -36,6 +37,7 @@ function App() {
           <Route exact path="/aboutus" element={<About />} />
           <Route exact path="/contactus" element={<Contact />} />
           <Route exact path="/login" element={<Login />} />
+          <Route exact path="/codeauth" element={<CodeAuth />} />
           <Route exact path="/resetpasswd" element={<ResetPasswd />} />
           <Route exact path="/userdata" element={<UserData />} />
           <Route exact path="/deleteuser" element={<DeleteUser />} />

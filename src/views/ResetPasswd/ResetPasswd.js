@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import UserDataService from '../../services/user';
 import { useAuth } from '../../context/auth';
@@ -8,7 +8,7 @@ import './resetpasswd.css';
 
 export const ResetPasswd = () => {
     const navigate = useNavigate();
-    const { resetpasswd } = useAuth(); // Access the resetpasswd function from the authentication context
+    const { isLoggedIn } = useAuth();
     const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
 
     const [formData, setFormData] = useState({
@@ -66,6 +66,18 @@ export const ResetPasswd = () => {
     const handleRecaptchaChange = (value) => {
         setIsRecaptchaVerified(!!value);
     };
+    
+    if (!isLoggedIn) {
+        return (
+            <div className="container">
+                <div className="d-flex justify-content-center align-items-center vh-100">
+                    <div className="text-center">
+                        <h1>Please log in to access this feature.</h1>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="resetpasswd container row col-12">

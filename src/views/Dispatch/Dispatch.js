@@ -56,6 +56,8 @@ export const Dispatch = () => {
         }));
     };
 
+    
+
     const isMorning = () => {
         const now = new Date();
         const currentHour = now.getHours();
@@ -80,6 +82,18 @@ export const Dispatch = () => {
     useEffect(() => {
         loadLockerOptions();
     }, []);
+
+    if (!isLoggedIn) {
+        return (
+            <div className="container">
+                <div className="d-flex justify-content-center align-items-center vh-100">
+                    <div className="text-center">
+                        <h1>Please log in to access this feature.</h1>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     const calculateDeliveryDate = () => {
         const deliveryDate = new Date();

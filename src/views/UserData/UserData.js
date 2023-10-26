@@ -14,7 +14,6 @@ export const UserData = () => {
         address: '',
         phone: '',
         email: '',
-        password: '',
     });
     const [error, setError] = useState('');
 
@@ -26,7 +25,6 @@ export const UserData = () => {
                         address: localStorage.getItem("address"),
                         phone: localStorage.getItem("phone"),                        
                         email: localStorage.getItem("email"),
-                        password: localStorage.getItem("password")
                     });
 
         }
@@ -49,14 +47,17 @@ export const UserData = () => {
             Address: formData.address,
             Phone: formData.phone,
             Email: formData.email,
-            Password: formData.password,
         };
     };
 
     if (!isLoggedIn) {
         return (
             <div className="container">
-                <p>Please log in to access this feature.</p>
+                <div className="d-flex justify-content-center align-items-center vh-100">
+                    <div className="text-center">
+                        <h1>Please log in to access this feature.</h1>
+                    </div>
+                </div>
             </div>
         );
     }
@@ -103,20 +104,6 @@ export const UserData = () => {
                             className="form-input"
                             name="phone"
                             value={formData.phone}
-                            onChange={handleInputChange}
-                        />
-                    </div>
-
-                    <div className="mb-3">
-                        <label htmlFor="password" className="form-label">
-                            Password
-                        </label>
-                        <input
-                            type="text"
-                            className="form-input"
-                            name="password"
-                            required
-                            value={formData.password}
                             onChange={handleInputChange}
                         />
                     </div>

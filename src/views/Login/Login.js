@@ -97,6 +97,7 @@ export const Login = () => {
                     <button type="submit" className="login-btn">Log In</button>
                 </form>
                 <p className="register-text">Don't have an account?<Link className="register-link" to="/register"> Sign Up</Link></p>
+                <p className="register-text">Forgot your password? <Link className="register-link" to="/codeauth"> Reset password</Link></p>
             </div>
             <div className="col-md-6">
                 <img src={require("../../assets/images/undraw_delivery_truck_vt6p.svg").default} alt="login" />

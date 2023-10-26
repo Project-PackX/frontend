@@ -3,6 +3,15 @@ import './contact.css';
 
 export const Contact = () => {
 
+    const downloadVCard = () => {
+        const vCardUrl = '/assets/vcf/packx.vcf';
+    
+        const a = document.createElement('a');
+        a.href = vCardUrl;
+        a.download = 'packx.vcf';
+        a.click();
+    };
+
     return (
         <>  
             <div className="features row col-12">
@@ -16,6 +25,7 @@ export const Contact = () => {
                     <h2>
                         <a href="mailto:info@packx.hu">info@packx.hu</a>
                     </h2>
+                    <button onClick={downloadVCard} className="instant-contact-button">Instant contact</button>
                     <img
                     className="contact-ware-image"
                     src={require("../../assets/images/undraw_logistics_x-4-dc.svg").default}

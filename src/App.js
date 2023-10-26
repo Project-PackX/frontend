@@ -19,6 +19,7 @@ import { About } from './views/About/About';
 import { PackageStatus } from './views/PackageStatus/PackageStatus';
 import { PageNotFound } from "./views/PageNotFound/PageNotFound";
 import { Dashboard } from "./views/Dashboard/Dashboard";
+import { AdminDashboard } from "./views/AdminDashboard/AdminDashboard";
 import { Policy } from "./views/Policy/Policy";
 
 import { AuthProvider } from './context/auth';
@@ -47,6 +48,7 @@ function App() {
           <Route exact path="/register" element={<Register />} />
           <Route exact path="/contact" element={<Contact />} />
           <Route exact path="/dashboard" element={<Dashboard />} />
+          <Route exact path="/admin" element={<AdminDashboard />} />
           <Route exact path="/dispatch" element={<Dispatch />} />
           <Route exact path="/successful-send" element={<SuccessfulSend />} />
           <Route exact path="/history" element={<History />} />

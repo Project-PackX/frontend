@@ -15,7 +15,13 @@ export const History = () => {
             localStorage.getItem('token')
         )
             .then((response) => {
-                setHistory(response.data.message);
+                // Format the dates and times to be more readable
+                const formattedHistory = response.data.message.map(item => ({
+                    ...item,
+                    CreatedAt: new Date(item.CreatedAt).toLocaleString(),
+                    DeliveryDate: new Date(item.DeliveryDate).toLocaleString(),
+                }));
+                setHistory(formattedHistory);
             })
             .catch((error) => {
                 console.error('Error while loading history', error);

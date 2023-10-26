@@ -309,7 +309,7 @@ export const Dispatch = () => {
                 <div className="mb-3">
                     <label className="form-label">Package Size</label>
                     <div className="d-flex">
-                        {/* Small Package */}
+                        {/* Small Package*/}
                         <div className="card package-size-card mx-2">
                             <label className={`card-body ${formData.packageSize === 'small' ? 'border border-primary' : ''}`}>
                                 <input
@@ -323,10 +323,12 @@ export const Dispatch = () => {
                                 <div className="text-center">
                                     <img src={require("../../assets/images/box.png")} alt="Small Package" className="img-fluid small" />
                                     <p className="mb-0">Small</p>
+                                    <p className="mb-1">Max size: 20x20x20</p>
+
                                 </div>
                             </label>
                         </div>
-                        {/* Medium Package */}
+                        {/* Medium Package*/}
                         <div className="card package-size-card mx-2">
                             <label className={`card-body ${formData.packageSize === 'medium' ? 'border border-primary' : ''}`}>
                                 <input
@@ -340,10 +342,11 @@ export const Dispatch = () => {
                                 <div className="text-center">
                                     <img src={require("../../assets/images/box.png")} alt="Medium Package" className="img-fluid medium" />
                                     <p className="mb-0">Medium</p>
+                                    <p className="mb-1">Max size: 50x50x50</p>
                                 </div>
                             </label>
                         </div>
-                        {/* Large Package */}
+                        {/* Large Package*/}
                         <div className="card package-size-card mx-2">
                             <label className={`card-body ${formData.packageSize === 'large' ? 'border border-primary' : ''}`}>
                                 <input
@@ -357,6 +360,7 @@ export const Dispatch = () => {
                                 <div className="text-center">
                                     <img src={require("../../assets/images/box.png")} alt="Large Package" className="img-fluid large" />
                                     <p className="mb-0">Large</p>
+                                    <p className="mb-1">Max size: 100x100x100</p>
                                 </div>
                             </label>
                         </div>

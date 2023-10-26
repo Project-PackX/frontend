@@ -2,163 +2,129 @@ import React, { useState } from 'react';
 import './policy.css';
 
 export const Policy = () => {
-
     return (
 <div className="policy-container">
-<h1>
-    Adatvédelmi tájékoztató
-</h1>
+<h1><strong>Terms and Conditions</strong></h1>
 <div className="policy-picture">
     <img className="track-image" src={require("../../assets/logos/packx_logo.png")} alt="login" />
 </div>
-    <h2>
-    1. Bevezetés
-    </h2>
-    <h3>
+<h2><strong>Welcome to PackX!</strong></h2>
 
-        Nagyon fontos számunkra a weboldalunk látogatói személyes adatainak védelme, és elkötelezettek vagyunk ennek megfelelő biztosítása mellett. Ez az adatvédelmi nyilatkozat tájékoztatást nyújt arról, hogy hogyan kezeljük az Ön személyes adatait.
-        Ha hozzájárul a sütik használatához a jelen adatvédelmi nyilatkozat feltételeinek megfelelően, amikor először látogatja meg weboldalunkat, azzal engedélyezi számunkra a sütik használatát minden egyes alkalommal, amikor Ön meglátogatja weboldalunkat.
-    </h3>
-    <h2>
-        2. A személyes adatok gyűjtése
-    </h2>
-    <h3>
-        A következő típusú személyes adatokat gyűjthetjük, tárolhatjuk és felhasználhatjuk:
-        a számítógépével kapcsolatos információkat, beleértve az Ön IP-címét, a földrajzi tartózkodási helyét, a böngészője típusát és verzióját, valamint az operációs rendszerét;
-        információkat a weboldalunk meglátogatásáról és annak használatáról, ideértve a küldő hivatkozás adatait, a látogatás hosszát, az oldalmegtekintéseket és a weboldalon a navigáció adatait;
-        a weboldalunkon a regisztrációkor megadott információkat, például az e-mail címét;
-        a weboldalunkon a profil létrehozásakor megadott információkat — például: a neve, profilképe, neme, születésnapja, kapcsolata állapota, érdeklődési körei és hobbijai, oktatási és foglalkoztatási adatai;
-        a weboldalunkon az e-mailes levelezőlistára és/vagy hírleveleinkre feliratkozáskor megadott információkat, például: a neve, e-mail címe;
-        a weboldalunkon a szolgáltatásaink igénybevételekor megadott információkat;
-        a weboldalunk használata közben keletkező információkat, többek között, hogy mikor, milyen gyakran és milyen körülmények között használja weboldalunkat;
-        az Ön által vásárolt szolgáltatásokkal, az Ön által használt szolgáltatásokkal vagy a weboldalunkon keresztül végzett tranzakciókkal kapcsolatos információkat, többek között: a neve, címe, telefonszáma, e-mail címe és a bankkártyája adatai;
-        az interneten való közzététel céljából a weboldalunk számára elküldött információkat, többek között: a felhasználóneve, a profilképei és az üzenetei tartalma;
-        az e-mailben vagy a weboldalunkon keresztül az Ön által elküldött információkat, beleértve azok tartalmát és metaadatait;
-        minden egyéb személyes információt, amelyet elküldött számunkra.
-        Mielőtt valamely másik személy személyes adatait feltárná előttünk, Önnek kötelező az adott személy hozzájárulásával rendelkeznie a személyes adatok megosztását valamint a személyes adatoknak a jelen adatvédelmi nyilatkozat előírásaival összhangban történő feldolgozását illetően.
-    </h3>
-    <h2>
-        3. Az Ön személyes adatainak felhasználása
-    </h2>
-    <h3>
-        A weboldalunkon keresztül számunkra elküldött személyes adatokat a jelen adatvédelmi nyilatkozatban vagy a weboldal vonatkozó oldalain meghatározott célokra használjuk fel. Az Ön személyes adatait a következő célokra használhatjuk fel:
-        a weboldalunk és a vállalkozásunk adminisztrálása;
-        a weboldalunk testreszabása az Ön számára;
-        a weboldalunkon található szolgáltatások elérhetővé tétele az Ön számára
-        a weboldalunkon keresztül megvásárolt áruk postázása az Ön részére;
-        a weboldalunkon keresztül megvásárolt szolgáltatások nyújtása az Ön részére;
-        számlák és fizetési emlékeztetők küldése, és Öntől a befizetések begyűjtése;
-        nem marketing célú kereskedelmi kommunikáció küldése az Ön részére;
-        olyan e-mail értesítések küldése Önnek, amelyeket Ön kifejezetten kért;
-        e-mail hírlevelünk küldése Önnek, ha azt igényelte (bármikor értesíthet minket, ha már nem kéri a hírlevelet);
-        üzleti vállalkozásunkkal vagy vállalkozásainkkal illetve gondosan kiválasztott harmadik felek vállalkozásaival kapcsolatos marketingkommunikációk küldése az Ön részére, postai úton vagy – ha ehhez Ön kifejezetten hozzájárult – e-mailben vagy hasonló technológia alkalmazásával (bármikor értesíthet minket, ha már nem kéri a hírlevelet);
-        harmadik felek számára statisztikai információk szolgáltatása felhasználóinkról (azonban ezek a harmadik felek nem azonosíthatnak egyetlen felhasználót sem ezen információk alapján);
-        a weboldalunkkal kapcsolatos, az Ön által vagy az Önről tett tudakozódások és panaszok kezelése;
-        a weboldalunk biztonságának megőrzése és a csalások megelőzése;
-        a weboldalunk használatát szabályozó feltételek betartásának ellenőrzése (ideértve a weboldal privát üzenetküldő szolgáltatásán keresztül küldött privát üzenetek nyomon követését is); valamint
-        egyéb felhasználások.
-        Ha Ön személyes információkat küld nekünk a weboldalunkon való közzététel céljából, ezeket az információkat mi közzétesszük és egyéb módon felhasználjuk az Ön által nekünk megadott engedély alapján.
+<p>These terms and conditions outline the rules and regulations for the use of PackX's Website, located at packx.hu.</p>
 
-        Az Ön adatvédelmi beállításai korlátozhatják az adataira vonatkozóan a közzétételt a weboldalunkon, ezek a beállítások pedig módosíthatók a weboldalon az adatvédelmi beállítási lehetőségek használatával.
+<p>By accessing this website we assume you accept these terms and conditions. Do not continue to use PackX if you do not agree to take all of the terms and conditions stated on this page.</p>
 
-        Az Ön kifejezett hozzájárulása nélkül nem adjuk át az Ön személyes adatait harmadik feleknek ezen harmadik felek vagy más harmadik felek által folytatott közvetlen marketing céljából.
-    </h3>
-    <h2>
-        4. A személyes adatok közzététele
-    </h2>
-    <h3>
-        A személyes adatait bármilyen alkalmazottunkkal, tisztségviselőnkkel, biztosító társasággal, szakmai tanácsadókkal, ügynökökkel, beszállítókkal vagy alvállalkozókkal közölhetjük, amennyiben ez ésszerű és szükséges a jelen adatvédelmi nyilatkozatban meghatározott célok biztosításához.
+<p>The following terminology applies to these Terms and Conditions, Privacy Statement and Disclaimer Notice and all Agreements: "Client", "You" and "Your" refers to you, the person log on this website and compliant to the Company's terms and conditions. "The Company", "Ourselves", "We", "Our" and "Us", refers to our Company. "Party", "Parties", or "Us", refers to both the Client and ourselves. All terms refer to the offer, acceptance and consideration of payment necessary to undertake the process of our assistance to the Client in the most appropriate manner for the express purpose of meeting the Client's needs in respect of provision of the Company's stated services, in accordance with and subject to, prevailing law of hu. Any use of the above terminology or other words in the singular, plural, capitalization and/or he/she or they, are taken as interchangeable and therefore as referring to same.</p>
 
-        A személyes adatait közölhetjük a cégcsoportunk bármelyik tagjával (azaz leányvállalatainkkal, a holdingtársaságunkkal és annak minden leányvállalataival), amennyiben ez ésszerű és szükséges a jelen adatvédelmi nyilatkozatban meghatározott célok biztosításához.
+<h2><strong>Cookies</strong></h2>
 
-        A személyes adatait közzétehetjük:
+<p>We employ the use of cookies. By accessing PackX, you agreed to use cookies in agreement with the PackX's Privacy Policy. </p>
 
-        olyan mértékben, amennyire a törvény ezt megköveteli;
-        a folyamatban lévő vagy jövőbeni bírósági eljárásokkal kapcsolatban;
-        a törvényes jogaink megállapítása, gyakorlása vagy védelme érdekében (többek között: a csalások megelőzése és a hitelkockázat csökkentése céljából történő információszolgáltatás mások számára);
-        az általunk eladott (vagy a jövőben eladott) minden vállalkozás vagy vagyontárgy vevője számára; és
-        bármely olyan személy számára, akinek az esetében ésszerűen feltételezhetjük, hogy bírósághoz vagy más illetékes hatósághoz fordulhat a személyes információ közzététele érdekében, amennyiben ésszerű véleményünk szerint az ilyen bíróság vagy hatóság valószínűleg elrendelné az említett személyes információ közzétételét.
-        A jelen adatvédelmi nyilatkozatban foglalt esetek kivételével az Ön személyes adatait nem adjuk át harmadik feleknek.
-    </h3>
-    <h2>
-        5. Nemzetközi adattovábbítás
-    </h2>
-    <h3>
-        Az általunk összegyűjtött információkat tárolhatjuk, feldolgozhatjuk és továbbíthatjuk bármely olyan országok között, ahol üzleti tevékenységet folytatunk, annak érdekében, hogy az információkat ezen adatvédelmi nyilatkozatnak megfelelően felhasználhassuk.
-        Az általunk összegyűjtött információkat továbbadhatjuk a következő országoknak, amelyek nem rendelkeznek az Európai Gazdasági Térségben hatályos adatvédelmi törvényekkel egyenértékű törvényekkel: Amerikai Egyesült Államok, Oroszország, Japán, Kína és India.
-        Az Ön által a weboldalunkon közzétett vagy a weboldalunkon közzétételre az Ön által benyújtott személyes adatok az interneten keresztül elérhetők lehetnek az egész világon. Nem akadályozhatjuk meg az ilyen információk mások általi felhasználását vagy az ilyen információkkal történő visszaélést mások által.
-        Ön kifejezetten hozzájárul a személyes adatainak továbbításához a jelen F. szakaszban leírtak szerint.
-    </h3>
-    <h2>
-        6. A személyes adatok megőrzése
-    </h2>
-    <h3>
-        A jelen G. szakasz tájékoztat az adatmegőrzési irányelveinkről és eljárásainkról, amelyek célja annak biztosítása, hogy a személyes adatok megőrzésére és törlésére vonatkozó jogi kötelezettségeinknek megfelelően járjunk el.
-        A személyes adatokat, amelyeket bármilyen célból vagy célokból feldolgozunk, tilos annál hosszabb ideig megőrizni, mint amennyi ideig szükséges a tárolásuk ehhez a célhoz vagy célokhoz.
-        A G. szakasz egyéb rendelkezéseinek sérelme nélkül, a személyes adatokat tartalmazó dokumentumokat (beleértve az elektronikus dokumentumokat is) az alábbiaknak megfelelően megőrizzük:
-        olyan mértékben, amennyire a törvény ezt megköveteli;
-        amennyiben a dokumentumok relevánsak lehetnek bármilyen folyamatban lévő vagy jövőbeni bírósági eljárásban; és
-        törvényes jogaink megállapítása, gyakorlása vagy védelme érdekében (többek között: a csalások megelőzése és a hitelkockázat csökkentése céljából történő információszolgáltatás mások számára).
-    </h3>
-    <h2>
-        7. Az Ön személyes adatainak biztonsága
-    </h2>
-    <h3>
-        Megtesszük a megfelelő technikai és szervezeti óvintézkedéseket annak érdekében, hogy megakadályozzuk a személyes adatai elvesztését, a velük való visszaélést vagy a módosításukat.
-        Minden, az Ön által megadott személyes információt biztonságos (jelszóval és tűzfallal védett) szervereinken tároljuk.
-        A weboldalunkon keresztül lebonyolított összes elektronikus pénzügyi tranzakciót titkosítással védjük.
-        Ön tudomásul veszi, hogy az információ továbbítása az interneten keresztül alapvetően bizonytalan jellegű, és nem garantálhatjuk az interneten keresztül továbbított adatok biztonságát.
-        Ön felelős a weboldalunk eléréséhez használt jelszava bizalmas kezeléséért; nem kérjük el a jelszavát (kivéve, amikor bejelentkezik weboldalunkra).
-    </h3>
-    <h2>
-        8. Módosítások
-    </h2>
-    <h3>
-        Időnként frissíthetjük ezt az adatvédelmi nyilatkozatot azáltal, hogy közzétesszük az új verzióját a weboldalunkon. Időnként ellenőrizze ezt az oldalt annak érdekében, hogy megismerje az adatvédelmi nyilatkozat módosításait. Önt az adatvédelmi nyilatkozat változásairól e-mailben vagy a weboldalunkon található privát üzenetküldő rendszeren keresztül értesíthetjük.
-    </h3>
-    <h2>
-        9. Az Ön jogai
-    </h2>
-    <h3>
-        A törvény által megengedett mértékben visszatarthatjuk az Ön által kért személyes információkat.
+<p>Most interactive websites use cookies to let us retrieve the user's details for each visit. Cookies are used by our website to enable the functionality of certain areas to make it easier for people visiting our website. Some of our affiliate/advertising partners may also use cookies.</p>
 
-        Bármikor felszólíthat bennünket arra, hogy marketing célból ne dolgozzuk fel személyes adatait.
+<h2><strong>License</strong></h2>
 
-        A gyakorlatban Ön általában előzőleg kifejezetten egyetért azzal, hogy személyes adatait felhasználhatjuk marketing célokra, vagy pedig lehetőséget biztosítunk az Ön számára azt illetően, hogy visszautasíthassa a személyes adatai marketing célokra történő felhasználását.
-    </h3>
-    <h2>
-        10. Harmadik felek weboldalai
-    </h2>
-    <h3>
-        Weboldalunk hivatkozásokat és részleteket tartalmaz harmadik felek weboldalait illetően. Nem áll módunkban a harmadik felek adatvédelmi irányelveit és gyakorlatait ellenőrizni, valamint azokért nem vagyunk felelősek.
-    </h3>
-    <h2>
-        11. Az adatok frissítése
-    </h2>
-    <h3>
-        Kérjük, tudassa velünk, ha javítani vagy frissíteni kell az Önnel kapcsolatosan általunk tárolt személyes adatokat.
-    </h3>
-    <h2>
-        12. Sütik
-    </h2>
-    <h3>
+<p>Unless otherwise stated, PackX and/or its licensors own the intellectual property rights for all material on PackX. All intellectual property rights are reserved. You may access this from PackX for your own personal use subjected to restrictions set in these terms and conditions.</p>
 
-        Weboldalunk sütiket alkalmaz. A süti egy azonosítót (betűket és számokat) tartalmazó fájlnak felel meg, amelyet a webszerver küld a webböngészőnek, és amelyet a böngésző eltárol. Ezután megtörténik az azonosító visszaküldése a szerverhez minden alkalommal, amikor a böngésző lekér egy adott oldalt a szerverről. A sütik lehetnek „tartós” vagy „munkamenet” sütik: a tartós sütiket a böngésző tárolja, és a megadott lejárati időpontig érvényben maradnak, kivéve, ha a felhasználó a lejárati idő előtt törli őket; a munkamenet süti ezzel szemben lejár a felhasználói munkamenet végén, amikor a böngészőt bezárja a felhasználó. A sütik általában nem tartalmaznak olyan információt, amely által személyesen azonosítható lenne a felhasználó, azonban az Önről általunk tárolt személyes adatok kapcsolódhatnak a sütikben tárolt illetve a sütikből kiolvasható információkhoz. Weboldalunkon kizárólag munkamenet sütiket / kizárólag tartós sütiket / munkamenet sütiket és tartós sütiket is használunk.
+<p>You must not:</p>
+<ul>
+    <h3>Republish material from PackX</h3>
+    <h3>Sell, rent or sub-license material from PackX</h3>
+    <h3>Reproduce, duplicate or copy material from PackX</h3>
+    <h3>Redistribute content from PackX</h3>
+</ul>
 
-        Az általunk a weboldalunkon alkalmazott sütik nevét, valamint azok felhasználási céljait az alábbiakban ismertetjük:
-        a weboldalunkon a Google Analytics és az Adwords szoftverek segítségével a számítógép felismerése, amikor egy felhasználó meglátogatja a weboldalt / a felhasználók nyomon követése, miközben navigálnak a weboldalon / a kosár használatának lehetősége a weboldalon / a weboldal használhatóságának javítása / a weboldal használatának elemzése / a weboldal adminisztrálása / a csalások megakadályozása és a weboldal biztonságának javítása / a weboldal testreszabása minden egyes felhasználó számára / a célzott reklámok használata, amelyek adott felhasználók számára különösen érdekesek lehetnek.
-        A legtöbb böngészőben beállítható a sütik elfogadásának megtagadása — például:
-        az Internet Explorer böngészőben (10. verziószám) letilthatja a sütiket a sütikezelés felülbírálását érintő beállításokban, ehhez kattintson a következőkre: „Eszközök”, „Internetbeállítások”, „Adatvédelem”, végül pedig a „Speciális” opcióra;
-        A Firefox böngészőben (24. verziószám) az összes süti letiltásához kattintson a következőkre: „Eszközök”, „Opciók”, „Adatvédelem”, ezután a legördülő menüből válassza az „Egyéni beállítások használata előzményekhez” opciót, és törölje a pipát a „Sütik elfogadása” opciónál; valamint
-        A Chrome böngészőben (29. verziószám) az összes süti letiltásához válassza a „Testreszabás és vezérlés” menüt, ezután kattintson a következőkre: „Beállítások”, „Speciális beállítások megjelenítése”, „Tartalombeállítások”, végül válassza ki a „Adatmentés tiltása a webhelyeken” opciót a „Cookie-k” résznél.
-        Ha letiltja az összes süti használatát, akkor sok weboldal használhatósága romlani fog. A weboldalunkon pedig egyes funkciók nem lesznek elérhetők az Ön számára.
+<p>This Agreement shall begin on the date hereof. Our Terms and Conditions were created with the help of the <a href="https://www.termsandconditionsgenerator.com/">Free Terms and Conditions Generator</a>.</p>
 
-        Törölheti a számítógépén már tárolt sütiket is — például:
-        az Internet Explorer böngészőben (10. verziószám) manuálisan kell törölnie a süti-fájlokat (ehhez a http://support.microsoft.com/kb/278835 címen talál leírást);
-        A Firefox böngészőben (24. verziószám) a sütik törléséhez kattintson a következőkre: „Eszközök”, „Opciók”, „Adatvédelem”, ezután válassza az „Egyéni beállításokat használ az előzményekhez” opciót, majd kattintson a „Sütik megjelenítése” opcióra, végül az „Összes eltávolítása” elemre; valamint
-        A Chrome böngészőben (29. verziószám) az összes süti törléséhez válassza a „Testreszabás és vezérlés” menüt, ezután kattintson a következőkre: „Beállítások”, „Speciális beállítások megjelenítése”, „Böngészési adatok törlése”, utóbbinál pedig válassza az „Összes cookie és webhelyadat” lehetőséget, mielőtt a „ Böngészési adatok törlése” elemre kattint.
-        Ha törli a sütiket, akkor sok weboldal használhatósága romlani fog.
-    </h3>
+<p>Parts of this website offer an opportunity for users to post and exchange opinions and information in certain areas of the website. PackX does not filter, edit, publish or review Comments prior to their presence on the website. Comments do not reflect the views and opinions of PackX,its agents and/or affiliates. Comments reflect the views and opinions of the person who post their views and opinions. To the extent permitted by applicable laws, PackX shall not be liable for the Comments or for any liability, damages or expenses caused and/or suffered as a result of any use of and/or posting of and/or appearance of the Comments on this website.</p>
+
+<p>PackX reserves the right to monitor all Comments and to remove any Comments which can be considered inappropriate, offensive or causes breach of these Terms and Conditions.</p>
+
+<p>You warrant and represent that:</p>
+
+<ul>
+    <h3>You are entitled to post the Comments on our website and have all necessary licenses and consents to do so;</h3>
+    <h3>The Comments do not invade any intellectual property right, including without limitation copyright, patent or trademark of any third party;</h3>
+    <h3>The Comments do not contain any defamatory, libelous, offensive, indecent or otherwise unlawful material which is an invasion of privacy</h3>
+    <h3>The Comments will not be used to solicit or promote business or custom or present commercial activities or unlawful activity.</h3>
+</ul>
+
+<p>You hereby grant PackX a non-exclusive license to use, reproduce, edit and authorize others to use, reproduce and edit any of your Comments in any and all forms, formats or media.</p>
+
+<h2><strong>Hyperlinking to our Content</strong></h2>
+
+<p>The following organizations may link to our Website without prior written approval:</p>
+
+<ul>
+    <h3>Government agencies;</h3>
+    <h3>Search engines;</h3>
+    <h3>News organizations;</h3>
+    <h3>Online directory distributors may link to our Website in the same manner as they hyperlink to the Websites of other listed businesses; and</h3>
+    <h3>System wide Accredited Businesses except soliciting non-profit organizations, charity shopping malls, and charity fundraising groups which may not hyperlink to our Web site.</h3>
+</ul>
+
+<p>These organizations may link to our home page, to publications or to other Website information so long as the link: (a) is not in any way deceptive; (b) does not falsely imply sponsorship, endorsement or approval of the linking party and its products and/or services; and (c) fits within the context of the linking party's site.</p>
+
+<p>We may consider and approve other link requests from the following types of organizations:</p>
+
+<ul>
+    <h3>commonly-known consumer and/or business information sources;</h3>
+    <h3>dot.com community sites;</h3>
+    <h3>associations or other groups representing charities;</h3>
+    <h3>online directory distributors;</h3>
+    <h3>internet portals;</h3>
+    <h3>accounting, law and consulting firms; and</h3>
+    <h3>educational institutions and trade associations.</h3>
+</ul>
+
+<p>We will approve link requests from these organizations if we decide that: (a) the link would not make us look unfavorably to ourselves or to our accredited businesses; (b) the organization does not have any negative records with us; (c) the benefit to us from the visibility of the hyperlink compensates the absence of PackX; and (d) the link is in the context of general resource information.</p>
+
+<p>These organizations may link to our home page so long as the link: (a) is not in any way deceptive; (b) does not falsely imply sponsorship, endorsement or approval of the linking party and its products or services; and (c) fits within the context of the linking party's site.</p>
+
+<p>If you are one of the organizations listed in paragraph 2 above and are interested in linking to our website, you must inform us by sending an e-mail to PackX. Please include your name, your organization name, contact information as well as the URL of your site, a list of any URLs from which you intend to link to our Website, and a list of the URLs on our site to which you would like to link. Wait 2-3 weeks for a response.</p>
+
+<p>Approved organizations may hyperlink to our Website as follows:</p>
+
+<ul>
+    <h3>By use of our corporate name; or</h3>
+    <h3>By use of the uniform resource locator being linked to; or</h3>
+    <h3>By use of any other description of our Website being linked to that makes sense within the context and format of content on the linking party's site.</h3>
+</ul>
+
+<p>No use of PackX's logo or other artwork will be allowed for linking absent a trademark license agreement.</p>
+
+<h2><strong>iFrames</strong></h2>
+
+<p>Without prior approval and written permission, you may not create frames around our Webpages that alter in any way the visual presentation or appearance of our Website.</p>
+
+<h2><strong>Content Liability</strong></h2>
+
+<p>We shall not be hold responsible for any content that appears on your Website. You agree to protect and defend us against all claims that is rising on your Website. No link(s) should appear on any Website that may be interpreted as libelous, obscene or criminal, or which infringes, otherwise violates, or advocates the infringement or other violation of, any third party rights.</p>
+
+<h2><strong>Reservation of Rights</strong></h2>
+
+<p>We reserve the right to request that you remove all links or any particular link to our Website. You approve to immediately remove all links to our Website upon request. We also reserve the right to amen these terms and conditions and it's linking policy at any time. By continuously linking to our Website, you agree to be bound to and follow these linking terms and conditions.</p>
+
+<h2><strong>Removal of links from our website</strong></h2>
+
+<p>If you find any link on our Website that is offensive for any reason, you are free to contact and inform us any moment. We will consider requests to remove links but we are not obligated to or so or to respond to you directly.</p>
+
+<p>We do not ensure that the information on this website is correct, we do not warrant its completeness or accuracy; nor do we promise to ensure that the website remains available or that the material on the website is kept up to date.</p>
+
+<h2><strong>Disclaimer</strong></h2>
+
+<p>To the maximum extent permitted by applicable law, we exclude all representations, warranties and conditions relating to our website and the use of this website. Nothing in this disclaimer will:</p>
+
+<ul>
+    <h3>limit or exclude our or your liability for death or personal injury;</h3>
+    <h3>limit or exclude our or your liability for fraud or fraudulent misrepresentation;</h3>
+    <h3>limit any of our or your liabilities in any way that is not permitted under applicable law; or</h3>
+    <h3>exclude any of our or your liabilities that may not be excluded under applicable law.</h3>
+</ul>
+
+<p>The limitations and prohibitions of liability set in this Section and elsewhere in this disclaimer: (a) are subject to the preceding paragraph; and (b) govern all liabilities arising under the disclaimer, including liabilities arising in contract, in tort and for breach of statutory duty.</p>
+
+<p>As long as the website and the information and services on the website are provided free of charge, we will not be liable for any loss or damage of any nature.</p>
 
 </div>
 );

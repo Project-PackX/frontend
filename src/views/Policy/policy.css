@@ -1,6 +1,7 @@
 
 .policy-container{
     padding: 50px;
+    text-align: left;
 }
 
 .policy-container h1{
@@ -16,12 +17,10 @@
     font-size: 17px;
 }
 
-
 .policy-picture {
     display: flex;
     justify-content: center;
     align-items: center;
-    text-align: center;
     padding: 25px;
 }
 

@@ -218,3 +218,59 @@
     justify-content: center;
     align-items: center;
 }
+
+.loading-logo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+.loading-logo img {
+    width: 35%;
+    height: auto;
+}
+
+.map-home {
+    position: relative;
+    width: 100%;
+    padding-top: 70%;
+    padding-bottom: 30%;
+    padding-left: 70%;
+    padding-right: 70%;
+}
+
+.location-map {
+    position: absolute;
+    
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 15px;
+    overflow: hidden;
+    z-index: 2;
+}
+
+.image-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.home-map-image {
+    width: 50%;
+    height: auto;
+    z-index: 1;
+}

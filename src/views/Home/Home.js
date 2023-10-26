@@ -204,26 +204,33 @@ export const Home = () => {
                 </div>
                 {/* Embed Google Map */}
                 <div className="checkrates-form form-container col-md-6 mt-5">
-                <div style={{ position: 'relative', width: '100%', paddingTop: '70%', paddingBottom: '30%', paddingLeft: '70%', paddingRight: '70%' /* 16:9 aspect ratio */ }}>
-                    {selectedLocker > 0 && lockerOptions[selectedLocker - 1]?.coordinates && (
-                    <div className="location-map" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, borderRadius: '15px', overflow: 'hidden' }}>
-                        <iframe
-                        title="Locker locations"
-                        width="100%"
-                        height="80%"
-                        style={{ border: 0 }}
-                        allowFullScreen
-                        src={`https://maps.google.com/maps?q=${lockerOptions[selectedLocker - 1]?.coordinates.latitude},${lockerOptions[selectedLocker - 1]?.coordinates.longitude}&hl=en&z=14&output=embed`}
-                        />
+                    <div className="map-home">
+
+                        {selectedLocker != 0 && (
+                            <div className="loading-logo">
+                            <img  src={require("../../assets/loading/loading_trans.gif")} alt="loading" />
+                            </div>
+                        )}
+                        {selectedLocker > 0 && lockerOptions[selectedLocker - 1]?.coordinates && (
+                            <div className="location-map">
+                                <iframe
+                                    title="Locker locations"
+                                    width="100%"
+                                    height="80%"
+                                    style={{ border: 0 }}
+                                    allowFullScreen
+                                    src={`https://maps.google.com/maps?q=${lockerOptions[selectedLocker - 1]?.coordinates.latitude},${lockerOptions[selectedLocker - 1]?.coordinates.longitude}&hl=en&z=14&output=embed`}
+                                />
+                            </div>
+                        )}
+                        {selectedLocker === 0 && (
+                            <div className="image-container">
+                                <img className="home-map-image" src={require("../../assets/images/undraw_current_location_re_j130.svg").default} alt="login" />
+                            </div>
+                        )}
                     </div>
-                    )}
-                    {selectedLocker === 0 && (
-                    <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <img className="track-image" src={require("../../assets/images/undraw_current_location_re_j130.svg").default} alt="login" />
-                    </div>
-                    )}
                 </div>
-                </div>
+
      
                 </div>
             </div>

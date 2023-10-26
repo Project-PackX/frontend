@@ -19,12 +19,11 @@ export const Contact = () => {
                     </h2>
                     </div>
                     <div className="feature col-md-6">
-                        <div style={{ borderRadius: '15px', overflow: 'hidden' }}>
+                        <div className='contact-map'>
                         <iframe
                                 contact-title="Warehouse location"
                                 width="800rem" 
                                 height="500rem" 
-                                style={{ border: 0 }}
                                 allowFullScreen
                                 src={`https://maps.google.com/maps?q=47.6804636,17.7461013&hl=en&z=14&output=embed`}
                                 />

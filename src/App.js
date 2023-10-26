@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css'
+import CustomCursor from './components/CustomCursor/CustomCursor';
+
 
 import { Navbar } from './components/Navbar/Navbar';
 import { Footer } from './components/Footer/Footer';
@@ -28,6 +30,7 @@ function App() {
 
   return (
     <AuthProvider>
+      <CustomCursor />
       <Router>
         <Navbar />
         <Routes>

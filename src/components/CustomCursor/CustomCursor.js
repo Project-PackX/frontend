@@ -46,6 +46,8 @@ export default function CustomCursor() {
           'card',
           '.card.package-size-card label',
           'card.package-size-card label',
+          'location-map',
+          '.location-map',
         ]}
         hideNativeCursor={true}
       />

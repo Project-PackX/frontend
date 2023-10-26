@@ -19,3 +19,8 @@
     align-items: center;
     padding: 100px;
 }
+
+.contact-map {
+    border-radius: 15px;
+    overflow: 'hidden';
+}

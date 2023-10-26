@@ -24,6 +24,14 @@ export const CodeAuth = () => {
 
         const requestData = {
             email: formData.email,
+        };
+        
+    };
+
+    const handleAuthCode = (e) => {
+        e.preventDefault();
+
+        const requestData = {
             code: formData.code,
         };
 
@@ -32,12 +40,9 @@ export const CodeAuth = () => {
                 if (response.status === 200) {
                     navigate('/resetpasswd');
                 } else {
-                    setError(<div className="alert alert-danger">Passwords do not match.</div>);
+                    setError(<div className="alert alert-danger">The auth code you provided appears to be incorrect, or have already expired/been used. Please try again!</div>);
                 }
             })
-            .catch((error) => {
-                setError("Please check your code and try again.");
-            });
     };
 
     return (

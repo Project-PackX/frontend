@@ -74,7 +74,7 @@ export const Home = () => {
             ...prevFormData,
             senderLocker: selectedLocker,
         }));
-    }, [selectedLocker, lockerOptions, fetchCoordinates]);
+    }, [selectedLocker, lockerOptions]);
 
     const calculateCO2= () => {
         let totalkm  = 5234569;
@@ -112,12 +112,13 @@ export const Home = () => {
                 </div>
             </div>
             <div className="container">
-                <div className="sending row col-12">
+                <div className="row"></div>
+                <div className="sending col-12">
                     <div className="title col-md-6">
                         <h2>Send your package now</h2>
                     </div>
-                    <div className="image col-md-6">
-                        <p>Send your package easily from a locker to another one.</p>
+                    <div className="col-md-6">
+                        <p>Create your PackX Account and send your package easily from a locker to another one. You can track the package to make sure it arrives to the destination in time.</p>
                     </div>
                 </div>
                 <div className="sending-boxes row col-12">

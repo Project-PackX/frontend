@@ -7,6 +7,7 @@ import './history.css'; // Import your custom CSS file
 
 export const History = () => {
     const [history, setHistory] = useState([]);
+    const [loading, setLoading] = useState(true); // Add a loading state
     const { isLoggedIn } = useAuth();
     
     const loadHistory = () => {
@@ -22,9 +23,11 @@ export const History = () => {
                     DeliveryDate: new Date(item.DeliveryDate).toLocaleString(),
                 }));
                 setHistory(formattedHistory);
+                setLoading(false); // Set loading to false once data is loaded
             })
             .catch((error) => {
                 console.error('Error while loading history', error);
+                setLoading(false); // Set loading to false in case of an error
             });
     };
 
@@ -46,8 +49,9 @@ export const History = () => {
 
     return (
         <div className="history-container">
-            {history.length > 0 && <h1>History</h1>}
-            {history.length > 0 ? ( // Check if there is history data
+            {!loading && history.length > 0 && <h1>History</h1>}
+            {!loading && history.length > 0 ? (
+                // Check if there is history data
                 <div className="row">
                     {history.map((item, index) => (
                         <div className="col-md-4" key={index}>
@@ -69,13 +73,16 @@ export const History = () => {
                         </div>
                     ))}
                 </div>
-            ) : ( // If there is no history data, display the image and text
+            ) : null}
+            {!loading && history.length === 0 && (
+                // If there is no history data, display the image and text
                 <div className="no-history">
                     <img src={require("../../assets/images/undraw_void_-3-ggu.svg").default} alt="login" />
                     <h1>You have not sent any package with us yet.</h1>
-                    <Link to="/dispatch" className="history-btn ">Send now</Link>
+                    <Link to="/dispatch" className="history-btn">Send now</Link>
                 </div>
             )}
+
         </div>
     );
 };

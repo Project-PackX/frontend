@@ -47,6 +47,15 @@ export const Dispatch = () => {
         });
     };
 
+    const handleCheckboxChange = (checkboxName) => {
+        setFormData((prevData) => ({
+            ...prevData,
+            isRapid: checkboxName === 'isRapid',
+            isUltraRapid: checkboxName === 'isUltraRapid',
+            isSameDay: checkboxName === 'isSameDay',
+        }));
+    };
+
     const isMorning = () => {
         const now = new Date();
         const currentHour = now.getHours();
@@ -350,56 +359,33 @@ export const Dispatch = () => {
                 </div>
                 <div className="mb-3 form-check">
                     <input
-                        type="checkbox"
-                        className="form-check-input"
-                        id="acceptTerms"
-                        checked={formData.isRapid}
-                        onChange={() => {
-                            setFormData({
-                                ...formData,
-                                isRapid: !formData.isRapid,
-                                isUltraRapid: false,
-                                isSameDay: false,
-                            });
-                        }}
+                      type="checkbox"
+                      className="form-check-input"
+                      id="isRapid"
+                      checked={formData.isRapid}
+                      onChange={() => handleCheckboxChange('isRapid')}
                     />
-                    <label className="form-check-label" htmlFor="acceptTerms">Rapid delivery</label>
+                    <label className="form-check-label" htmlFor="isRapid">Rapid delivery</label>
                 </div>
                 <div className="mb-3 form-check">
                     <input
-                        type="checkbox"
-                        className="form-check-input"
-                        id="acceptTerms"
-                        checked={formData.isUltraRapid} 
-                        onChange={() => {
-                            setFormData({
-                                ...formData,
-                                isUltraRapid: !formData.isUltraRapid,
-                                isRapid: false,
-                                isSameDay: false,
-                            });
-                        }}
+                      type="checkbox"
+                      className="form-check-input"
+                      id="isUltraRapid"
+                      checked={formData.isUltraRapid}
+                      onChange={() => handleCheckboxChange('isUltraRapid')}
                     />
-                    <label className="form-check-label" htmlFor="acceptTerms">UltraRapid delivery</label>
+                    <label className="form-check-label" htmlFor="isUltraRapid">UltraRapid delivery</label>
                 </div>
                 <div className="mb-3 form-check">
                     <input
-                    type="checkbox"
-                    className="form-check-input"
-                    id="acceptTerms"
-                    checked={isMorning() ? formData.isUltraRapid : false}
-                    onChange={() => {
-                        if (isMorning()) {
-                        setFormData({
-                            ...formData,
-                            isSameDay: !formData.isSameDay,
-                            isRapid: false,
-                            isUltraRapid: !formData.isUltraRapid,
-                        });
-                        }
-                    }}
+                      type="checkbox"
+                      className="form-check-input"
+                      id="isSameDay"
+                      checked={formData.isSameDay}
+                      onChange={() => handleCheckboxChange('isSameDay')}
                     />
-                    <label className="form-check-label" htmlFor="acceptTerms">SameDay delivery</label>
+                    <label className="form-check-label" htmlFor="isSameDay">SameDay delivery</label>
                 </div>
 
 

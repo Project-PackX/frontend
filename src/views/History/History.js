@@ -108,7 +108,10 @@ export const History = () => {
                             </div>
                         </div>
                     ))}
-                </div>
+                    {history.length % 3 !== 0 && (
+                            <img src={require("../../assets/images/undraw_file_searching_re_3evy.svg").default} alt="history" />
+                        )}
+                      </div>
             ) : null}
             {!isLoading && history.length === 0 && (
                 <div className="no-history">

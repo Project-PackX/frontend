@@ -3,33 +3,32 @@ import { Link } from 'react-router-dom';
 import UserDataService from '../../services/user';
 import { useAuth } from '../../context/auth';
 import decode from 'jwt-decode';
-import './history.css'; // Import your custom CSS file
+import './history.css'; 
 
 export const History = () => {
     const [history, setHistory] = useState([]);
-    const [loading, setLoading] = useState(true); // Add a loading state
     const { isLoggedIn } = useAuth();
-    
+    const [isLoading, setIsLoading] = useState(true);
+
     const loadHistory = () => {
         UserDataService.history(
             decode(localStorage.getItem('token')).user_id,
             localStorage.getItem('token')
         )
             .then((response) => {
-                // Format the dates and times to be more readable
-                const formattedHistory = response.data.message.map(item => ({
+                const formattedHistory = response.data.map(item => ({
                     ...item,
                     CreatedAt: new Date(item.CreatedAt).toLocaleString(),
                     DeliveryDate: new Date(item.DeliveryDate).toLocaleString(),
                 }));
                 setHistory(formattedHistory);
-                setLoading(false); // Set loading to false once data is loaded
+                setIsLoading(false);
             })
             .catch((error) => {
                 console.error('Error while loading history', error);
-                setLoading(false); // Set loading to false in case of an error
+                setIsLoading(false);
             });
-    };
+    }; 
 
     useEffect(() => {
         loadHistory();
@@ -49,9 +48,9 @@ export const History = () => {
 
     return (
         <div className="history-container">
-            {!loading && history.length > 0 && <h1>History</h1>}
-            {!loading && history.length > 0 ? (
-                // Check if there is history data
+            {isLoading && <p>Loading...</p>} {/* Display loading message */}
+            {!isLoading && history.length > 0 && <h1>History</h1>}
+            {!isLoading && history.length > 0 ? (
                 <div className="row">
                     {history.map((item, index) => (
                         <div className="col-md-4" key={index}>
@@ -74,15 +73,13 @@ export const History = () => {
                     ))}
                 </div>
             ) : null}
-            {!loading && history.length === 0 && (
-                // If there is no history data, display the image and text
+            {!isLoading && history.length === 0 && (
                 <div className="no-history">
                     <img src={require("../../assets/images/undraw_void_-3-ggu.svg").default} alt="login" />
                     <h1>You have not sent any package with us yet.</h1>
                     <Link to="/dispatch" className="history-btn">Send now</Link>
                 </div>
             )}
-
         </div>
     );
 };

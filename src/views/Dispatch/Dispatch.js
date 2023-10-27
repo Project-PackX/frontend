@@ -4,14 +4,17 @@ import { useAuth } from '../../context/auth';
 import LockerDataService from '../../services/locker';
 import PackageDataService from '../../services/package';
 import decode from 'jwt-decode';
-import ReCAPTCHA from "react-google-recaptcha";
-import SITE_KEY from '../../components/reCAPTCHA/reCAPTCHA';
+import ReCaptchaWidget from '../../components/reCAPTCHA/reCAPTCHA';
 import "./dispatch.css"
 
 export const Dispatch = () => {
     const { isLoggedIn } = useAuth();
     const navigate = useNavigate();
+
     const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
+    const onRecaptchaChange = (isVerified) => {
+        setIsRecaptchaVerified(isVerified);
+    };
 
     const [error, setError] = useState("");
     const [cost, setCost] = useState(0);
@@ -197,13 +200,11 @@ export const Dispatch = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        {/*
-        if (isRecaptchaVerified) {
-            // You can proceed with your form submission logic here
-          } else {
-            alert("Please complete the reCAPTCHA verification.");
-          }
-        */}
+
+        if (!isRecaptchaVerified) {
+            setError("Please verify that you're a human.");
+            return;
+        }
 
         // Check if the senderLocker and receiverLocker are the same
         if (formData.senderLocker === formData.receiverLocker) {
@@ -443,9 +444,9 @@ export const Dispatch = () => {
                     <p>Estimated delivery date: <span>{ estDeliveryDate }</span> </p>
                 </div>
 
-                {/*<div>
-                <ReCAPTCHA sitekey={SITE_KEY} onChange={handleRecaptchaChange} />
-                </div>*/}
+                <div>
+                    <ReCaptchaWidget onRecaptchaChange={onRecaptchaChange} />
+                </div>
 
                 <button type="submit" className="btn submit-btn">Send</button>
 

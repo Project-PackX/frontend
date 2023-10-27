@@ -2,15 +2,19 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import UserDataService from '../../services/user';
 import { useAuth } from '../../context/auth';
-import ReCAPTCHA from "react-google-recaptcha";
-import SITE_KEY from '../../components/reCAPTCHA/reCAPTCHA';
+import ReCaptchaWidget from '../../components/reCAPTCHA/reCAPTCHA';
 import './login.css';
 
 export const Login = () => {
 
     const navigate = useNavigate();
     const { login } = useAuth(); // Access the login function from the authentication context
+
     const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
+    const onRecaptchaChange = (isVerified) => {
+        setIsRecaptchaVerified(isVerified);
+    };
+
 
     const [formData, setFormData] = useState({
         email: '',
@@ -28,14 +32,12 @@ export const Login = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        {/*
-        if (isRecaptchaVerified) {
-            // You can proceed with your form submission logic here
-          } else {
-            alert("Please complete the reCAPTCHA verification.");
-          }
-        */}
 
+        if (!isRecaptchaVerified) {
+            setError("Please verify that you're a human.");
+            return;
+        }
+        
         // Create a JSON object to send to the server
         const requestData = {
             Email: formData.email,
@@ -55,10 +57,6 @@ export const Login = () => {
             .catch((error) => {
                 setError("Error while logging in. Please check your email and password.");
             });
-    };
-
-    const handleRecaptchaChange = (value) => {
-        setIsRecaptchaVerified(!!value);
     };
 
     return (
@@ -90,9 +88,10 @@ export const Login = () => {
                             onChange={handleInputChange}
                         />
                     </div>
-                    {/*<div>
-                    <ReCAPTCHA sitekey={SITE_KEY} onChange={handleRecaptchaChange} />
-                    </div> */}
+                    
+                    <div>
+                    <ReCaptchaWidget onRecaptchaChange={onRecaptchaChange} />
+                    </div>
 
                     <button type="submit" className="login-btn">Log In</button>
                 </form>

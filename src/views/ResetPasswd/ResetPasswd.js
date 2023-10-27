@@ -2,15 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import UserDataService from '../../services/user';
 import { useAuth } from '../../context/auth';
-import ReCAPTCHA from "react-google-recaptcha";
-import SITE_KEY from '../../components/reCAPTCHA/reCAPTCHA';
+import ReCaptchaWidget from '../../components/reCAPTCHA/reCAPTCHA';
 import './resetpasswd.css';
 
 export const ResetPasswd = () => {
     const navigate = useNavigate();
     const { isLoggedIn } = useAuth();
-    const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
 
+    const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
+    const onRecaptchaChange = (isVerified) => {
+        setIsRecaptchaVerified(isVerified);
+    };
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -30,13 +32,11 @@ export const ResetPasswd = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        {/*
-        if (isRecaptchaVerified) {
-            // You can proceed with your form submission logic here
-          } else {
-            alert("Please complete the reCAPTCHA verification.");
-          }
-        */}
+        
+        if (!isRecaptchaVerified) {
+            setError("Please verify that you're a human.");
+            return;
+        }
 
         if (formData.password === formData.confirmPassword) {
             // Passwords match, you can proceed with form submission or other actions.
@@ -135,9 +135,9 @@ export const ResetPasswd = () => {
                         <div className="alert alert-danger">Passwords do not match.</div>
                     )}
 
-                    {/*<div>
-                    <ReCAPTCHA sitekey={SITE_KEY} onChange={handleRecaptchaChange} />
-                    </div> */}
+                    <div>
+                    <ReCaptchaWidget onRecaptchaChange={onRecaptchaChange} />
+                    </div>
 
                     <button type="submit" className="resetpasswd-btn">
                         Save

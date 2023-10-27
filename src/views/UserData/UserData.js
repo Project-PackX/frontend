@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from '../../context/auth';
 import decode from 'jwt-decode';
-import ReCAPTCHA from "react-google-recaptcha";
-import SITE_KEY from '../../components/reCAPTCHA/reCAPTCHA';
+import ReCaptchaWidget from '../../components/reCAPTCHA/reCAPTCHA';
 import './userdata.css';
 
 export const UserData = () => {
@@ -16,6 +15,11 @@ export const UserData = () => {
         email: '',
     });
     const [error, setError] = useState('');
+
+    const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
+    const onRecaptchaChange = (isVerified) => {
+        setIsRecaptchaVerified(isVerified);
+    };
 
     useEffect(() => {
         if (isLoggedIn) {
@@ -40,6 +44,11 @@ export const UserData = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        if (!isRecaptchaVerified) {
+            setError("Please verify that you're a human.");
+            return;
+        }
 
         // Create a JSON object to send to the server with updated data
         const updatedUserData = {
@@ -106,6 +115,10 @@ export const UserData = () => {
                             value={formData.phone}
                             onChange={handleInputChange}
                         />
+                    </div>
+
+                    <div>
+                    <ReCaptchaWidget onRecaptchaChange={onRecaptchaChange} />
                     </div>
 
                     <button type="submit" className="userdata-btn">

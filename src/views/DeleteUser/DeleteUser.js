@@ -2,15 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from '../../context/auth';
 import decode from 'jwt-decode';
-import ReCAPTCHA from "react-google-recaptcha";
-import SITE_KEY from '../../components/reCAPTCHA/reCAPTCHA';
+import ReCaptchaWidget from '../../components/reCAPTCHA/reCAPTCHA';
 import './deleteuser.css';
 
 export const DeleteUser = () => {
     const { isLoggedIn } = useAuth();
     const navigate = useNavigate();
+
     const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
-    const [formData, setFormData] = useState({
+    const onRecaptchaChange = (isVerified) => {
+        setIsRecaptchaVerified(isVerified);
+    };
+        const [formData, setFormData] = useState({
         email: '',
         password: '',
         confirmPassword: '',
@@ -30,13 +33,10 @@ export const DeleteUser = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        {/*
-        if (isRecaptchaVerified) {
-            // You can proceed with your form submission logic here
-          } else {
-            alert("Please complete the reCAPTCHA verification.");
-          }
-        */}
+        if (!isRecaptchaVerified) {
+            setError("Please verify that you're a human.");
+            return;
+        }
 
         if (formData.password === formData.confirmPassword) {
             // Passwords match, you can proceed with form submission or other actions.
@@ -123,6 +123,10 @@ export const DeleteUser = () => {
                     {passwordsMatch === false && (
                         <div className="alert alert-danger">Passwords do not match.</div>
                     )}
+
+                    <div>
+                    <ReCaptchaWidget onRecaptchaChange={onRecaptchaChange} />
+                    </div>
 
                     <button type="submit" className="delete-btn">
                         Delete

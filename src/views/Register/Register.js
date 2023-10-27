@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import UserDataService from '../../services/user';
-import ReCAPTCHA from "react-google-recaptcha";
-import SITE_KEY from '../../components/reCAPTCHA/reCAPTCHA';
+import ReCaptchaWidget from '../../components/reCAPTCHA/reCAPTCHA';
 import './register.css';
 
 export const Register = () => {
 
     const navigate = useNavigate();
     const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
+    
+    const onRecaptchaChange = (isVerified) => {
+        setIsRecaptchaVerified(isVerified);
+    };
 
     const [formData, setFormData] = useState({
         name: '',
@@ -28,13 +31,11 @@ export const Register = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        {/*
-        if (isRecaptchaVerified) {
-            // You can proceed with your form submission logic here
-          } else {
-            alert("Please complete the reCAPTCHA verification.");
-          }
-        */}
+
+        if (!isRecaptchaVerified) {
+            alert("Please verify that you're a human.");
+            return;
+        }
 
         // Create a JSON object to send to the server
         const requestData = {
@@ -137,9 +138,9 @@ export const Register = () => {
 
                     </div>
 
-                    {/*<div>
-                    <ReCAPTCHA sitekey={SITE_KEY} onChange={handleRecaptchaChange} />
-                    </div> */}
+                    <div>
+                    <ReCaptchaWidget onRecaptchaChange={onRecaptchaChange} />
+                    </div>
 
                     <button type="submit" className="register-btn">Register</button>
                 </form>

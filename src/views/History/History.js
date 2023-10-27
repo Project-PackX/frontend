@@ -11,6 +11,7 @@ export const History = () => {
     const { isLoggedIn } = useAuth();
     const [isLoading, setIsLoading] = useState(true);
     const [lockerOptions, setLockerOptions] = useState([]);
+    const [hasLoadedHistory, setHasLoadedHistory] = useState(false);
 
     const loadLockerOptions = () => {
         LockerDataService.getAll()
@@ -19,28 +20,26 @@ export const History = () => {
                     id: locker.ID,
                     label: `${locker.City} - ${locker.Address}`,
                 }));
-                setLockerOptions(lockerOptions);    
-                loadHistory();
+                setLockerOptions(lockerOptions);
             })
             .catch((error) => {
                 console.error("Error while loading locker options", error);
             });
     };
-    
-    
+
     const loadHistory = () => {
         UserDataService.history(
             decode(localStorage.getItem('token')).user_id,
             localStorage.getItem('token')
         )
-            .then((response) => {  
-                const formattedHistory = response.data.map(item => {
-                    // Parse SenderLockerId and DestinationLockerId as integers
+            .then((response) => {
+                const formattedHistory = response.data.map((item) => {
                     const senderLockerId = parseInt(item.SenderLockerId);
                     const destinationLockerId = parseInt(item.DestinationLockerId);
+
                     const senderLocker = lockerOptions.find((locker) => locker.id === senderLockerId);
                     const receiverLocker = lockerOptions.find((locker) => locker.id === destinationLockerId);
-    
+
                     return {
                         ...item,
                         CreatedAt: new Date(item.CreatedAt).toLocaleString(),
@@ -49,19 +48,26 @@ export const History = () => {
                         ReceiverLockerLabel: receiverLocker ? receiverLocker.label : "N/A",
                     };
                 });
-    
+
                 setHistory(formattedHistory);
                 setIsLoading(false);
+                setHasLoadedHistory(true);
             })
             .catch((error) => {
                 console.error('Error while loading history', error);
                 setIsLoading(false);
             });
     };
-    
+
     useEffect(() => {
         loadLockerOptions();
     }, []);
+
+    useEffect(() => {
+        if (lockerOptions.length > 0 && !hasLoadedHistory) {
+            loadHistory();
+        }
+    }, [lockerOptions, hasLoadedHistory]);
     
 
     if (!isLoggedIn) {
@@ -78,7 +84,6 @@ export const History = () => {
 
     return (
         <div className="history-container">
-            {isLoading && <p>Loading...</p>} {/* Display loading message */}
             {!isLoading && history.length > 0 && <h1>History</h1>}
             {!isLoading && history.length > 0 ? (
                 <div className="row">

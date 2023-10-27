@@ -16,6 +16,7 @@ export const Dispatch = () => {
     const [error, setError] = useState("");
     const [cost, setCost] = useState(0);
     const [estDeliveryDate, setEstDeliveryDate] = useState(""); // 3 days from now if rapid, 7 days from now if not
+    const [isAfterNoon, setIsAfterNoon] = useState(false); 
     const [lockerOptions, setLockerOptions] = useState([]);
     const [senderLockerAddress, setSenderLockerAddress] = useState("");
     const [receiverLockerAddress, setReceiverLockerAddress] = useState("");
@@ -60,11 +61,19 @@ export const Dispatch = () => {
             isRapidValue = false;
             isUltraRapidValue = true;
             isSameDayValue = false;
-        } else if (checkboxName === 'isSameDay' && isMorning() && !formData.isSameDay) {
+        } else if (checkboxName === 'isSameDay' && !formData.isSameDay) {
+
+            if (isMorning()) {
             isRapidValue = false;
             isUltraRapidValue = false;
             isSameDayValue = true;
+            }
+            else {
+                setIsAfterNoon(true);
+            }
+
         }
+        
     
         setFormData((prevData) => ({
             ...prevData,
@@ -422,6 +431,9 @@ export const Dispatch = () => {
                     <label className="form-check-label" htmlFor="isSameDay">SameDay delivery</label>
                 </div>
 
+                {isAfterNoon && (
+                <div className="alert alert-danger">You can only select SameDay delivery until noon.</div>
+                )}
 
                 <div className="mb-3">
                     <p>Delivery cost: <span>{ cost }</span> </p>

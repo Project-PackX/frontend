@@ -48,15 +48,31 @@ export const Dispatch = () => {
     };
 
     const handleCheckboxChange = (checkboxName) => {
+        let isRapidValue = false;
+        let isUltraRapidValue = false;
+        let isSameDayValue = false;
+    
+        if (checkboxName === 'isRapid' && !formData.isRapid) {
+            isRapidValue = true;
+            isUltraRapidValue = false;
+            isSameDayValue = false;
+        } else if (checkboxName === 'isUltraRapid' && !formData.isUltraRapid) {
+            isRapidValue = false;
+            isUltraRapidValue = true;
+            isSameDayValue = false;
+        } else if (checkboxName === 'isSameDay' && isMorning() && !formData.isSameDay) {
+            isRapidValue = false;
+            isUltraRapidValue = false;
+            isSameDayValue = true;
+        }
+    
         setFormData((prevData) => ({
             ...prevData,
-            isRapid: checkboxName === 'isRapid',
-            isUltraRapid: checkboxName === 'isUltraRapid',
-            isSameDay: checkboxName === 'isSameDay',
+            isRapid: isRapidValue,
+            isUltraRapid: isUltraRapidValue,
+            isSameDay: isSameDayValue,
         }));
-    };
-
-    
+    };  
 
     const isMorning = () => {
         const now = new Date();
@@ -120,13 +136,13 @@ export const Dispatch = () => {
         // Determine package size cost
         switch (formData.packageSize) {
             case "small":
-                deliveryCost += 490;
+                deliveryCost += 390;
                 break;
             case "medium":
-                deliveryCost += 790;
+                deliveryCost += 690;
                 break;
             case "large":
-                deliveryCost += 990;
+                deliveryCost += 890;
                 break;
             default:
                 // Handle invalid package size
@@ -136,13 +152,13 @@ export const Dispatch = () => {
 
         // Add rapid delivery cost if selected
         if (formData.isRapid) {
-            deliveryCost += 990;
+            deliveryCost += 890;
         }
         if (formData.isUltraRapid) {
-            deliveryCost += 1290;
+            deliveryCost += 1190;
         }
         if (formData.isSameDay) {
-            deliveryCost += 1690;
+            deliveryCost += 1590;
         }
 
         // Determine locker location cost

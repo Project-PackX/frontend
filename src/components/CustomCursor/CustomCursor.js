@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AnimatedCursor from "react-animated-cursor";
 import "./customcursor.css";
 
@@ -12,6 +12,17 @@ export default function CustomCursor() {
     outerScale: 5,
     trailingSpeed: 5,
   };
+
+  useEffect(() => {
+    // Hide the native cursor using JavaScript
+    const body = document.body;
+    body.style.cursor = "none";
+
+    // Ensure the cursor remains hidden by setting it to "none" again
+    return () => {
+      body.style.cursor = "none";
+    };
+  }, []);
 
   return (
     <div className="custom-cursor">

@@ -1,5 +1,5 @@
 .custom-cursor {
-    cursor: none;
+    cursor: none !important;
     position: relative;
     z-index: 9999;
   }

@@ -11,6 +11,10 @@
   --light-gray: #E5E5E5;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   font-family: "Roboto", "Helvetica Neue", "Helvetica", "Arial", sans-serif;

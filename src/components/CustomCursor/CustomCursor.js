@@ -54,6 +54,10 @@ export default function CustomCursor() {
           '.contact-subtitle',
           'contact-data',
           '.contact-data',
+          'scroll-btn',
+          '.scroll-btn',
+          'scroll-btn:hover',
+          '.scroll-btn:hover',
         ]}
         hideNativeCursor={true}
       />

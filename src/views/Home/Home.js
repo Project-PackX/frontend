@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import LockerDataService from '../../services/locker';
+import { useAuth } from '../../context/auth';
 import { Link } from 'react-router-dom';
 import './home.css';
 
 export const Home = () => {
+    const { isLoggedIn } = useAuth();
     const [selectedLocker, setSelectedLocker] = useState(0);
     const [lockerOptions, setLockerOptions] = useState([]);
     const [, setSenderLockerAddress] = useState('');
@@ -110,7 +112,11 @@ export const Home = () => {
                     <div className="hero-content col-md-6">
                         <h1>Make your life easier <br/> with <span>PackX!</span></h1>
                         <p>Send and receive packages was never quicker and easier.</p>
-                        <Link to="/register" className="login-btn py-3 px-4 my-5">Get Started</Link>
+                        {isLoggedIn ? (
+                            <Link to="/dispatch" className="login-btn py-3 px-4 my-5">Get Started</Link>
+                        ) : (
+                            <Link to="/register" className="login-btn py-3 px-4 my-5">Get Started</Link>
+                        )}
                     </div>
                     <div className="hero-image col-md-6">
                         <img src={require('../../assets/images/undraw_delivery_truck_vt6p.svg').default} alt="hero" />

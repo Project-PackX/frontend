@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import Scroll from './components/ScrollToTop/ScrollToTop';
 import CustomCursor from './components/CustomCursor/CustomCursor';
+import CustomScroll from './components/CustomScroll/CustomScroll';
 
 
 import { Navbar } from './components/Navbar/Navbar';
@@ -32,8 +32,8 @@ function App() {
 
   return (
     <AuthProvider>
-      <Scroll />
       <CustomCursor />
+      <CustomScroll>
       <Router>
         <Navbar />
         <Routes>
@@ -59,6 +59,7 @@ function App() {
         </Routes>
         <Footer />
       </Router>
+      </CustomScroll>
     </AuthProvider>
   );
 }

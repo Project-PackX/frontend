@@ -1,8 +1,10 @@
 .scroll-btn {
     border-radius: 50%;
+    cursor: none !important;
 }
 
 .scroll-btn:hover {
+    cursor: none !important;
     transition: 0.3s all ease-in-out;
     color: var(--white);
     background-color: var(--black);    

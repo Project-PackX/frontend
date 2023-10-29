@@ -11,6 +11,10 @@
   --light-gray: #E5E5E5;
 }
 
+* {
+  cursor: none !important;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -20,7 +24,6 @@ body {
   font-family: "Roboto", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  cursor: none !important;
 }
 
 code {

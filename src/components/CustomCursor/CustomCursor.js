@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from 'react';
 import AnimatedCursor from "react-animated-cursor";
 import "./customcursor.css";
 
@@ -13,16 +13,13 @@ export default function CustomCursor() {
     trailingSpeed: 5,
   };
 
-  useEffect(() => {
-    // Hide the native cursor using JavaScript
-    const body = document.body;
-    body.style.cursor = "none";
-
-    // Ensure the cursor remains hidden by setting it to "none" again
-    return () => {
-      body.style.cursor = "none";
-    };
-  }, []);
+  document.addEventListener('DOMContentLoaded', function () {
+    document.body.style.cursor = 'none';
+  });
+  
+  document.addEventListener('mousemove', function () {
+    document.body.style.cursor = 'none';
+  });
 
   return (
     <div className="custom-cursor">
@@ -67,8 +64,6 @@ export default function CustomCursor() {
           '.contact-data',
           'scroll-btn',
           '.scroll-btn',
-          'scroll-btn:hover',
-          '.scroll-btn:hover',
         ]}
         hideNativeCursor={true}
       />

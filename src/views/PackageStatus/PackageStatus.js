@@ -96,7 +96,7 @@ export const PackageStatus = () => {
                 <tbody>
                 <tr>
                     <td className="package-table-title">Tracking number:</td>
-                    <td className="package-table-info">{packageData.Data.ID}</td>
+                    <td className="package-table-info">{packageData.Data.TrackID}</td>
                 </tr>
                 <tr>
                     <td className="package-table-title">Size:</td>

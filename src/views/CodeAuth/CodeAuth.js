@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import UserDataService from '../../services/user';
+import ReCaptchaWidget from '../../components/reCAPTCHA/reCAPTCHA';
 import './codeauth.css';
 
 export const CodeAuth = () => {
@@ -11,6 +12,11 @@ export const CodeAuth = () => {
     });
     const [error, setError] = useState(''); 
 
+    const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
+    const onRecaptchaChange = (isVerified) => {
+        setIsRecaptchaVerified(isVerified);
+    };
+
     const handleInputChange = (e) => {
         const { id, value } = e.target;
         setFormData({
@@ -19,8 +25,14 @@ export const CodeAuth = () => {
         });
     };
 
+
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        if (!isRecaptchaVerified) {
+            setError("Please verify that you're a human.");
+            return;
+        }
 
         const requestData = {
             email: formData.email,
@@ -63,6 +75,10 @@ export const CodeAuth = () => {
                         />
                     </div>
 
+                    <div>
+                    <ReCaptchaWidget onRecaptchaChange={onRecaptchaChange} />
+                    </div>
+
                     <button type="submit" className="codeauth-btn">
                         Send
                     </button>
@@ -79,7 +95,7 @@ export const CodeAuth = () => {
                             name="code"
                             required
                             value={formData.code}
-                            onChange={handleInputChange}
+                            onChange={handleAuthCode}
                         />
                     </div>
 

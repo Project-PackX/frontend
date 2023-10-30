@@ -96,3 +96,23 @@ code {
 .link:hover {
     color: var(--blue);
 }
+
+/*Custom scrollbar*/
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 8px;
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gray);
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--purple);
+}

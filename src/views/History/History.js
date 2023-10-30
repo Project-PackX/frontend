@@ -94,9 +94,7 @@ export const History = () => {
                                     <h5 className="card-title">Package ID: {item.ID}</h5>
                                     <p className="card-text">Created At: {item.CreatedAt}</p>
                                     <p className="card-text">Track ID: {item.TrackID}</p>
-                                    <p className="card-text">Sender Locker ID: {item.SenderLockerId}</p>
                                     <p className='card-text'>Sender Locker Address: {item.SenderLockerLabel}</p>
-                                    <p className="card-text">Destination Locker ID: {item.DestinationLockerId}</p>
                                     <p className='card-text'>Destination Locker Address: {item.ReceiverLockerLabel}</p>
                                     <p className="card-text">Price: {item.Price}</p>
                                     <p className="card-text">Delivery Date: {item.DeliveryDate}</p>

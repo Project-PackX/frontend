@@ -1,23 +1,14 @@
-import React, { Component } from 'react';
-import { Scrollbars } from 'react-custom-scrollbars-2';
+import React from "react";
+import PerfectScrollbar from 'react-perfect-scrollbar';
+import 'react-perfect-scrollbar/dist/css/styles.css';
+import './customscroll.css';
 
-class CustomScroll extends Component {
-  render() {
-    const customScrollStyle = {
-      width: '100%',
-      height: '100vh',
-    };
-
-    return (
-      <Scrollbars
-        className='custom-scrollbar'
-        autoHide
-        style={customScrollStyle}
-      >
-        {this.props.children}
-      </Scrollbars>
-    );
-  }
+function CustomScrollBar(props) {
+  return (
+    <PerfectScrollbar>
+      {props.children}
+    </PerfectScrollbar>
+  );
 }
 
-export default CustomScroll;
+export default CustomScrollBar;

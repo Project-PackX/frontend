@@ -2,7 +2,7 @@ import React from "react";
 import ScrollToTop from "react-scroll-to-top";
 import "./scrolltotop.css";
 
-export default function Scroll() {
+export default function ScrollBackToTop() {
   return (
       <ScrollToTop 
         top='20'

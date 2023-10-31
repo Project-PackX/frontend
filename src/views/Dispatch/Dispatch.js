@@ -12,14 +12,14 @@ export const Dispatch = () => {
     const navigate = useNavigate();
 
     const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
-    const onRecaptchaChange = (isVerified) => {
-        setIsRecaptchaVerified(isVerified);
-    };
-
     const [error, setError] = useState("");
-    const [cost, setCost] = useState(0);
-    const [estDeliveryDate, setEstDeliveryDate] = useState(""); // 3 days from now if rapid, 7 days from now if not
-    const [isAfterNoon, setIsAfterNoon] = useState(false); 
+    const [estDeliveryDate, setEstDeliveryDate] = useState("");
+    const [isAfterNoon, setIsAfterNoon] = useState(false);
+    const [selectedCurrency, setSelectedCurrency] = useState("HUF");
+    const [exchangeRates, setExchangeRates] = useState(null);
+    const [deliveryCost, setDeliveryCost] = useState(0);
+    const [deliveryCostEUR, setDeliveryCostEUR] = useState(0);
+    const [deliveryCostUSD, setDeliveryCostUSD] = useState(0);
     const [lockerOptions, setLockerOptions] = useState([]);
     const [senderLockerAddress, setSenderLockerAddress] = useState("");
     const [receiverLockerAddress, setReceiverLockerAddress] = useState("");
@@ -39,9 +39,13 @@ export const Dispatch = () => {
     useEffect(() => {
         calculatePrice();
         calculateDeliveryDate();
-        setSenderLockerAddress(formData.senderLocker ? (lockerOptions.find((locker) => String(locker.id) === String(formData.senderLocker))?.label || "") : "");
-        setReceiverLockerAddress(formData.receiverLocker ? (lockerOptions.find((locker) => String(locker.id) === String(formData.receiverLocker))?.label || "") : "");
+        setSenderLockerAddress(findLockerAddress(formData.senderLocker));
+        setReceiverLockerAddress(findLockerAddress(formData.receiverLocker));
     }, [formData]);
+
+    useEffect(() => {
+        fetchExchangeRates();
+    }, []);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -55,42 +59,45 @@ export const Dispatch = () => {
         let isRapidValue = false;
         let isUltraRapidValue = false;
         let isSameDayValue = false;
-    
+
         if (checkboxName === 'isRapid' && !formData.isRapid) {
             isRapidValue = true;
-            isUltraRapidValue = false;
-            isSameDayValue = false;
         } else if (checkboxName === 'isUltraRapid' && !formData.isUltraRapid) {
-            isRapidValue = false;
             isUltraRapidValue = true;
-            isSameDayValue = false;
         } else if (checkboxName === 'isSameDay' && !formData.isSameDay) {
-
             if (isMorning()) {
-            isRapidValue = false;
-            isUltraRapidValue = false;
-            isSameDayValue = true;
-            }
-            else {
+                isSameDayValue = true;
+            } else {
                 setIsAfterNoon(true);
             }
-
         }
-        
-    
+
         setFormData((prevData) => ({
             ...prevData,
             isRapid: isRapidValue,
             isUltraRapid: isUltraRapidValue,
             isSameDay: isSameDayValue,
         }));
-    };  
+    };
 
     const isMorning = () => {
-        const now = new Date();
-        const currentHour = now.getHours();
-        // Consider it as morning until noon (12:00 PM)
+        const currentHour = new Date().getHours();
         return currentHour < 12;
+    };
+
+    const findLockerAddress = (lockerId) => {
+        return lockerOptions.find((locker) => String(locker.id) === String(lockerId))?.label || "";
+    };
+
+    const fetchExchangeRates = () => {
+        fetch('https://open.er-api.com/v6/latest/HUF')
+            .then((response) => response.json())
+            .then((data) => {
+                setExchangeRates(data.rates);
+            })
+            .catch((error) => {
+                console.error("Error while fetching exchange rates", error);
+            });
     };
 
     const loadLockerOptions = () => {
@@ -100,7 +107,14 @@ export const Dispatch = () => {
                     id: locker.ID,
                     label: `${locker.City} - ${locker.Address}`,
                 }));
-                setLockerOptions(lockerOptions);
+
+                const uniqueLockerOptions = Array.from(
+                    new Set(lockerOptions.map(option => option.label))
+                ).map(label => {
+                    return { id: lockerOptions.find(option => option.label === label).id, label: label };
+                });
+
+                setLockerOptions(uniqueLockerOptions);
             })
             .catch((error) => {
                 console.error("Error while loading locker options", error);
@@ -111,288 +125,309 @@ export const Dispatch = () => {
         loadLockerOptions();
     }, []);
 
-    if (!isLoggedIn) {
-        return (
-            <div className="container">
-                <div className="d-flex justify-content-center align-items-center vh-100">
-                    <div className="text-center">
-                        <h1>Please log in to access this feature.</h1>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
     const calculateDeliveryDate = () => {
         const deliveryDate = new Date();
-      
+
         if (formData.isSameDay) {
-          deliveryDate.setDate(deliveryDate.getDate());
+            deliveryDate.setDate(deliveryDate.getDate());
         } else if (formData.isUltraRapid) {
-          deliveryDate.setDate(deliveryDate.getDate() + 1);
+            deliveryDate.setDate(deliveryDate.getDate() + 1);
         } else if (formData.isRapid) {
-          deliveryDate.setDate(deliveryDate.getDate() + 3);
+            deliveryDate.setDate(deliveryDate.getDate() + 3);
         } else {
-          deliveryDate.setDate(deliveryDate.getDate() + 7);
+            deliveryDate.setDate(deliveryDate.getDate() + 7);
         }
-      
+
         setEstDeliveryDate(deliveryDate.toLocaleDateString());
-      }
-      
+    };
 
     const calculatePrice = () => {
-        let deliveryCost = 0;
+        let deliveryCostHUF = 0;
 
-        console.log(formData);
-
-        // Determine package size cost
         switch (formData.packageSize) {
             case "small":
-                deliveryCost += 390;
+                deliveryCostHUF += 390;
                 break;
             case "medium":
-                deliveryCost += 690;
+                deliveryCostHUF += 690;
                 break;
             case "large":
-                deliveryCost += 890;
+                deliveryCostHUF += 890;
                 break;
             default:
-                // Handle invalid package size
                 console.error("Invalid package size");
                 return;
         }
 
-        // Add rapid delivery cost if selected
         if (formData.isRapid) {
-            deliveryCost += 890;
+            deliveryCostHUF += 890;
         }
         if (formData.isUltraRapid) {
-            deliveryCost += 1190;
+            deliveryCostHUF += 1190;
         }
         if (formData.isSameDay) {
-            deliveryCost += 1590;
+            deliveryCostHUF += 1590;
         }
 
-        // Determine locker location cost
-
-        // find the name of the sender and receiver locker by the id
-        const senderLocker = lockerOptions.find((locker) => String(locker.id) === String(formData.senderLocker));
-        const receiverLocker = lockerOptions.find((locker) => String(locker.id) === String(formData.receiverLocker));
+        const senderLocker = findLockerAddress(formData.senderLocker);
+        const receiverLocker = findLockerAddress(formData.receiverLocker);
 
         if (senderLocker && receiverLocker) {
-            if (senderLocker.label.split(" - ")[0] === receiverLocker.label.split(" - ")[0]) {
-                // Lockers are in the same city
-                deliveryCost += 390;
+            if (senderLocker.split(" - ")[0] === receiverLocker.split(" - ")[0]) {
+                deliveryCostHUF += 390;
             } else {
-                // Lockers are in different cities
-                deliveryCost += 790;
+                deliveryCostHUF += 790;
             }
         } else {
-            // Handle invalid locker selection
             console.error("Invalid sender or receiver locker selection");
             return;
         }
 
-        // Now, the 'deliveryCost' variable contains the total cost.
-        console.log("Delivery Cost:", deliveryCost);
-        setCost(deliveryCost);
+        setDeliveryCost(deliveryCostHUF);
+
+        if (exchangeRates) {
+            const exchangeRateHUFToEUR = exchangeRates.EUR;
+            const exchangeRateHUFToUSD = exchangeRates.USD;
+            const deliveryCostEUR = (deliveryCostHUF * exchangeRateHUFToEUR).toFixed(2);
+            const deliveryCostUSD = (deliveryCostHUF * exchangeRateHUFToUSD).toFixed(2);
+            setDeliveryCostEUR(deliveryCostEUR);
+            setDeliveryCostUSD(deliveryCostUSD);
+        }
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const handleCurrencyChange = (e) => {
+        setSelectedCurrency(e.target.value);
+    };
 
-        if (!isRecaptchaVerified) {
-            setError("Please verify that you're a human.");
-            return;
-        }
-
-        // Check if the senderLocker and receiverLocker are the same
-        if (formData.senderLocker === formData.receiverLocker) {
-            setError("Sender locker and receiver locker cannot be the same");
-            // You can also display an error message to the user
-            return;
-        }
-
-        // Create a JSON object to send to the server
-        const requestData = {
-            SenderLockerId: formData.senderLocker,
-            DestinationLockerId: formData.receiverLocker,
-            receiverName: formData.receiverName,
-            receiverEmail: formData.receiverEmail,
-            packageSize: formData.packageSize,
-            isRapid: formData.isRapid,
-            isUltraRapid: formData.isUltraRapid,
-            isSameDay: formData.isSameDay,            
-            note: formData.note,
-            userId: formData.userId,
-            price: cost
+    const displayPrice = () => {
+        switch (selectedCurrency) {
+            case "HUF":
+                return `${deliveryCost} HUF`;
+            case "EUR":
+                return `${deliveryCostEUR} EUR`;
+                case "USD":
+                    return `${deliveryCostUSD} USD`;
+                default:
+                    return `${deliveryCost} HUF`;
+            }
         };
-
-        // Call the dispatch method from UserDataService to send the data to the server
-        PackageDataService.new(requestData, localStorage.getItem("token"))
-            .then((response) => {
-                // Handle success or navigation to another page
-                console.log("Package dispatched successfully");
-            })
-            .catch((error) => {
-                console.error("Error while dispatching the package", error)
-                setError("Error while dispatching the package");
-            });
-
-            navigate("/successful-send")
-    };
-
-    if (!isLoggedIn) {
-        return (
-            <div className="container">
-                <p>Please log in to access this feature.</p>
-            </div>
-        );
-    }
     
-    const handleRecaptchaChange = (value) => {
-        setIsRecaptchaVerified(!!value);
-    };
-
-    return (
-        <div className="container my-5 col-md-8">
-            <h1>Send Package</h1>
-            <div className="user-data p-4 my-4">
-                <p>Your email address: <strong>{ localStorage.getItem("email") }</strong></p>
-                <p>Your name: <strong>{ localStorage.getItem("name") }</strong></p>
-            </div>
-
-            <form onSubmit={handleSubmit}>
-                <div className="mb-3 d-flex align-items-center">
-                    <div style={{ flex: 1 }}>
-                        <label htmlFor="senderLocker" className="form-label">Sender Locker</label>
-                        <select
-                            name="senderLocker"
-                            className="form-select"
-                            value={formData.senderLocker}
+        const handleSubmit = (e) => {
+            e.preventDefault();
+    
+            if (!isRecaptchaVerified) {
+                setError("Please verify that you're a human.");
+                return;
+            }
+    
+            if (formData.senderLocker === formData.receiverLocker) {
+                setError("Sender locker and receiver locker cannot be the same");
+                return;
+            }
+    
+            const requestData = {
+                SenderLockerId: formData.senderLocker,
+                DestinationLockerId: formData.receiverLocker,
+                receiverName: formData.receiverName,
+                receiverEmail: formData.receiverEmail,
+                packageSize: formData.packageSize,
+                isRapid: formData.isRapid,
+                isUltraRapid: formData.isUltraRapid,
+                isSameDay: formData.isSameDay,
+                note: formData.note,
+                userId: formData.userId,
+                price: deliveryCost,
+            };
+    
+            PackageDataService.new(requestData, localStorage.getItem("token"))
+                .then((response) => {
+                    console.log("Package dispatched successfully");
+                })
+                .catch((error) => {
+                    console.error("Error while dispatching the package", error);
+                    setError("Error while dispatching the package");
+                });
+    
+            navigate("/successful-send");
+        };
+    
+        if (!isLoggedIn) {
+            return (
+                <div className="container">
+                    <p>Please log in to access this feature.</p>
+                </div>
+            );
+        }
+    
+        return (
+            <div className="container my-5 col-md-8">
+                <h1>Send Package</h1>
+                <div className="user-data p-4 my-4">
+                    <p>Your email address: <strong>{localStorage.getItem("email")}</strong></p>
+                    <p>Your name: <strong>{localStorage.getItem("name")}</strong></p>
+                </div>
+    
+                <form onSubmit={handleSubmit}>
+                    <div className="mb-3 d-flex align-items-center">
+                        <div style={{ flex: 1 }}>
+                            <label htmlFor="senderLocker" className="form-label">Sender Locker</label>
+                            <select
+                                name="senderLocker"
+                                className="form-select"
+                                value={formData.senderLocker}
+                                onChange={handleInputChange}
+                            >
+                                <option value="0">Select Sender Locker</option>
+                                {lockerOptions.map((option) => (
+                                    <option key={option.id} value={option.id}>
+                                        {option.label}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        {senderLockerAddress && (
+                            <a
+                                href={"https://www.google.com/maps/place/" + senderLockerAddress}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="btn submit-btn map-btn"
+                            >
+                                Map
+                            </a>
+                        )}
+                    </div>
+                    <div className="mb-3 d-flex align-items-center">
+                        <div style={{ flex: 1 }}>
+                            <label htmlFor="receiverLocker" className="form-label">Receiver Locker</label>
+                            <select
+                                name="receiverLocker"
+                                className="form-select"
+                                value={formData.receiverLocker}
+                                onChange={handleInputChange}
+                            >
+                                <option value="0">Select Receiver Locker</option>
+                                {lockerOptions.map((option) => (
+                                    <option key={option.id} value={option.id}>
+                                        {option.label}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        {receiverLockerAddress && (
+                            <a
+                                href={"https://www.google.com/maps/place/" + receiverLockerAddress}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="btn submit-btn map-btn"
+                            >
+                                Map
+                            </a>
+                        )}
+                    </div>
+    
+                    <div className="mb-3">
+                        <label htmlFor="receiverName" className="form-label">Receiver Name</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            name="receiverName"
+                            value={formData.receiverName}
                             onChange={handleInputChange}
-                        >
-                            <option value="0">Select Sender Locker</option>
-                            {lockerOptions.map((option) => (
-                                <option key={option.id} value={option.id}>
-                                    {option.label}
-                                </option>
-                            ))}
-                        </select>
+                            required
+                        />
                     </div>
-                    {
-                        senderLockerAddress && (
-                            <a href={"https://www.google.com/maps/place/" + senderLockerAddress} target="_blank" rel="noreferrer" className="btn submit-btn map-btn" >Map</a>
-                        )
-                    }
-                </div>
-                <div className="mb-3 d-flex align-items-center">
-                    <div style={{ flex: 1 }}>
-                        <label htmlFor="receiverLocker" className="form-label">Receiver Locker</label>
-                        <select
-                            name="receiverLocker"
-                            className="form-select"
-                            value={formData.receiverLocker}
+                    <div className="mb-3">
+                        <label htmlFor="receiverEmail" className="form-label">Receiver Email</label>
+                        <input
+                            type="email"
+                            className="form-control"
+                            name="receiverEmail"
+                            value={formData.receiverEmail}
                             onChange={handleInputChange}
-                        >
-                            <option value="0">Select Receiver Locker</option>
-                            {lockerOptions.map((option) => (
-                                <option key={option.id} value={option.id}>
-                                    {option.label}
-                                </option>
-                            ))}
-                        </select>
+                            required
+                        />
                     </div>
-                    {
-                        receiverLockerAddress && (
-                            <a href={"https://www.google.com/maps/place/" + receiverLockerAddress} target="_blank" rel="noreferrer" className="btn submit-btn map-btn" >Map</a>
-                        )
-                    }
-                </div>
-
-                <div className="mb-3">
-                    <label htmlFor="receiverName" className="form-label">Receiver Name</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        name="receiverName"
-                        value={formData.receiverName}
-                        onChange={handleInputChange}
-                        required
-                    />
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="receiverEmail" className="form-label">Receiver Email</label>
-                    <input
-                        type="email"
-                        className="form-control"
-                        name="receiverEmail"
-                        value={formData.receiverEmail}
-                        onChange={handleInputChange}
-                        required
-                    />
-                </div>
-                <div className="mb-3">
-                    <label className="form-label">Package Size</label>
-                    <div className="d-flex">
-                        {/* Small Package*/}
-                        <div className="card package-size-card mx-2">
-                            <label className={`card-body ${formData.packageSize === 'small' ? 'border border-primary' : ''}`}>
-                                <input
-                                    type="radio"
-                                    className="form-check-input d-none"
-                                    name="packageSize"
-                                    value="small"
-                                    checked={formData.packageSize === 'small'}
-                                    onChange={handleInputChange}
-                                />
-                                <div className="text-center">
-                                    <img src={require("../../assets/icons/box.svg").default} alt="Small Package" className="img-fluid small" />
-                                    <p className="mb-0">Small</p>
-                                    <p className="mb-1">Max size: 20x20x20</p>
-
-                                </div>
-                            </label>
-                        </div>
-                        {/* Medium Package*/}
-                        <div className="card package-size-card mx-2">
-                            <label className={`card-body ${formData.packageSize === 'medium' ? 'border border-primary' : ''}`}>
-                                <input
-                                    type="radio"
-                                    className="form-check-input d-none"
-                                    name="packageSize"
-                                    value="medium"
-                                    checked={formData.packageSize === 'medium'}
-                                    onChange={handleInputChange}
-                                />
-                                <div className="text-center">
-                                    <img src={require("../../assets/icons/box.svg").default} alt="Medium Package" className="img-fluid medium" />
-                                    <p className="mb-0">Medium</p>
-                                    <p className="mb-1">Max size: 50x50x50</p>
-                                </div>
-                            </label>
-                        </div>
-                        {/* Large Package*/}
-                        <div className="card package-size-card mx-2">
-                            <label className={`card-body ${formData.packageSize === 'large' ? 'border border-primary' : ''}`}>
-                                <input
-                                    type="radio"
-                                    className="form-check-input d-none"
-                                    name="packageSize"
-                                    value="large"
-                                    checked={formData.packageSize === 'large'}
-                                    onChange={handleInputChange}
-                                />
-                                <div className="text-center">
-                                    <img src={require("../../assets/icons/box.svg").default} alt="Large Package" className="img-fluid large" />
-                                    <p className="mb-0">Large</p>
-                                    <p className="mb-1">Max size: 100x100x100</p>
-                                </div>
-                            </label>
+                    <div className="mb-3">
+                        <label className="form-label">Package Size</label>
+                        <div className="d-flex">
+                            <div className="card package-size-card mx-2">
+                                <label
+                                    className={`card-body ${
+                                        formData.packageSize === 'small' ? 'border border-primary' : ''
+                                    }`}
+                                >
+                                    <input
+                                        type="radio"
+                                        className="form-check-input d-none"
+                                        name="packageSize"
+                                        value="small"
+                                        checked={formData.packageSize === 'small'}
+                                        onChange={handleInputChange}
+                                    />
+                                    <div className="text-center">
+                                        <img
+                                            src={require("../../assets/icons/box.svg").default}
+                                            alt="Small Package"
+                                            className="img-fluid small"
+                                        />
+                                        <p className="mb-0">Small</p>
+                                        <p className="mb-1">Max size: 20x20x20</p>
+                                    </div>
+                                </label>
+                            </div>
+                            <div className="card package-size-card mx-2">
+                                <label
+                                    className={`card-body ${
+                                        formData.packageSize === 'medium' ? 'border border-primary' : ''
+                                    }`}
+                                >
+                                    <input
+                                        type="radio"
+                                        className="form-check-input d-none"
+                                        name="packageSize"
+                                        value="medium"
+                                        checked={formData.packageSize === 'medium'}
+                                        onChange={handleInputChange}
+                                    />
+                                    <div className="text-center">
+                                        <img
+                                            src={require("../../assets/icons/box.svg").default}
+                                            alt="Medium Package"
+                                            className="img-fluid medium"
+                                        />
+                                        <p className="mb-0">Medium</p>
+                                        <p className="mb-1">Max size: 50x50x50</p>
+                                    </div>
+                                </label>
+                            </div>
+                            <div className="card package-size-card mx-2">
+                                <label
+                                    className={`card-body ${
+                                        formData.packageSize === 'large' ? 'border border-primary' : ''
+                                    }`}
+                                >
+                                    <input
+                                        type="radio"
+                                        className="form-check-input d-none"
+                                        name="packageSize"
+                                        value="large"
+                                        checked={formData.packageSize === 'large'}
+                                        onChange={handleInputChange}
+                                    />
+                                    <div className="text-center">
+                                        <img
+                                            src={require("../../assets/icons/box.svg").default}
+                                            alt="Large Package"
+                                            className="img-fluid large"
+                                        />
+                                        <p className="mb-0">Large</p>
+                                        <p className="mb-1">Max size: 100x100x100</p>
+                                    </div>
+                                </label>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="mb-3">
+                    <div className="mb-3">
                     <label htmlFor="note" className="form-label">Note</label>
                     <textarea
                         className="form-control"
@@ -403,55 +438,69 @@ export const Dispatch = () => {
                 </div>
                 <div className="mb-3 form-check">
                     <input
-                      type="checkbox"
-                      className="form-check-input"
-                      id="isRapid"
-                      checked={formData.isRapid}
-                      onChange={() => handleCheckboxChange('isRapid')}
+                        type="checkbox"
+                        className="form-check-input"
+                        id="isRapid"
+                        checked={formData.isRapid}
+                        onChange={() => handleCheckboxChange('isRapid')}
                     />
                     <label className="form-check-label" htmlFor="isRapid">Rapid delivery</label>
                 </div>
                 <div className="mb-3 form-check">
                     <input
-                      type="checkbox"
-                      className="form-check-input"
-                      id="isUltraRapid"
-                      checked={formData.isUltraRapid}
-                      onChange={() => handleCheckboxChange('isUltraRapid')}
+                        type="checkbox"
+                        className="form-check-input"
+                        id="isUltraRapid"
+                        checked={formData.isUltraRapid}
+                        onChange={() => handleCheckboxChange('isUltraRapid')}
                     />
                     <label className="form-check-label" htmlFor="isUltraRapid">UltraRapid delivery</label>
                 </div>
                 <div className="mb-3 form-check">
                     <input
-                      type="checkbox"
-                      className="form-check-input"
-                      id="isSameDay"
-                      checked={formData.isSameDay}
-                      onChange={() => handleCheckboxChange('isSameDay')}
+                        type="checkbox"
+                        className="form-check-input"
+                        id="isSameDay"
+                        checked={formData.isSameDay}
+                        onChange={() => handleCheckboxChange('isSameDay')}
                     />
                     <label className="form-check-label" htmlFor="isSameDay">SameDay delivery</label>
                 </div>
 
                 {isAfterNoon && (
-                <div className="alert alert-danger">You can only select SameDay delivery until noon.</div>
+                    <div className="alert alert-danger">You can only select SameDay delivery until noon.</div>
                 )}
 
                 <div className="mb-3">
-                    <p>Delivery cost: <span>{ cost }</span> </p>
+                    <label htmlFor="currency" className="form-label">Select Currency</label>
+                    <select
+                        name="currency"
+                        className="form-select"
+                        value={selectedCurrency}
+                        onChange={handleCurrencyChange}
+                    >
+                        <option value="HUF">HUF</option>
+                        <option value="EUR">EUR</option>
+                        <option value="USD">USD</option>
+                    </select>
                 </div>
 
                 <div className="mb-3">
-                    <p>Estimated delivery date: <span>{ estDeliveryDate }</span> </p>
+                    <p>Delivery cost: {displayPrice()}</p>
+                </div>
+
+                <div className="mb-3">
+                    <p>Estimated delivery date: <span>{estDeliveryDate}</span></p>
                 </div>
 
                 <div>
-                    <ReCaptchaWidget onRecaptchaChange={onRecaptchaChange} />
+                    <ReCaptchaWidget onRecaptchaChange={setIsRecaptchaVerified} />
                 </div>
 
                 <button type="submit" className="btn submit-btn">Send</button>
 
                 <div className="my-3">
-                    <p className="text-danger">{ error }</p>
+                    <p className="text-danger">{error}</p>
                 </div>
             </form>
         </div>

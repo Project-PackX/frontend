@@ -11,6 +11,7 @@ export const History = () => {
     const { isLoggedIn } = useAuth();
     const [isLoading, setIsLoading] = useState(true);
     const [lockerOptions, setLockerOptions] = useState([]);
+    const [exchangeRates, setExchangeRates] = useState(null);
     const [hasLoadedHistory, setHasLoadedHistory] = useState(false);
 
     const loadLockerOptions = () => {
@@ -40,12 +41,19 @@ export const History = () => {
                     const senderLocker = lockerOptions.find((locker) => locker.id === senderLockerId);
                     const receiverLocker = lockerOptions.find((locker) => locker.id === destinationLockerId);
 
+                    const deliveryCostHUF = parseFloat(item.Price);
+                    const deliveryCostEUR = (deliveryCostHUF * exchangeRates.EUR).toFixed(2);
+                    const deliveryCostUSD = (deliveryCostHUF * exchangeRates.USD).toFixed(2);
+
                     return {
                         ...item,
                         CreatedAt: new Date(item.CreatedAt).toLocaleString(),
                         DeliveryDate: new Date(item.DeliveryDate).toLocaleString(),
                         SenderLockerLabel: senderLocker ? senderLocker.label : "N/A",
                         ReceiverLockerLabel: receiverLocker ? receiverLocker.label : "N/A",
+                        PriceHUF: `${deliveryCostHUF} HUF`,
+                        PriceEUR: `${deliveryCostEUR} EUR`,
+                        PriceUSD: `${deliveryCostUSD} USD`,
                     };
                 });
 
@@ -61,6 +69,7 @@ export const History = () => {
 
     useEffect(() => {
         loadLockerOptions();
+        fetchExchangeRates(); // Fetch exchange rates when the component mounts
     }, []);
 
     useEffect(() => {
@@ -68,7 +77,18 @@ export const History = () => {
             loadHistory();
         }
     }, [lockerOptions, hasLoadedHistory]);
-    
+
+    // Function to fetch exchange rates
+    const fetchExchangeRates = () => {
+        fetch('https://open.er-api.com/v6/latest/HUF')
+            .then((response) => response.json())
+            .then((data) => {
+                setExchangeRates(data.rates);
+            })
+            .catch((error) => {
+                console.error("Error while fetching exchange rates", error);
+            });
+    };
 
     if (!isLoggedIn) {
         return (
@@ -96,7 +116,9 @@ export const History = () => {
                                     <p className="card-text">Track ID: {item.TrackID}</p>
                                     <p className='card-text'>Sender Locker Address: {item.SenderLockerLabel}</p>
                                     <p className='card-text'>Destination Locker Address: {item.ReceiverLockerLabel}</p>
-                                    <p className="card-text">Price: {item.Price}</p>
+                                    <p className="card-text">Price (HUF): {item.PriceHUF}</p>
+                                    <p className="card-text">Price (EUR): {item.PriceEUR}</p>
+                                    <p className="card-text">Price (USD): {item.PriceUSD}</p>
                                     <p className="card-text">Delivery Date: {item.DeliveryDate}</p>
                                     <p className="card-text">Note: {item.Note}</p>
                                 </div>
@@ -107,9 +129,9 @@ export const History = () => {
                         </div>
                     ))}
                     {history.length % 3 !== 0 && (
-                            <img src={require("../../assets/images/undraw_file_searching_re_3evy.svg").default} alt="history" />
-                        )}
-                      </div>
+                        <img src={require("../../assets/images/undraw_file_searching_re_3evy.svg").default} alt="history" />
+                    )}
+                </div>
             ) : null}
             {!isLoading && history.length === 0 && (
                 <div className="no-history">

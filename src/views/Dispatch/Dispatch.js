@@ -347,7 +347,7 @@ export const Dispatch = () => {
                                     onChange={handleInputChange}
                                 />
                                 <div className="text-center">
-                                    <img src={require("../../assets/images/box.png")} alt="Small Package" className="img-fluid small" />
+                                    <img src={require("../../assets/icons/box.svg").default} alt="Small Package" className="img-fluid small" />
                                     <p className="mb-0">Small</p>
                                     <p className="mb-1">Max size: 20x20x20</p>
 
@@ -366,7 +366,7 @@ export const Dispatch = () => {
                                     onChange={handleInputChange}
                                 />
                                 <div className="text-center">
-                                    <img src={require("../../assets/images/box.png")} alt="Medium Package" className="img-fluid medium" />
+                                    <img src={require("../../assets/icons/box.svg").default} alt="Medium Package" className="img-fluid medium" />
                                     <p className="mb-0">Medium</p>
                                     <p className="mb-1">Max size: 50x50x50</p>
                                 </div>
@@ -384,7 +384,7 @@ export const Dispatch = () => {
                                     onChange={handleInputChange}
                                 />
                                 <div className="text-center">
-                                    <img src={require("../../assets/images/box.png")} alt="Large Package" className="img-fluid large" />
+                                    <img src={require("../../assets/icons/box.svg").default} alt="Large Package" className="img-fluid large" />
                                     <p className="mb-0">Large</p>
                                     <p className="mb-1">Max size: 100x100x100</p>
                                 </div>

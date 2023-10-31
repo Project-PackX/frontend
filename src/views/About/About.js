@@ -11,7 +11,7 @@ export const About = () => {
                         <p className="about-data">We are a university startup company with a dedicated and enthusiastic team. Our journey started in 2022 as a little project, which developed into the final form of the currently-existing PackX. The original idea was to bring innovation to the delivery industry. We take full advantage of digitalization and automation to offer world-class delivery solutions to our customers.</p>
                     </div>
                     <div className="col-md-7">
-                        <img src={require("../../assets/logos/packx_logo.png")} alt="startup" className="about-img-right" />
+                        <img src={require("../../assets/logos/pack_norm_black.svg").default} alt="startup" className="about-img-right" />
                     </div>
                 </div>
             </div>

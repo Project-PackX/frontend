@@ -11,7 +11,7 @@ export const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <Link to="/" class="navbar-brand mx-5">
-        <img className="navbar-logo" src={require("../../assets/images/packx_logo_full_white.png")} alt="logo"/>
+        <img className="navbar-logo" src={require("../../assets/logos/packx_full_white.svg").default} alt="logo"/>
       </Link>
       <button
         className="navbar-toggler"

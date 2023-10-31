@@ -14,7 +14,7 @@ export const Footer = () => {
           </div>
           <div className="footer-center">
             <Link className="footer-link" to="/">
-            <img className="foot-logo" src={require("../../assets/logos/packx_trans.png")} alt="logo" />
+            <img className="foot-logo" src={require("../../assets/logos/packx_logo_only.svg").default} alt="logo" />
             </Link>
           </div>
           <div className="footer-right">

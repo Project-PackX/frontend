@@ -45,3 +45,16 @@ li {
     line-height: normal;
     text-decoration: none;
 }
+
+.currency-image {
+    width: 35px;
+    height: 35px;
+}
+
+.currency-dropdown {
+    color: var(--gray) !important;
+}
+
+.currency-dropdown:hover {
+    color: var(--purple)
+}

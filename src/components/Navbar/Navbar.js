@@ -1,12 +1,22 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {Link} from 'react-router-dom';
 import {useAuth} from '../../context/auth';
 
 import './navbar.css';
 
 export const Navbar = () => {
+  const { isLoggedIn, logout } = useAuth();
+  const [selectedCurrency, setSelectedCurrency] = useState('HUF'); // Default currency
 
-  const {isLoggedIn, logout} = useAuth();
+  useEffect(() => {
+    // Store the selected currency in local storage
+    localStorage.setItem('selectedCurrency', selectedCurrency);
+  }, [selectedCurrency]);
+
+  const handleCurrencyChange = (currency) => {
+    setSelectedCurrency(currency);
+    localStorage.setItem('selectedCurrency', currency);
+  };
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -104,10 +114,21 @@ export const Navbar = () => {
               <Link className="button button-primary" to="/login">
                 <p className='button-text mb-0'>Log in</p>
               </Link>
-            )}
-          </li>
-        </ul>
-      </div>
+              )}
+              </li>
+            </ul>
+          </div>
+
+          <div className="currency-dropdown dropdown">
+            <button className="button button-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              {selectedCurrency}
+            </button>
+            <ul className="dropdown-menu" aria-labelledby="currencyDropdown">
+              <li><a className="dropdown-item" onClick={() => handleCurrencyChange('HUF')}>HUF</a></li>
+              <li><a className="dropdown-item" onClick={() => handleCurrencyChange('EUR')}>EUR</a></li>
+              <li><a className="dropdown-item" onClick={() => handleCurrencyChange('USD')}>USD</a></li>
+            </ul>
+          </div>
     </nav>
   );
 };

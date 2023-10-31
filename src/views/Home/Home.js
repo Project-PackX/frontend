@@ -75,10 +75,17 @@ export const Home = () => {
                     id: locker.ID,
                     label: `${locker.City} - ${locker.Address}`,
                 }));
-                setLockerOptions(lockerOptions);
+
+                const uniqueLockerOptions = Array.from(
+                    new Set(lockerOptions.map(option => option.label))
+                ).map(label => {
+                    return { id: lockerOptions.find(option => option.label === label).id, label: label };
+                });
+
+                setLockerOptions(uniqueLockerOptions);
             })
             .catch((error) => {
-                console.error('Error while loading locker options', error);
+                console.error("Error while loading locker options", error);
             });
     };
 

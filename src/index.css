@@ -15,10 +15,6 @@
   cursor: none !important;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
 body {
   margin: 0;
   font-family: "Roboto", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
@@ -100,19 +96,21 @@ code {
 /*Custom scrollbar*/
 
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 8px !important;
+  height: 8px !important;
+  scroll-behavior: smooth !important;
 }
 
 ::-webkit-scrollbar-track {
-  border-radius: 8px;
-  background: transparent;
+  border-radius: 8px !important;
+  background: transparent !important;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--gray);
-  border-radius: 8px;
+  background: var(--gray) !important;
+  border-radius: 8px !important;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--purple);
+  background: var(--purple) !important;
 }

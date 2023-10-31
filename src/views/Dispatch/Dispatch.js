@@ -62,8 +62,10 @@ export const Dispatch = () => {
 
         if (checkboxName === 'isRapid' && !formData.isRapid) {
             isRapidValue = true;
+            setIsAfterNoon(false);
         } else if (checkboxName === 'isUltraRapid' && !formData.isUltraRapid) {
             isUltraRapidValue = true;
+            setIsAfterNoon(false);
         } else if (checkboxName === 'isSameDay' && !formData.isSameDay) {
             if (isMorning()) {
                 isSameDayValue = true;

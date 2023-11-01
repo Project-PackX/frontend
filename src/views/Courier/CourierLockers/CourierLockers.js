@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import {Link} from "react-router-dom";
 import LockerDataService from "../../../services/locker";
 
 export function CourierLockers() {
@@ -18,9 +19,6 @@ export function CourierLockers() {
             console.error("Error while loading lockers", error);
         });
     }
-
-    console.log(lockers)
-    // get fullness of a locker
 
     useEffect(() => {
         getAllLockers();
@@ -51,7 +49,9 @@ export function CourierLockers() {
                         <td>{locker.Capacity}</td>
                         <td>{fullness[locker.ID - 1]} %</td>
                         <td>{locker.Used}</td>
-                        <td>{locker.Packages}</td>
+                        <td>
+                            <Link className="btn submit-btn" to={`/locker/packages/${locker.ID}`}>Show Packages</Link>
+                        </td>
                         <td>
                             <a
                                 href={"https://www.google.com/maps/place/" + locker.City + "+" + locker.Address}

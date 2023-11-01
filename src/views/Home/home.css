@@ -273,3 +273,8 @@
     height: auto;
     z-index: 1;
 }
+
+.cost-display {
+    font-weight: bold;
+    color: var(--black);
+}

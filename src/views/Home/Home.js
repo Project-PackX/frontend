@@ -15,6 +15,21 @@ export const Home = () => {
     });
 
     const [showMap, setShowMap] = useState(false);
+    const [cost, setCost] = useState(0); // State to store the calculated cost
+
+
+    const calculateCost = () => {
+        if (lockerOptions[formData.senderLocker]?.label.split( ' - ')[0] === lockerOptions[formData.receiverLocker - 1]?.label.split( ' - ')[0]) {
+            setCost(390);
+        } else {
+            setCost(490);
+        }
+    };
+
+    useEffect(() => {
+        calculateCost();
+        console.log(formData.senderLocker, formData.receiverLocker)
+    }, [formData.senderLocker, formData.receiverLocker]);
 
     useEffect(() => {
         let timer;
@@ -183,22 +198,42 @@ export const Home = () => {
                         <h1 className="title">Check rates</h1>
                         <form>
                             <div className="mb-3">
-                                <label htmlFor="username" className="form-label">From</label>
-                                <select className="form-select" aria-label="Default select example">
+                                <label htmlFor="senderLocker" className="form-label">From</label>
+                                <select
+                                    name="senderLocker"
+                                    className="form-select"
+                                    value={formData.senderLocker}
+                                    onChange={(e) => setFormData({ ...formData, senderLocker: e.target.value })}
+                                    aria-label="Sender Locker"
+                                >
                                     <option defaultValue>Select the starting location</option>
-                                    <option value="1">Győr</option>
-                                    <option value="2">Szombathely</option>
+                                    {lockerOptions.map((option) => (
+                                        <option key={option.id} value={option.id}>
+                                            {option.label}
+                                        </option>
+                                    ))}
                                 </select>
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="password" className="form-label">To</label>
-                                <select className="form-select" aria-label="Default select example">
+                                <label htmlFor="receiverLocker" className="form-label">To</label>
+                                <select
+                                    name="receiverLocker"
+                                    className="form-select"
+                                    value={formData.receiverLocker}
+                                    onChange={(e) => setFormData({ ...formData, receiverLocker: e.target.value })}
+                                    aria-label="Receiver Locker"
+                                >
                                     <option defaultValue>Select the destination</option>
-                                    <option value="1">Győr</option>
-                                    <option value="2">Szombathely</option>
+                                    {lockerOptions.map((option) => (
+                                        <option key={option.id} value={option.id}>
+                                            {option.label}
+                                        </option>
+                                    ))}
                                 </select>
                             </div>
-                            <button type="submit" className="login-btn">Check rates</button>
+                            {formData.senderLocker !== 0 && formData.receiverLocker !== 0 && (
+                                <p className="cost-display">Delivery cost: {cost} Ft</p>
+                            )}
                         </form>
                     </div>
                 </div>

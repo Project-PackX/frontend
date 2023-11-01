@@ -5,7 +5,7 @@ import {Link} from "react-router-dom";
 
 export function CourierPackages() {
     const token = localStorage.getItem('token');
-    const user_id = 1; // You can use the decoded user ID from the token if needed.
+    const user_id = 0; // You can use the decoded user ID from the token if needed.
 
     const [packages, setPackages] = useState([]);
     const [statuses, setStatuses] = useState([]);

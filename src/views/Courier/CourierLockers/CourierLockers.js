@@ -38,7 +38,8 @@ export function CourierLockers() {
                     <th>Capacity</th>
                     <th>Fullness</th>
                     <th>Used</th>
-                    <th>Available</th>
+                    <th>Packages</th>
+                    <th>Map</th>
                 </tr>
             </thead>
             <tbody>
@@ -48,9 +49,19 @@ export function CourierLockers() {
                         <td>{locker.City}</td>
                         <td>{locker.Address}</td>
                         <td>{locker.Capacity}</td>
-                        <td>{fullness[locker.ID - 1]}</td>
+                        <td>{fullness[locker.ID - 1]} %</td>
                         <td>{locker.Used}</td>
-                        <td>{locker.Available}</td>
+                        <td>{locker.Packages}</td>
+                        <td>
+                            <a
+                                href={"https://www.google.com/maps/place/" + locker.City + "+" + locker.Address}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="btn submit-btn"
+                            >
+                                Map
+                            </a>
+                        </td>
                     </tr>
                 ))}
             </tbody>

@@ -18,6 +18,16 @@ class PackageDataService {
             }
         });
     }
+    getCourierPackages(id, token) {
+        return http.get(`/packages/courierpackages/${id}`, {
+            headers: {
+                Authorization: `${token}`
+            }
+        });
+    }
+    statusUpdate() {
+        return http.post(`/packages/statusup`);
+    }
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export

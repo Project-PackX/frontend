@@ -15,7 +15,6 @@ export const Dispatch = () => {
     const [error, setError] = useState("");
     const [estDeliveryDate, setEstDeliveryDate] = useState("");
     const [isAfterNoon, setIsAfterNoon] = useState(false);
-    const [selectedCurrency, setSelectedCurrency] = useState("HUF");
     const [exchangeRates, setExchangeRates] = useState(null);
     const [deliveryCost, setDeliveryCost] = useState(0);
     const [deliveryCostEUR, setDeliveryCostEUR] = useState(0);
@@ -35,6 +34,19 @@ export const Dispatch = () => {
         note: '',
         userId: decode(localStorage.getItem("token")).user_id
     });
+    const [selectedCurrency, setSelectedCurrency] = useState(localStorage.getItem("selectedCurrency") ?? "HUF");
+    const [currentSelectedCurrency, setCurrentSelectedCurrency] = useState(selectedCurrency);
+
+    useEffect(() => {
+        // Store the selected currency in local storage
+        localStorage.setItem('selectedCurrency', selectedCurrency);
+    }, [selectedCurrency]);
+
+    const handleCurrencyChange = (currency) => {
+        setSelectedCurrency(currency);
+        localStorage.setItem('selectedCurrency', currency);
+        navigate(0);
+    };
 
     useEffect(() => {
         calculatePrice();
@@ -197,10 +209,6 @@ export const Dispatch = () => {
         }
     };
 
-    const handleCurrencyChange = (e) => {
-        setSelectedCurrency(e.target.value);
-    };
-
     const displayPrice = () => {
         switch (selectedCurrency) {
             case "HUF":
@@ -263,7 +271,23 @@ export const Dispatch = () => {
     
         return (
             <div className="container my-5 col-md-8">
-                <h1>Send Package</h1>
+                <div className="col-12">
+                    <div className="row">
+                        <div className="col-md-6">
+                            <h1>Send Package</h1>
+                        </div>
+                        <div className="col-md-6 dropdown text-end">
+                            <button className="button button-primary dropdown-toggle currency-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                {selectedCurrency}
+                            </button>
+                            <ul className="dropdown-menu" aria-labelledby="currencyDropdown">
+                                <li><a className="dropdown-item" onClick={() => handleCurrencyChange('HUF')}>HUF</a></li>
+                                <li><a className="dropdown-item" onClick={() => handleCurrencyChange('EUR')}>EUR</a></li>
+                                <li><a className="dropdown-item" onClick={() => handleCurrencyChange('USD')}>USD</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
                 <div className="user-data p-4 my-4">
                     <p>Your email address: <strong>{localStorage.getItem("email")}</strong></p>
                     <p>Your name: <strong>{localStorage.getItem("name")}</strong></p>
@@ -472,20 +496,6 @@ export const Dispatch = () => {
                 {isAfterNoon && (
                     <div className="alert alert-danger">You can only select SameDay delivery until noon.</div>
                 )}
-
-                <div className="mb-3">
-                    <label htmlFor="currency" className="form-label">Select Currency</label>
-                    <select
-                        name="currency"
-                        className="form-select"
-                        value={selectedCurrency}
-                        onChange={handleCurrencyChange}
-                    >
-                        <option value="HUF">HUF</option>
-                        <option value="EUR">EUR</option>
-                        <option value="USD">USD</option>
-                    </select>
-                </div>
 
                 <div className="mb-3">
                     <p>Delivery cost: {displayPrice()}</p>

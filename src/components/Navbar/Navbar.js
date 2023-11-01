@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {useAuth} from '../../context/auth';
 import decode from 'jwt-decode';
@@ -14,12 +13,11 @@ export const Navbar = () => {
   try {
     const token = localStorage.getItem('token');
     if (token) {
-      access_level = decode(token).access_level;
+      ({access_level} = decode(token));
     }
   } catch (error) {
     console.error("Error decoding token:", error);
-    // You can handle the error here, e.g., redirect the user to the login page.
-    // navigate('/login');
+    navigate('/login');
   }
 
   return (
@@ -54,7 +52,8 @@ export const Navbar = () => {
             <li className="nav-item dropdown">
               {access_level === 2 ? (
                   <>
-                    <a className="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLinkDelivery" role="button"
+                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                    <a className="nav-link dropdown-toggle mx-2" href="#" id="navbarDarkDropdownMenuLinkDelivery" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">
                       Delivery
                     </a>
@@ -73,7 +72,7 @@ export const Navbar = () => {
                   </>
               ) : null}
               {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-              <a className="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLinkPackage" role="button"
+              <a className="nav-link dropdown-toggle mx-2" href="#" id="navbarDarkDropdownMenuLinkPackage" role="button"
                  data-bs-toggle="dropdown" aria-expanded="false">
                 Package
               </a>
@@ -95,7 +94,7 @@ export const Navbar = () => {
                 </li>
               </ul>
               {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-              <a className="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLinkUser" role="button"
+              <a className="nav-link dropdown-toggle mx-2" href="#" id="navbarDarkDropdownMenuLinkUser" role="button"
                  data-bs-toggle="dropdown" aria-expanded="false">
                 User
               </a>
@@ -138,7 +137,7 @@ export const Navbar = () => {
             {isLoggedIn ? (
               <button
                 className="button button-primary"
-                onClick={logout}
+                onClick={() => logout()}
               >
                 <Link className="logout-button" to="/">
                 <p className='button-text mb-0'>Log out, {localStorage.getItem("name")}</p>

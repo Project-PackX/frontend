@@ -23,15 +23,15 @@ export const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       {access_level === 1 ? (
-        <Link to="/" class="navbar-brand mx-5">
+        <Link to="/" className="navbar-brand mx-5">
           <img className="navbar-logo-user" src={require("../../assets/logos/packx_full_white.svg").default} alt="logo"/>
         </Link>
       ) : access_level === 2 ? (
-          <Link to="/" class="navbar-brand mx-5">
+          <Link to="/" className="navbar-brand mx-5">
             <img className="navbar-logo-courier" src={require("../../assets/logos/packx_full_white_courier.svg").default} alt="logo"/>
           </Link>
       ) : (
-          <Link to="/" class="navbar-brand mx-5">
+          <Link to="/" className="navbar-brand mx-5">
             <img className="navbar-logo-admin" src={require("../../assets/logos/packx_full_white_admin.svg").default} alt="logo"/>
           </Link>
       )}
@@ -51,13 +51,12 @@ export const Navbar = () => {
           {isLoggedIn ? (
             <li className="nav-item dropdown">
               {access_level === 2 ? (
-                  <>
-                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                  <div className="nav-item dropdown">
                     <a className="nav-link dropdown-toggle mx-2" href="#" id="navbarDarkDropdownMenuLinkDelivery" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">
                       Delivery
                     </a>
-                    <ul className="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkDropdownMenuLinkDelivery">
+                    <ul className="dropdown-menu dropdown-menu-light">
                       <li>
                         <Link className="dropdown-item" to="/courier-packages">
                           <p className='button-text mb-0'>Packages</p>
@@ -69,52 +68,54 @@ export const Navbar = () => {
                         </Link>
                       </li>
                     </ul>
-                  </>
+                  </div>
               ) : null}
-              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-              <a className="nav-link dropdown-toggle mx-2" href="#" id="navbarDarkDropdownMenuLinkPackage" role="button"
-                 data-bs-toggle="dropdown" aria-expanded="false">
-                Package
-              </a>
-              <ul className="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkDropdownMenuLinkPackage">
-                <li>
-                  <Link className="dropdown-item" to="/track">
-                    <p className='button-text mb-0'>Track</p>
-                  </Link>
-                </li>
-                <li>
-                  <Link className="dropdown-item" to="/dispatch">
-                    <p className='button-text mb-0'>Dispatch</p>
-                  </Link>
-                </li>
-                <li>
-                  <Link className="dropdown-item" to="/history">
-                    <p className='button-text mb-0'>History</p>
-                  </Link>
-                </li>
-              </ul>
-              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-              <a className="nav-link dropdown-toggle mx-2" href="#" id="navbarDarkDropdownMenuLinkUser" role="button"
-                 data-bs-toggle="dropdown" aria-expanded="false">
-                User
-              </a>
-              <ul className="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkDropdownMenuLinkUser">
-                <li>
-                  <Link className="dropdown-item" to="/userdata">
-                    <p className='button-text mb-0'>Edit user data</p>
-                  </Link>
-                </li>
-                <li>
-                  <Link className="dropdown-item" to="/resetpasswd">
-                    <p className='button-text mb-0'>Reset password</p>
-                  </Link>
-                </li>
-                <li>
-                  <Link className="dropdown-item" to="/deleteuser">
-                    <p className='button-text mb-0'>Delete account</p>
-                  </Link>
-                </li>
-              </ul>
+              <div className="nav-item dropdown">
+                <a className="nav-link dropdown-toggle mx-2" href="#" id="navbarDarkDropdownMenuLinkDelivery" role="button"
+                   data-bs-toggle="dropdown" aria-expanded="false">
+                  Package
+                </a>
+                <ul className="dropdown-menu dropdown-menu-light">
+                  <li>
+                    <Link className="dropdown-item" to="/track">
+                      <p className='button-text mb-0'>Track</p>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item" to="/dispatch">
+                      <p className='button-text mb-0'>Dispatch</p>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item" to="/history">
+                      <p className='button-text mb-0'>History</p>
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+              <div className="nav-item dropdown">
+                <a className="nav-link dropdown-toggle mx-2" href="#" id="navbarDarkDropdownMenuLinkUser" role="button"
+                   data-bs-toggle="dropdown" aria-expanded="false">
+                  User
+                </a>
+                <ul className="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkDropdownMenuLinkUser">
+                  <li>
+                    <Link className="dropdown-item" to="/userdata">
+                      <p className='button-text mb-0'>Edit user data</p>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item" to="/resetpasswd">
+                      <p className='button-text mb-0'>Reset password</p>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item" to="/deleteuser">
+                      <p className='button-text mb-0'>Delete account</p>
+                    </Link>
+                  </li>
+                </ul>
+              </div>
             </li>
           ) : (
             <li className="nav-item">

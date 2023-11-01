@@ -14,6 +14,13 @@ class UserDataService {
             }
         });
     }
+    get(id, token) {
+        return http.get(`/users/${id}`, {
+            headers: {
+                Authorization: `${token}`
+            }
+        });
+    }
 }
 
 export default new UserDataService();

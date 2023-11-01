@@ -45,11 +45,11 @@ export const Navbar = () => {
             <li className="nav-item dropdown">
               {access_level === 2 ? (
                   <>
-                    <a className="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button"
+                    <a className="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLinkDelivery" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">
                       Delivery
                     </a>
-                    <ul className="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkDropdownMenuLink">
+                    <ul className="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkDropdownMenuLinkDelivery">
                       <li>
                         <Link className="dropdown-item" to="/courier-packages">
                           <p className='button-text mb-0'>Packages</p>
@@ -64,11 +64,11 @@ export const Navbar = () => {
                   </>
               ) : null}
               {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-              <a className="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button"
+              <a className="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLinkPackage" role="button"
                  data-bs-toggle="dropdown" aria-expanded="false">
                 Package
               </a>
-              <ul className="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkDropdownMenuLink">
+              <ul className="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkDropdownMenuLinkPackage">
                 <li>
                   <Link className="dropdown-item" to="/track">
                     <p className='button-text mb-0'>Track</p>
@@ -86,11 +86,11 @@ export const Navbar = () => {
                 </li>
               </ul>
               {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-              <a className="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button"
+              <a className="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLinkUser" role="button"
                  data-bs-toggle="dropdown" aria-expanded="false">
                 User
               </a>
-              <ul className="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkDropdownMenuLink">
+              <ul className="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkDropdownMenuLinkUser">
                 <li>
                   <Link className="dropdown-item" to="/userdata">
                     <p className='button-text mb-0'>Edit user data</p>

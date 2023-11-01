@@ -43,6 +43,26 @@ export const Navbar = () => {
         <ul className="navbar-nav mr-auto">
           {isLoggedIn ? (
             <li className="nav-item dropdown">
+              {access_level === 2 ? (
+                  <>
+                    <a className="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                      Delivery
+                    </a>
+                    <ul className="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkDropdownMenuLink">
+                      <li>
+                        <Link className="dropdown-item" to="/courier-packages">
+                          <p className='button-text mb-0'>Packages</p>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link className="dropdown-item" to="/courier-lockers">
+                          <p className='button-text mb-0'>Lockers</p>
+                        </Link>
+                      </li>
+                    </ul>
+                  </>
+              ) : null}
               {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
               <a className="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button"
                  data-bs-toggle="dropdown" aria-expanded="false">

@@ -59,7 +59,7 @@ export function CourierPackages() {
                         <Link to={`/track/${item.TrackID}`} className="btn login-btn">
                             Track
                         </Link>
-                        <button className="btn login-btn" onClick={handleSkipToNextStatus(item.ID)}>Jump to next status</button>
+                        <button disabled={statuses[index] === "Delivered"} className="btn login-btn" onClick={handleSkipToNextStatus(item.ID)}>Jump to next status</button>
                     </div>
                 </div>
             ))}

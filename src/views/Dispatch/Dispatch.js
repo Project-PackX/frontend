@@ -32,6 +32,7 @@ export const Dispatch = () => {
         isUltraRapid: false,
         isSameDay: false,
         note: '',
+        deliveryDate: '',
         userId: decode(localStorage.getItem("token")).user_id
     });
     const [selectedCurrency, setSelectedCurrency] = useState(localStorage.getItem("selectedCurrency") ?? "HUF");
@@ -247,6 +248,7 @@ export const Dispatch = () => {
                 note: formData.note,
                 userId: formData.userId,
                 price: deliveryCost,
+                DeliveryDate: new Date(estDeliveryDate).toISOString(),
             };
     
             PackageDataService.new(requestData, localStorage.getItem("token"))

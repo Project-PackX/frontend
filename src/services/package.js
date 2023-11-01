@@ -25,8 +25,12 @@ class PackageDataService {
             }
         });
     }
-    statusUpdate() {
-        return http.post(`/packages/statusup`);
+    statusUpdate(id, token) {
+        return http.post(`/packages/statusup/${id}`, null, {
+            headers: {
+                Authorization: `${token}`
+            }
+        });
     }
 }
 

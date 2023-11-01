@@ -39,11 +39,6 @@ export const Contact = () => {
                         <button onClick={downloadVCard} className="instant-contact-button">
                             Instant contact
                         </button>
-                        <img
-                            className="contact-ware-image"
-                            src={require('../../assets/images/undraw_logistics_x-4-dc.svg').default}
-                            alt="warehouse"
-                        />
                     </div>
                     <div className="feature col-md-6">
                         <div className="contact-map">

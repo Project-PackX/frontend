@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import UserDataService from '../../services/user';
 import LockerDataService from '../../services/locker';
 import { useAuth } from '../../context/auth';
@@ -7,13 +7,25 @@ import decode from 'jwt-decode';
 import './history.css';
 
 export const History = () => {
+    const navigate = useNavigate();
   const [history, setHistory] = useState([]);
   const { isLoggedIn } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const [lockerOptions, setLockerOptions] = useState([]);
   const [exchangeRates, setExchangeRates] = useState(null);
-  const [selectedCurrency, setSelectedCurrency] = useState(localStorage.getItem('selectedCurrency'));
+  const [selectedCurrency, setSelectedCurrency] = useState(localStorage.getItem("selectedCurrency") ?? "HUF"); // Default currency
   const [currentSelectedCurrency, setCurrentSelectedCurrency] = useState(selectedCurrency);
+
+  useEffect(() => {
+    // Store the selected currency in local storage
+    localStorage.setItem('selectedCurrency', selectedCurrency);
+  }, [selectedCurrency]);
+
+  const handleCurrencyChange = (currency) => {
+    setSelectedCurrency(currency);
+    localStorage.setItem('selectedCurrency', currency);
+    navigate(0);
+  };
 
   const loadLockerOptions = () => {
     LockerDataService.getAll()
@@ -45,7 +57,7 @@ export const History = () => {
           const deliveryCostHUF = parseFloat(item.Price);
           const deliveryCostEUR = (deliveryCostHUF * exchangeRates.EUR).toFixed(2);
           const deliveryCostUSD = (deliveryCostHUF * exchangeRates.USD).toFixed(2);
-      
+
           // Use the selected currency to display the price
           const price =
             selectedCurrency === 'HUF'
@@ -128,6 +140,16 @@ export const History = () => {
       {!isLoading && history.length > 0 && <h1>History</h1>}
       {!isLoading && history.length > 0 ? (
         <div className="row">
+          <div className="dropdown text-end">
+            <button className="button button-primary dropdown-toggle currency-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              {selectedCurrency}
+            </button>
+            <ul className="dropdown-menu" aria-labelledby="currencyDropdown">
+              <li><a className="dropdown-item" onClick={() => handleCurrencyChange('HUF')}>HUF</a></li>
+              <li><a className="dropdown-item" onClick={() => handleCurrencyChange('EUR')}>EUR</a></li>
+              <li><a className="dropdown-item" onClick={() => handleCurrencyChange('USD')}>USD</a></li>
+            </ul>
+          </div>
           {history.map((item, index) => (
             <div className="col-md-4" key={index}>
               <div className="history-card">

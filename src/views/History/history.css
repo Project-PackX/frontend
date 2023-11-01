@@ -65,3 +65,11 @@
     text-decoration: none;
     max-width: 300px;
 }
+
+.currency-dropdown {
+    color: var(--black) !important;
+}
+
+.currency-dropdown:hover {
+    color: var(--purple) !important;
+}

@@ -50,11 +50,3 @@ li {
     width: 35px;
     height: 35px;
 }
-
-.currency-dropdown {
-    color: var(--gray) !important;
-}
-
-.currency-dropdown:hover {
-    color: var(--purple)
-}

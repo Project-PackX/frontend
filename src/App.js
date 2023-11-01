@@ -29,6 +29,7 @@ import { SuccessfulSend } from "./components/Slave/SuccessfulSend/SuccessfulSend
 
 import { CourierPackages } from "./views/Courier/CourierPackages/CourierPackages";
 import { CourierLockers } from "./views/Courier/CourierLockers/CourierLockers";
+import { Packages } from "./views/Courier/CourierLockers/Packages";
 
 function App() {
 
@@ -59,6 +60,7 @@ function App() {
           <Route exact path="/policy" element={<Policy />} />
           <Route exact path="/courier-packages" element={<CourierPackages />} />
           <Route exact path="/courier-lockers" element={<CourierLockers />} />
+          <Route exact path="/locker/packages/:id" element={<Packages />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
         <Footer />

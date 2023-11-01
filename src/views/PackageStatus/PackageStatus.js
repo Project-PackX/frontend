@@ -16,6 +16,17 @@ export const PackageStatus = () => {
     const [isLoading, setIsLoading] = useState(true);
     const { id } = useParams();
     const [exchangeRates, setExchangeRates] = useState(null); // State for exchange rates
+    const [selectedCurrency, setSelectedCurrency] = useState(localStorage.getItem("selectedCurrency") ?? "HUF"); // Default currency
+
+    useEffect(() => {
+        // Store the selected currency in local storage
+        localStorage.setItem('selectedCurrency', selectedCurrency);
+    }, [selectedCurrency]);
+
+    const handleCurrencyChange = (currency) => {
+        setSelectedCurrency(currency);
+        localStorage.setItem('selectedCurrency', currency);
+    };
 
     const getPackageStatus = (id) => {
         PackageDataService.get(id)
@@ -96,6 +107,16 @@ export const PackageStatus = () => {
         <div className="package-details container">
             <h2>{packageData.Status}</h2>
             <h3>{`${dayOfWeek}, ${formattedDate}`}</h3>
+            <div className="dropdown text-end">
+                <button className="button button-primary dropdown-toggle currency-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    {selectedCurrency}
+                </button>
+                <ul className="dropdown-menu" aria-labelledby="currencyDropdown">
+                    <li><a className="dropdown-item" onClick={() => handleCurrencyChange('HUF')}>HUF</a></li>
+                    <li><a className="dropdown-item" onClick={() => handleCurrencyChange('EUR')}>EUR</a></li>
+                    <li><a className="dropdown-item" onClick={() => handleCurrencyChange('USD')}>USD</a></li>
+                </ul>
+            </div>
             <div className="timeline">
                 {stages.map((stage, index) => (
                     <div key={index} className="state-images" style={{
@@ -125,16 +146,8 @@ export const PackageStatus = () => {
                         <td className="package-table-info">{packageData.Data.Size}</td>
                     </tr>
                     <tr>
-                        <td className="package-table-title">Price (HUF):</td>
-                        <td className="package-table-info">{hufPrice} HUF</td>
-                    </tr>
-                    <tr>
-                        <td className="package-table-title">Price (EUR):</td>
-                        <td className="package-table-info">{eurPrice} EUR</td>
-                    </tr>
-                    <tr>
-                        <td className="package-table-title">Price (USD):</td>
-                        <td className="package-table-info">{usdPrice} USD</td>
+                        <td className="package-table-title">Price:</td>
+                        <td className="package-table-info">{selectedCurrency === 'HUF' ? `${hufPrice} HUF` : selectedCurrency === 'EUR' ? `${eurPrice} EUR` : `${usdPrice} USD`}</td>
                     </tr>
                     <tr>
                         <td className="package-table-title">Est. delivery date:</td>

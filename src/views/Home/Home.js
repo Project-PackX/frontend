@@ -9,13 +9,14 @@ export const Home = () => {
     const [selectedLocker, setSelectedLocker] = useState(0);
     const [lockerOptions, setLockerOptions] = useState([]);
     const [, setSenderLockerAddress] = useState('');
+    const [selectedLockerForMap, setSelectedLockerForMap] = useState(0);
     const [formData, setFormData] = useState({
         senderLocker: 0,
         receiverLocker: 0,
     });
 
     const [showMap, setShowMap] = useState(false);
-    const [cost, setCost] = useState(0); // State to store the calculated cost
+    const [cost, setCost] = useState(0)
 
 
     const calculateCost = () => {
@@ -109,8 +110,8 @@ export const Home = () => {
     }, []);
 
     useEffect(() => {
-        if (selectedLocker > 0) {
-            const selectedLockerInfo = lockerOptions[selectedLocker - 1];
+        if (selectedLockerForMap > 0) {
+            const selectedLockerInfo = lockerOptions[selectedLockerForMap - 1];
             if (!selectedLockerInfo.coordinates) {
                 fetchCoordinates(selectedLockerInfo.label);
             }
@@ -256,10 +257,10 @@ export const Home = () => {
                         <label htmlFor="senderLocker" className="form-label">
                             Locations
                         </label>
-                        <select 
-                            name="senderLocker"
+                        <select
+                            name="senderLockerForMap"
                             className="form-select"
-                            value={formData.senderLocker}
+                            value={selectedLockerForMap}
                             onChange={(e) => handleLockerChange(e)}
                             style={{ maxWidth: '300px' }}
                         >
@@ -270,6 +271,7 @@ export const Home = () => {
                                 </option>
                             ))}
                         </select>
+
                     </div>
                 </div>
                 {/* Embed Google Map */}
@@ -299,9 +301,6 @@ export const Home = () => {
                         )}
                     </div>
                 </div>
-
-
-     
                 </div>
             </div>
         </main>

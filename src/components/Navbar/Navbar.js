@@ -9,9 +9,18 @@ export const Navbar = () => {
   const navigate = useNavigate();
   const { isLoggedIn, logout } = useAuth();
 
-  const access_level = decode(localStorage.getItem('token')).access_level
-  // const access_level = 1
-  console.log(access_level)
+  let access_level = 1; // Default access level
+
+  try {
+    const token = localStorage.getItem('token');
+    if (token) {
+      access_level = decode(token).access_level;
+    }
+  } catch (error) {
+    console.error("Error decoding token:", error);
+    // You can handle the error here, e.g., redirect the user to the login page.
+    // navigate('/login');
+  }
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">

@@ -109,7 +109,6 @@ export const History = () => {
   }, [lockerOptions, exchangeRates, selectedCurrency]);
 
   useEffect(() => {
-    console.log("selectedCurrency changed:", selectedCurrency);
     if (currentSelectedCurrency !== selectedCurrency) {
       // Update the state with the new selected currency
       setCurrentSelectedCurrency(selectedCurrency);

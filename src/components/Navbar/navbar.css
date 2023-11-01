@@ -5,8 +5,14 @@
     height: 100px;
 }
 
-.navbar-logo {
+.navbar-logo-user {
     width: 110px;
+    height: auto;
+}
+
+.navbar-logo-courier, .navbar-logo-admin {
+    width: 160px;
+    height: auto;
 }
 
 .nav-link {

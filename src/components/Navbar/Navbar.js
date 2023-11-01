@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {useAuth} from '../../context/auth';
+import decode from 'jwt-decode';
 
 import './navbar.css';
 
@@ -8,11 +9,25 @@ export const Navbar = () => {
   const navigate = useNavigate();
   const { isLoggedIn, logout } = useAuth();
 
+  const access_level = decode(localStorage.getItem('token')).access_level
+  // const access_level = 1
+  console.log(access_level)
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      <Link to="/" class="navbar-brand mx-5">
-        <img className="navbar-logo" src={require("../../assets/logos/packx_full_white.svg").default} alt="logo"/>
-      </Link>
+      {access_level === 1 ? (
+        <Link to="/" class="navbar-brand mx-5">
+          <img className="navbar-logo-user" src={require("../../assets/logos/packx_full_white.svg").default} alt="logo"/>
+        </Link>
+      ) : access_level === 2 ? (
+          <Link to="/" class="navbar-brand mx-5">
+            <img className="navbar-logo-courier" src={require("../../assets/logos/packx_full_white_courier.svg").default} alt="logo"/>
+          </Link>
+      ) : (
+          <Link to="/" class="navbar-brand mx-5">
+            <img className="navbar-logo-admin" src={require("../../assets/logos/packx_full_white_admin.svg").default} alt="logo"/>
+          </Link>
+      )}
       <button
         className="navbar-toggler"
         type="button"

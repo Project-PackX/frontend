@@ -5,11 +5,11 @@ class LockerDataService {
     token = localStorage.getItem('token');
 
     getAll() {
-        return http.get("/api/lockers/all");
+        return http.get("/lockers/all");
     }
 
     getPackages(id, token) {
-        return http.get(`/api/lockers/packages/${id}`, {
+        return http.get(`/lockers/packages/${id}`, {
             headers: {
                 Authorization: `${token}`
             }
@@ -17,7 +17,7 @@ class LockerDataService {
     }
 
     getFullness(id, token) {
-        return http.get(`/api/lockers/fullness/${id}`, {
+        return http.get(`/lockers/fullness/${id}`, {
             headers: {
                 Authorization: `${token}`
             }

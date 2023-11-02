@@ -58,11 +58,12 @@ const handleCurrencyChange = (currency) => {
           const senderLocker = lockerOptions.find((locker) => locker.id === senderLockerId);
           const receiverLocker = lockerOptions.find((locker) => locker.id === destinationLockerId);
 
-          const deliveryCostHUF = parseFloat(item.Price);
-
-          setDeliveryCost(parseFloat(item.Price));
-          setDeliveryCostEUR((deliveryCostHUF * exchangeRates.EUR).toFixed(2));
-          setDeliveryCostUSD((deliveryCostHUF * exchangeRates.USD).toFixed(2));
+          if (exchangeRates) {
+            const deliveryCostHUF = parseFloat(item.Price);
+            setDeliveryCost(deliveryCostHUF);
+            setDeliveryCostEUR((deliveryCostHUF * exchangeRates.EUR).toFixed(2));
+            setDeliveryCostUSD((deliveryCostHUF * exchangeRates.USD).toFixed(2));
+          }
 
           return {
             ...item,

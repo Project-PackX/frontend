@@ -119,9 +119,10 @@ export const PackageStatus = () => {
             </div>
             <div className="timeline">
                 {stages.map((stage, index) => (
-                    <div key={index} className="state-images" style={{
-                        border: index === stages.indexOf(currentState) ? '2px solid var(--purple)' : '2px solid var(--gray)'
-                    }}>
+                    <div
+                        key={index}
+                        className={`state-images ${stage === currentState ? 'current' : ''}`}
+                    >
                         {/* Render the SVG for the current stage and apply color conditionally */}
                         <img
                             src={getSvgForStage(stage)}

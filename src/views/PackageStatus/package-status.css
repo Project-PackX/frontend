@@ -81,11 +81,16 @@
     border-radius: 15px;
     margin: 0 1%;
     padding: 10px;
+    border: 2px solid var(--gray);
 }
 
 .state-image {
     width: 150px;
     height: 150px;
+}
+
+.state-images.current {
+    border: 3px solid var(--purple); /* Thicker border for the current state */
 }
 
 .loading {

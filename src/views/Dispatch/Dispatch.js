@@ -268,6 +268,7 @@ export const Dispatch = () => {
             return (
                 <div className="container">
                     <p>Please log in to access this feature.</p>
+                    <img className="error-image" src={require("../../assets/images/undraw_access_denied_re_awnf.svg").default} alt="user-data" />
                 </div>
             );
         }

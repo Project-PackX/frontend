@@ -226,20 +226,20 @@ export const Dispatch = () => {
     
         const handleSubmit = (e) => {
             e.preventDefault();
-    
+        
             if (!isRecaptchaVerified) {
                 setError("Please verify that you're a human.");
                 return;
             }
-    
+        
             if (formData.senderLocker === formData.receiverLocker) {
                 setError("Sender locker and receiver locker cannot be the same");
                 return;
             }
-    
+        
             const requestData = {
-                SenderLockerId: formData.senderLocker,
-                DestinationLockerId: formData.receiverLocker,
+                SenderLockerId: +formData.senderLocker, // Convert to uint
+                DestinationLockerId: +formData.receiverLocker, // Convert to uint
                 receiverName: formData.receiverName,
                 receiverEmail: formData.receiverEmail,
                 packageSize: formData.packageSize,
@@ -251,7 +251,7 @@ export const Dispatch = () => {
                 price: deliveryCost,
                 DeliveryDate: new Date(estDeliveryDate).toISOString(),
             };
-    
+        
             PackageDataService.new(requestData, localStorage.getItem("token"))
                 .then((response) => {
                     console.log("Package dispatched successfully");
@@ -260,7 +260,7 @@ export const Dispatch = () => {
                     console.error("Error while dispatching the package", error);
                     setError("Error while dispatching the package");
                 });
-    
+        
             navigate("/successful-send");
         };
     

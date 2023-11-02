@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from '../../context/auth';
+import UserDataService from '../../services/user';
 import decode from 'jwt-decode';
 import ReCaptchaWidget from '../../components/reCAPTCHA/reCAPTCHA';
 import './userdata.css';
@@ -23,16 +24,23 @@ export const UserData = () => {
 
     useEffect(() => {
         if (isLoggedIn) {
-
-                    setFormData({
-                        name: localStorage.getItem("name"),
-                        address: localStorage.getItem("address"),
-                        phone: localStorage.getItem("phone"),                        
-                        email: localStorage.getItem("email"),
-                    });
-
+          UserDataService.updateUser(decode(localStorage.getItem('token')).user_id,
+            localStorage.getItem('token'))
+            .then((response) => {
+              const userData = response.data;
+              setFormData({
+                name: userData.Name,
+                address: userData.Address,
+                phone: userData.Phone,
+                email: userData.Email,
+              });
+            })
+            .catch((error) => {
+              console.error('Error fetching user data:', error);
+            });
         }
-    }, [isLoggedIn]);
+      }, [isLoggedIn]);
+      
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -44,20 +52,31 @@ export const UserData = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
+    
         if (!isRecaptchaVerified) {
-            setError("Please verify that you're a human.");
-            return;
+          setError("Please verify that you're a human.");
+          return;
         }
-
+    
         // Create a JSON object to send to the server with updated data
         const updatedUserData = {
-            Name: formData.name,
-            Address: formData.address,
-            Phone: formData.phone,
-            Email: formData.email,
+          Name: formData.name,
+          Address: formData.address,
+          Phone: formData.phone,
+          Email: formData.email,
         };
-    };
+    
+        // Send the updated data to the server
+        UserDataService.updateUser(decode(localStorage.getItem('token')).user_id,
+        localStorage.getItem('token'), updatedUserData)
+          .then((response) => {
+            console.log('User data updated successfully', response.data);
+          })
+          .catch((error) => {
+            setError('Error updating user data. Please try again.');
+            console.error('Update user data error:', error);
+          });
+      };
 
     if (!isLoggedIn) {
         return (

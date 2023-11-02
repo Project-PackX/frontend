@@ -15,10 +15,7 @@ export const Dispatch = () => {
     const [error, setError] = useState("");
     const [estDeliveryDate, setEstDeliveryDate] = useState("");
     const [isAfterNoon, setIsAfterNoon] = useState(false);
-    const [exchangeRates, setExchangeRates] = useState(null);
-    const [deliveryCost, setDeliveryCost] = useState(0);
-    const [deliveryCostEUR, setDeliveryCostEUR] = useState(0);
-    const [deliveryCostUSD, setDeliveryCostUSD] = useState(0);
+    
     const [lockerOptions, setLockerOptions] = useState([]);
     const [senderLockerAddress, setSenderLockerAddress] = useState("");
     const [receiverLockerAddress, setReceiverLockerAddress] = useState("");
@@ -35,6 +32,11 @@ export const Dispatch = () => {
         deliveryDate: '',
         userId: decode(localStorage.getItem("token")).user_id
     });
+
+    const [exchangeRates, setExchangeRates] = useState(null);
+    const [deliveryCost, setDeliveryCost] = useState(0);
+    const [deliveryCostEUR, setDeliveryCostEUR] = useState(0);
+    const [deliveryCostUSD, setDeliveryCostUSD] = useState(0);
     const [selectedCurrency, setSelectedCurrency] = useState(localStorage.getItem("selectedCurrency") ?? "HUF");
     const [currentSelectedCurrency, setCurrentSelectedCurrency] = useState(selectedCurrency);
 
@@ -46,7 +48,6 @@ export const Dispatch = () => {
     const handleCurrencyChange = (currency) => {
         setSelectedCurrency(currency);
         localStorage.setItem('selectedCurrency', currency);
-        navigate(0);
     };
 
     useEffect(() => {

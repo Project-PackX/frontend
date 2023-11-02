@@ -251,16 +251,6 @@ export const Home = () => {
                     </div>
                 </div>
             </div>
-            // make an iframe
-            <iframe
-                title="map"
-                src="https://www.google.com/maps/embed?origin=mfe&pb=!1m3!2m1!1s47.238586,16.646826813129252!6i14!3m1!1sen!5m1!1sen"
-                width="100%"
-                height="450"
-                style={{ border: 0 }}
-                allowFullScreen=""
-                loading="lazy"
-            ></iframe>
             <div className="package-locations row col-12">
             <h1 className="title">Package point locations</h1>
                 <div className="container">

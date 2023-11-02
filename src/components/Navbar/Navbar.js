@@ -20,6 +20,8 @@ export const Navbar = () => {
     navigate('/login');
   }
 
+  localStorage.setItem('access_level', access_level);
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       {access_level === 1 ? (
@@ -109,11 +111,13 @@ export const Navbar = () => {
                       <p className='button-text mb-0'>Reset password</p>
                     </Link>
                   </li>
-                  <li>
-                    <Link className="dropdown-item" to="/deleteuser">
-                      <p className='button-text mb-0'>Delete account</p>
-                    </Link>
-                  </li>
+                  {access_level !== 2 && (
+                    <li>
+                      <Link className="dropdown-item" to="/deleteuser">
+                        <p className='button-text mb-0'>Delete account</p>
+                      </Link>
+                    </li>
+                  )}
                 </ul>
               </div>
             </li>

@@ -8,6 +8,8 @@ import './deleteuser.css';
 export const DeleteUser = () => {
     const { isLoggedIn } = useAuth();
     const navigate = useNavigate();
+    const access_level= localStorage.getItem('access_level');
+    console.log(access_level);
 
     const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
     const onRecaptchaChange = (isVerified) => {
@@ -55,6 +57,18 @@ export const DeleteUser = () => {
         };
     };
 
+    if (access_level !== 1 || access_level !== 3) {
+        return (
+            <div className="container">
+                <div className="d-flex justify-content-center align-items-center vh-100">
+                    <div className="text-center">
+                        <h1>You do not have permission to view this page.</h1>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     if (!isLoggedIn) {
         return (
             <div className="container">
@@ -66,6 +80,7 @@ export const DeleteUser = () => {
             </div>
         );
     }
+    
 
     const handleRecaptchaChange = (value) => {
         setIsRecaptchaVerified(!!value);

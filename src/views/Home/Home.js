@@ -29,7 +29,6 @@ export const Home = () => {
 
     useEffect(() => {
         calculateCost();
-        console.log(formData.senderLocker, formData.receiverLocker)
     }, [formData.senderLocker, formData.receiverLocker]);
 
     useEffect(() => {
@@ -60,23 +59,26 @@ export const Home = () => {
         const value = parseInt(e.target.value, 10);
         // Check if the selected location is different from the current one
         if (value !== selectedLocker) {
-            setSelectedLocker(value);
+            setSelectedLockerForMap(value);
             setShowMap(false); // Revert to false to show the loading again
         }
     };
 
     const fetchCoordinates = (address) => {
         const apiUrl = `https://geocode.maps.co/search?q=${address}`;
-
         fetch(apiUrl)
             .then((response) => response.json())
             .then((data) => {
                 if (data.length > 0) {
+                    console.log(data)
                     const latitude = data[0].lat;
                     const longitude = data[0].lon;
                     const updatedLockerOptions = [...lockerOptions];
-                    updatedLockerOptions[selectedLocker - 1].coordinates = { latitude, longitude };
+                    updatedLockerOptions[selectedLockerForMap - 1].coordinates = { latitude, longitude };
+                    console.log(updatedLockerOptions[selectedLockerForMap - 1])
                     setLockerOptions(updatedLockerOptions);
+                    console.log(`https://maps.google.com/maps?q=${lockerOptions[selectedLockerForMap - 1]?.coordinates?.latitude || 0},${lockerOptions[selectedLockerForMap - 1]?.coordinates?.longitude || 0}&hl=en&z=14&output=embed`)
+                    console.log(lockerOptions[selectedLockerForMap - 1])
                 }
             })
             .catch((error) => {
@@ -121,7 +123,7 @@ export const Home = () => {
             ...prevFormData,
             senderLocker: selectedLocker,
         }));
-    }, [selectedLocker, lockerOptions]);
+    }, [selectedLockerForMap, lockerOptions]);
 
     const calculateCO2= () => {
         let totalkm  = 5234569;
@@ -249,6 +251,16 @@ export const Home = () => {
                     </div>
                 </div>
             </div>
+            // make an iframe
+            <iframe
+                title="map"
+                src="https://www.google.com/maps/embed?origin=mfe&pb=!1m3!2m1!1s47.238586,16.646826813129252!6i14!3m1!1sen!5m1!1sen"
+                width="100%"
+                height="450"
+                style={{ border: 0 }}
+                allowFullScreen=""
+                loading="lazy"
+            ></iframe>
             <div className="package-locations row col-12">
             <h1 className="title">Package point locations</h1>
                 <div className="container">
@@ -277,24 +289,25 @@ export const Home = () => {
                 {/* Embed Google Map */}
                 <div className="checkrates-form form-container col-md-6 mt-5">
                     <div className="map-home">
-                        {selectedLocker !== 0 && (
+                        {selectedLockerForMap !== 0 && (
                             <div className="loading-logo">
                                 <img src={require("../../assets/loading/loading_trans.gif")} alt="loading" />
                             </div>
                         )}
-                        {selectedLocker > 0 && lockerOptions[selectedLocker - 1]?.coordinates && (
+                        {selectedLockerForMap > 0 && lockerOptions[selectedLockerForMap - 1]?.coordinates && (
                             <div className={`location-map ${showMap ? '' : 'hidden'}`}>
-                            <iframe
-                                title="Locker locations"
-                                width="100%"
-                                height="80%"
-                                style={{ border: 0, display: showMap ? 'block' : 'none' }}
-                                allowFullScreen
-                                src={`https://maps.google.com/maps?q=${lockerOptions[selectedLocker - 1]?.coordinates?.latitude || 0},${lockerOptions[selectedLocker - 1]?.coordinates?.longitude || 0}&hl=en&z=14&output=embed`}
-                            />
+                                <iframe
+                                    title="map"
+                                    src={`https://maps.google.com/maps?q=${lockerOptions[selectedLockerForMap - 1]?.coordinates?.latitude || 0},${lockerOptions[selectedLockerForMap - 1]?.coordinates?.longitude || 0}&hl=en&z=14&output=embed`}
+                                    width="100%"
+                                    height="450"
+                                    style={{ border: 0 }}
+                                    allowFullScreen=""
+                                    loading="lazy"
+                                ></iframe>
                         </div>
                         )}
-                        {selectedLocker === 0 && (
+                        {selectedLockerForMap === 0 && (
                             <div className="image-container">
                                 <img className="home-map-image" src={require("../../assets/images/undraw_current_location_re_j130.svg").default} alt="login" />
                             </div>

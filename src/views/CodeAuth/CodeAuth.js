@@ -10,7 +10,7 @@ export const CodeAuth = () => {
         email: '',
         code: '',
     });
-    const [error, setError] = useState(''); 
+    const [error, setError] = useState('');
 
     const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
     const onRecaptchaChange = (isVerified) => {
@@ -25,8 +25,7 @@ export const CodeAuth = () => {
         });
     };
 
-
-    const handleSubmit = (e) => {
+    const handleSendCode = (e) => {
         e.preventDefault();
 
         if (!isRecaptchaVerified) {
@@ -37,7 +36,19 @@ export const CodeAuth = () => {
         const requestData = {
             email: formData.email,
         };
-        
+
+        UserDataService.sendPasswordResetCode(requestData)
+            .then((response) => {
+                if (response.status === 200) {
+                    // Handle success, e.g., show a success message to the user
+                } else {
+                    setError(
+                        <div className="alert alert-danger">
+                            Failed to send the reset code. Please try again.
+                        </div>
+                    );
+                }
+            });
     };
 
     const handleAuthCode = (e) => {
@@ -47,14 +58,18 @@ export const CodeAuth = () => {
             code: formData.code,
         };
 
-        UserDataService.checkResetCode(requestData)
+        UserDataService.checkPasswordResetCode(requestData)
             .then((response) => {
                 if (response.status === 200) {
                     navigate('/resetpasswd');
                 } else {
-                    setError(<div className="alert alert-danger">The auth code you provided appears to be incorrect, or have already expired/been used. Please try again!</div>);
+                    setError(
+                        <div className="alert alert-danger">
+                            The authentication code you provided appears to be incorrect or has already expired/been used. Please try again.
+                        </div>
+                    );
                 }
-            })
+            });
     };
 
     return (
@@ -62,9 +77,11 @@ export const CodeAuth = () => {
             <div className="form-container col-md-6 mt-5">
                 <h1 className="codeauth-title">Password reset code authentication</h1>
                 {error && <div className="error-message">{error}</div>}
-                <form onSubmit={handleSubmit}>
-                <div className="mb-3">
-                        <label htmlFor="username" className="form-label">Email</label>
+                <form onSubmit={handleSendCode}>
+                    <div className="mb-3">
+                        <label htmlFor="email" className="form-label">
+                            Email
+                        </label>
                         <input
                             type="text"
                             className="form-input"
@@ -76,14 +93,15 @@ export const CodeAuth = () => {
                     </div>
 
                     <div>
-                    <ReCaptchaWidget onRecaptchaChange={onRecaptchaChange} />
+                        <ReCaptchaWidget onRecaptchaChange={onRecaptchaChange} />
                     </div>
 
                     <button type="submit" className="codeauth-btn">
                         Send
                     </button>
                 </form>
-                <form onSubmit={handleSubmit}>
+
+                <form onSubmit={handleAuthCode}>
                     <div className="mb-3">
                         <label htmlFor="code" className="form-label">
                             Enter code
@@ -92,10 +110,9 @@ export const CodeAuth = () => {
                             type="text"
                             className="form-input"
                             id="code"
-                            name="code"
                             required
                             value={formData.code}
-                            onChange={handleAuthCode}
+                            onChange={handleInputChange}
                         />
                     </div>
 
@@ -105,7 +122,11 @@ export const CodeAuth = () => {
                 </form>
             </div>
             <div className="col-md-6">
-                <img className="image" src={require("../../assets/images/undraw_two_factor_authentication_namy.svg").default} alt="codeauth" />
+                <img
+                    className="image"
+                    src={require("../../assets/images/undraw_two_factor_authentication_namy.svg").default}
+                    alt="codeauth"
+                />
             </div>
         </div>
     );

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import UserDataService from '../../services/user';
 import { useAuth } from '../../context/auth';
 import ReCaptchaWidget from '../../components/reCAPTCHA/reCAPTCHA';
@@ -7,7 +7,8 @@ import './resetpasswd.css';
 
 export const ResetPasswd = () => {
     const navigate = useNavigate();
-    const { isLoggedIn } = useAuth();
+    const { user, isLoggedIn } = useAuth(); // Get user information
+    const location = useLocation();
 
     const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
     const onRecaptchaChange = (isVerified) => {
@@ -18,7 +19,7 @@ export const ResetPasswd = () => {
         password: '',
         confirmPassword: '',
     });
-    const [error, setError] = useState(''); // Error state to display error message if resetpasswd fails
+    const [error, setError] = useState('');
 
     const handleInputChange = (e) => {
         const { id, value } = e.target;
@@ -32,7 +33,7 @@ export const ResetPasswd = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        
+
         if (!isRecaptchaVerified) {
             setError("Please verify that you're a human.");
             return;
@@ -43,36 +44,36 @@ export const ResetPasswd = () => {
             setPasswordsMatch(true);
 
             // Add your form submission logic here.
+            const requestData = {
+                email: user.email, // Use the email from the logged-in user
+                password: formData.password,
+            };
+
+            UserDataService.resetpasswd(requestData)
+                .then((response) => {
+                    if (response.status === 200) {
+                        // Handle success, e.g., show a success message to the user
+                    } else {
+                        setError("Please check your email and your new password again.");
+                    }
+                })
+                .catch((error) => {
+                    setError("An error occurred while resetting your password. Please try again.");
+                });
         } else {
             // Passwords do not match.
             setPasswordsMatch(false);
         }
-
-        // Create a JSON object to send to the server
-        const requestData = {
-            //Email: formData.email,
-            //Password: formData.password,
-        };
-
-        UserDataService.resetpasswd(requestData)
-            .then((response) => {
-                //To be implemented
-            })
-            .catch((error) => {
-                setError("Please check your email and your new password again.");
-            });
     };
 
-    const handleRecaptchaChange = (value) => {
-        setIsRecaptchaVerified(!!value);
-    };
-    
-    if (!isLoggedIn) {
+    if (!isLoggedIn && location.state?.referrer !== 'codeauth') {
         return (
             <div className="container">
                 <div className="d-flex justify-content-center align-items-center vh-100">
                     <div className="text-center">
-                        <h1>Please log in to access this feature.</h1>
+                        <h1>
+                            Access to this feature is restricted. Please log in and use the password reset code from the CodeAuth page.
+                        </h1>
                     </div>
                 </div>
             </div>
@@ -83,7 +84,9 @@ export const ResetPasswd = () => {
         <div className="resetpasswd container row col-12">
             <div className="form-container col-md-6 mt-5">
                 <h1 className="resetpasswd-title">Please enter your new login credentials</h1>
-                <p className="resetpasswd-subtitle">Make sure to always use a different password for security reasons.</p>
+                <p className="resetpasswd-subtitle">
+                    Make sure to always use a different password for security reasons.
+                </p>
                 {error && <div className="error-message">{error}</div>}
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3">
@@ -136,7 +139,7 @@ export const ResetPasswd = () => {
                     )}
 
                     <div>
-                    <ReCaptchaWidget onRecaptchaChange={onRecaptchaChange} />
+                        <ReCaptchaWidget onRecaptchaChange={onRecaptchaChange} />
                     </div>
 
                     <button type="submit" className="resetpasswd-btn">
@@ -145,7 +148,11 @@ export const ResetPasswd = () => {
                 </form>
             </div>
             <div className="col-md-6">
-                <img className="image" src={require("../../assets/images/undraw_secure_login_pdn4.svg").default} alt="resetpasswd" />
+                <img
+                    className="image"
+                    src={require("../../assets/images/undraw_secure_login_pdn4.svg").default}
+                    alt="resetpasswd"
+                />
             </div>
         </div>
     );

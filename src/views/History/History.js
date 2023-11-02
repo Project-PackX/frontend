@@ -7,25 +7,29 @@ import decode from 'jwt-decode';
 import './history.css';
 
 export const History = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const [history, setHistory] = useState([]);
   const { isLoggedIn } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const [lockerOptions, setLockerOptions] = useState([]);
+
+
   const [exchangeRates, setExchangeRates] = useState(null);
-  const [selectedCurrency, setSelectedCurrency] = useState(localStorage.getItem("selectedCurrency") ?? "HUF"); // Default currency
+  const [deliveryCost, setDeliveryCost] = useState(0);
+  const [deliveryCostEUR, setDeliveryCostEUR] = useState(0);
+  const [deliveryCostUSD, setDeliveryCostUSD] = useState(0);
+  const [selectedCurrency, setSelectedCurrency] = useState(localStorage.getItem("selectedCurrency") ?? "HUF");
   const [currentSelectedCurrency, setCurrentSelectedCurrency] = useState(selectedCurrency);
 
   useEffect(() => {
     // Store the selected currency in local storage
     localStorage.setItem('selectedCurrency', selectedCurrency);
-  }, [selectedCurrency]);
+}, [selectedCurrency]);
 
-  const handleCurrencyChange = (currency) => {
+const handleCurrencyChange = (currency) => {
     setSelectedCurrency(currency);
     localStorage.setItem('selectedCurrency', currency);
-    navigate(0);
-  };
+};
 
   const loadLockerOptions = () => {
     LockerDataService.getAll()
@@ -41,7 +45,7 @@ export const History = () => {
       });
   };
 
-  const loadHistory = () => {
+  const loadHistory = (d) => {
     UserDataService.history(
       decode(localStorage.getItem('token')).user_id,
       localStorage.getItem('token')
@@ -55,16 +59,10 @@ export const History = () => {
           const receiverLocker = lockerOptions.find((locker) => locker.id === destinationLockerId);
 
           const deliveryCostHUF = parseFloat(item.Price);
-          const deliveryCostEUR = (deliveryCostHUF * exchangeRates.EUR).toFixed(2);
-          const deliveryCostUSD = (deliveryCostHUF * exchangeRates.USD).toFixed(2);
 
-          // Use the selected currency to display the price
-          const price =
-            selectedCurrency === 'HUF'
-              ? deliveryCostHUF
-              : selectedCurrency === 'EUR'
-              ? deliveryCostEUR
-              : deliveryCostUSD;
+          setDeliveryCost(parseFloat(item.Price));
+          setDeliveryCostEUR((deliveryCostHUF * exchangeRates.EUR).toFixed(2));
+          setDeliveryCostUSD((deliveryCostHUF * exchangeRates.USD).toFixed(2));
 
           return {
             ...item,
@@ -72,7 +70,6 @@ export const History = () => {
             DeliveryDate: new Date(item.DeliveryDate).toLocaleString(),
             SenderLockerLabel: senderLocker ? senderLocker.label : "N/A",
             ReceiverLockerLabel: receiverLocker ? receiverLocker.label : "N/A",
-            Price: `${price} ${selectedCurrency}`,
           };
         });
 
@@ -84,6 +81,19 @@ export const History = () => {
         setIsLoading(false);
       });
   };
+
+  const displayPrice = () => {
+    switch (selectedCurrency) {
+        case "HUF":
+            return `${deliveryCost} HUF`;
+        case "EUR":
+            return `${deliveryCostEUR} EUR`;
+            case "USD":
+                return `${deliveryCostUSD} USD`;
+            default:
+                return `${deliveryCost} HUF`;
+        }
+    };
 
   // Fetch exchange rates when the component mounts
   const fetchExchangeRates = () => {
@@ -101,26 +111,12 @@ export const History = () => {
     loadLockerOptions();
     fetchExchangeRates();
   }, []);
-
+  
   useEffect(() => {
-    if (lockerOptions.length > 0) {
+    if (loadLockerOptions && fetchExchangeRates) {
       loadHistory();
     }
   }, [lockerOptions, exchangeRates, selectedCurrency]);
-
-  useEffect(() => {
-    if (currentSelectedCurrency !== selectedCurrency) {
-      // Update the state with the new selected currency
-      setCurrentSelectedCurrency(selectedCurrency);
-
-      // Clear the history data and set isLoading to true
-      setHistory([]);
-      setIsLoading(true);
-
-      // Reload the history data
-      loadHistory();
-    }
-  }, [selectedCurrency]);
 
   if (!isLoggedIn) {
     return (
@@ -157,7 +153,7 @@ export const History = () => {
                   <p className="card-text">Created At: {item.CreatedAt}</p>
                   <p className='card-text'>Sender Locker Address: {item.SenderLockerLabel}</p>
                   <p className='card-text'>Destination Locker Address: {item.ReceiverLockerLabel}</p>
-                  <p className="card-text">Price: {item.Price}</p>
+                  <p className="card-text">Price: {displayPrice()}</p>
                   <p className="card-text">Delivery Date: {item.DeliveryDate}</p>
                   <p className="card-text">Note: {item.Note}</p>
                 </div>

@@ -1,7 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './about.css';
 
 export const About = () => {
+
+    const [clickCount, setClickCount] = useState(0);
+    const maxClickCount = 5;
+
+    const handleImageClick = () => {
+        if (clickCount < maxClickCount) {
+            setClickCount(clickCount + 1);
+        }
+    };
     return (
         <main>
             <div className="container about-container">
@@ -67,9 +76,13 @@ export const About = () => {
                     </div>
                 </div>
                 <div className="about-content-center">
-                <img src={require("../../assets/logos/sze.png")} alt="sze" className="about-img-sze" />
+                <img
+                        src={clickCount < maxClickCount ? require("../../assets/logos/sze.png") : require("../../assets/images/sze_2.webp")}
+                        alt="sze"
+                        className="about-img-sze"
+                        onClick={handleImageClick}
+                    />
                 </div>
-
             </div>
 
         </main>

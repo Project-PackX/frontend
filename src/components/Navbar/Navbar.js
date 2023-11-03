@@ -77,6 +77,31 @@ export const Navbar = () => {
                     </ul>
                   </div>
               ) : null}
+              {access_level === 3 ? (
+                  <div className="nav-item dropdown">
+                    <a className="nav-link dropdown-toggle mx-2" href="#" id="navbarDarkDropdownMenuLinkDelivery" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                      Admin
+                    </a>
+                    <ul className="dropdown-menu dropdown-menu-light">
+                      <li>
+                        <Link className="dropdown-item" to="/admin-users">
+                          <p className='button-text mb-0'>Users</p>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link className="dropdown-item" to="/admin-lockers">
+                          <p className='button-text mb-0'>Lockers</p>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link className="dropdown-item" to="/admin-packages">
+                          <p className='button-text mb-0'>Packages</p>
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
+              ) : null}
               <div className="nav-item dropdown">
                 <a className="nav-link dropdown-toggle mx-2" href="#" id="navbarDarkDropdownMenuLinkDelivery" role="button"
                    data-bs-toggle="dropdown" aria-expanded="false">

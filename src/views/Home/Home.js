@@ -6,6 +6,7 @@ import './home.css';
 
 export const Home = () => {
     const { isLoggedIn } = useAuth();
+    const access_level = parseInt(localStorage.getItem('access_level'));
     const [selectedLocker, setSelectedLocker] = useState(0);
     const [lockerOptions, setLockerOptions] = useState([]);
     const [, setSenderLockerAddress] = useState('');
@@ -138,9 +139,19 @@ export const Home = () => {
                         <h1>Make your life easier <br/> with <span>PackX!</span></h1>
                         <p>Send and receive packages was never quicker and easier.</p>
                         {isLoggedIn ? (
-                            <Link to="/dispatch" className="login-btn py-3 px-4 my-5">Get Started</Link>
+                            access_level === 2 ? (
+                                <Link to="/courier-lockers" className="login-btn py-3 px-4 my-5">
+                                    Get Started
+                                </Link>
+                            ) : (
+                                <Link to="/dispatch" className="login-btn py-3 px-4 my-5">
+                                    Get Started
+                                </Link>
+                            )
                         ) : (
-                            <Link to="/register" className="login-btn py-3 px-4 my-5">Get Started</Link>
+                            <Link to="/register" className="login-btn py-3 px-4 my-5">
+                                Get Started
+                            </Link>
                         )}
                     </div>
                     <div className="hero-image col-md-6">

@@ -496,7 +496,7 @@ export const Dispatch = () => {
                 </div>
                 <div className="mb-3 form-check">
                     <input
-                        type="checkbox"
+                        type="radio"
                         className="form-check-input"
                         id="isNormal"
                         checked={!formData.isRapid && !formData.isUltraRapid && !formData.isSameDay}
@@ -506,7 +506,7 @@ export const Dispatch = () => {
                 </div>
                 <div className="mb-3 form-check">
                     <input
-                        type="checkbox"
+                        type="radio"
                         className="form-check-input"
                         id="isRapid"
                         checked={formData.isRapid}
@@ -516,7 +516,7 @@ export const Dispatch = () => {
                 </div>
                 <div className="mb-3 form-check">
                     <input
-                        type="checkbox"
+                        type="radio"
                         className="form-check-input"
                         id="isUltraRapid"
                         checked={formData.isUltraRapid}
@@ -526,7 +526,7 @@ export const Dispatch = () => {
                 </div>
                 <div className="mb-3 form-check">
                     <input
-                        type="checkbox"
+                        type="radio"
                         className="form-check-input"
                         id="isSameDay"
                         checked={formData.isSameDay}

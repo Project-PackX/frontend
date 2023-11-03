@@ -202,17 +202,23 @@ export const Dispatch = () => {
             deliveryCostHUF += 1590;
         }
     
-        const senderLocker = findLockerAddress(formData.senderLocker);
-        const receiverLocker = findLockerAddress(formData.receiverLocker);
+        // Check if both senderLocker and receiverLocker are selected
+        if (formData.senderLocker && formData.receiverLocker) {
+            const senderLocker = findLockerAddress(formData.senderLocker);
+            const receiverLocker = findLockerAddress(formData.receiverLocker);
     
-        if (senderLocker && receiverLocker) {
-            if (senderLocker.split(" - ")[0] === receiverLocker.split(" - ")[0]) {
-                deliveryCostHUF += 390;
+            if (senderLocker && receiverLocker) {
+                if (senderLocker.split(" - ")[0] === receiverLocker.split(" - ")[0]) {
+                    deliveryCostHUF += 390;
+                } else {
+                    deliveryCostHUF += 790;
+                }
             } else {
-                deliveryCostHUF += 790;
+                console.error("Invalid sender or receiver locker selection");
+                return;
             }
         } else {
-            console.error("Invalid sender or receiver locker selection");
+            console.error("Sender and receiver lockers must be selected");
             return;
         }
     
@@ -226,8 +232,7 @@ export const Dispatch = () => {
             setDeliveryCostEUR(deliveryCostEUR);
             setDeliveryCostUSD(deliveryCostUSD);
         }
-    };
-    
+    };    
 
     const displayPrice = () => {
         switch (selectedCurrency) {
@@ -320,62 +325,63 @@ export const Dispatch = () => {
                 </div>
     
                 <form onSubmit={handleSubmit}>
-                    <div className="mb-3 d-flex align-items-center">
-                        <div style={{ flex: 1 }}>
-                            <label htmlFor="senderLocker" className="form-label">Sender Locker</label>
-                            <select
-                                name="senderLocker"
-                                className="form-select"
-                                value={formData.senderLocker}
-                                onChange={handleInputChange}
-                            >
-                                <option value="0">Select Sender Locker</option>
-                                {lockerOptions.map((option) => (
-                                    <option key={option.id} value={option.id}>
-                                        {option.label}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                        {senderLockerAddress && (
-                            <a
-                                href={"https://www.google.com/maps/place/" + senderLockerAddress}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="btn submit-btn map-btn"
-                            >
-                                Map
-                            </a>
-                        )}
+                <div className="mb-3 d-flex align-items-center">
+                    <div style={{ flex: 1 }}>
+                        <label htmlFor="senderLocker" className="form-label">Sender Locker</label>
+                        <select
+                            name="senderLocker"
+                            className="form-select"
+                            value={formData.senderLocker}
+                            onChange={handleInputChange}
+                        >
+                            <option value="0">Select Sender Locker</option>
+                            {lockerOptions.map((option) => (
+                                <option key={option.id} value={option.id}>
+                                    {option.label}
+                                </option>
+                            ))}
+                        </select>
                     </div>
-                    <div className="mb-3 d-flex align-items-center">
-                        <div style={{ flex: 1 }}>
-                            <label htmlFor="receiverLocker" className="form-label">Receiver Locker</label>
-                            <select
-                                name="receiverLocker"
-                                className="form-select"
-                                value={formData.receiverLocker}
-                                onChange={handleInputChange}
-                            >
-                                <option value="0">Select Receiver Locker</option>
-                                {lockerOptions.map((option) => (
-                                    <option key={option.id} value={option.id}>
-                                        {option.label}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                        {receiverLockerAddress && (
-                            <a
-                                href={"https://www.google.com/maps/place/" + receiverLockerAddress}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="btn submit-btn map-btn"
-                            >
-                                Map
-                            </a>
-                        )}
+                    {senderLockerAddress && (
+                        <a
+                            href={"https://www.google.com/maps/place/" + senderLockerAddress}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="btn submit-btn map-btn"
+                        >
+                            Map
+                        </a>
+                    )}
+                </div>
+
+                <div className="mb-3 d-flex align-items-center">
+                    <div style={{ flex: 1 }}>
+                        <label htmlFor="receiverLocker" className="form-label">Receiver Locker</label>
+                        <select
+                            name="receiverLocker"
+                            className="form-select"
+                            value={formData.receiverLocker}
+                            onChange={handleInputChange}
+                        >
+                            <option value="0">Select Receiver Locker</option>
+                            {lockerOptions.map((option) => (
+                                <option key={option.id} value={option.id}>
+                                    {option.label}
+                                </option>
+                            ))}
+                        </select>
                     </div>
+                    {receiverLockerAddress && (
+                        <a
+                            href={"https://www.google.com/maps/place/" + receiverLockerAddress}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="btn submit-btn map-btn"
+                        >
+                            Map
+                        </a>
+                    )}
+                </div>
     
                     <div className="mb-3">
                         <label htmlFor="receiverName" className="form-label">Receiver Name</label>

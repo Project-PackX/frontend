@@ -84,7 +84,8 @@ export const Dispatch = () => {
         let isRapidValue = false;
         let isUltraRapidValue = false;
         let isSameDayValue = false;
-
+        let isNormalValue = false;
+    
         if (checkboxName === 'isRapid' && !formData.isRapid) {
             isRapidValue = true;
             setIsAfterNoon(false);
@@ -97,15 +98,20 @@ export const Dispatch = () => {
             } else {
                 setIsAfterNoon(true);
             }
+        } else if (checkboxName === 'isNormal') {
+            isNormalValue = true;
+            setIsAfterNoon(false);
         }
-
+    
         setFormData((prevData) => ({
             ...prevData,
             isRapid: isRapidValue,
             isUltraRapid: isUltraRapidValue,
             isSameDay: isSameDayValue,
+            isNormal: isNormalValue,
         }));
     };
+    
 
     const isMorning = () => {
         const currentHour = new Date().getHours();
@@ -170,7 +176,7 @@ export const Dispatch = () => {
 
     const calculatePrice = () => {
         let deliveryCostHUF = 0;
-
+    
         switch (formData.packageSize) {
             case "small":
                 deliveryCostHUF += 390;
@@ -185,7 +191,7 @@ export const Dispatch = () => {
                 console.error("Invalid package size");
                 return;
         }
-
+    
         if (formData.isRapid) {
             deliveryCostHUF += 890;
         }
@@ -195,10 +201,10 @@ export const Dispatch = () => {
         if (formData.isSameDay) {
             deliveryCostHUF += 1590;
         }
-
+    
         const senderLocker = findLockerAddress(formData.senderLocker);
         const receiverLocker = findLockerAddress(formData.receiverLocker);
-
+    
         if (senderLocker && receiverLocker) {
             if (senderLocker.split(" - ")[0] === receiverLocker.split(" - ")[0]) {
                 deliveryCostHUF += 390;
@@ -209,9 +215,9 @@ export const Dispatch = () => {
             console.error("Invalid sender or receiver locker selection");
             return;
         }
-
+    
         setDeliveryCost(deliveryCostHUF);
-
+    
         if (exchangeRates) {
             const exchangeRateHUFToEUR = exchangeRates.EUR;
             const exchangeRateHUFToUSD = exchangeRates.USD;
@@ -221,6 +227,7 @@ export const Dispatch = () => {
             setDeliveryCostUSD(deliveryCostUSD);
         }
     };
+    
 
     const displayPrice = () => {
         switch (selectedCurrency) {
@@ -480,6 +487,16 @@ export const Dispatch = () => {
                         value={formData.note}
                         onChange={handleInputChange}
                     />
+                </div>
+                <div className="mb-3 form-check">
+                    <input
+                        type="checkbox"
+                        className="form-check-input"
+                        id="isNormal"
+                        checked={!formData.isRapid && !formData.isUltraRapid && !formData.isSameDay}
+                        onChange={() => handleCheckboxChange('isNormal')}
+                    />
+                    <label className="form-check-label" htmlFor="isNormal">Normal delivery</label>
                 </div>
                 <div className="mb-3 form-check">
                     <input

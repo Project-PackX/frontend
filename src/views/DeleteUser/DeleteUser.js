@@ -100,52 +100,66 @@ export const DeleteUser = () => {
                 <p className="delete-subtitle">Please note that this process cannot be undone.</p>
                 {error && <div className="error-message">{error}</div>}
                 <form onSubmit={handleSubmit}>
-                <div className="mb-3">
-                    <label htmlFor="password" className="form-label">
-                        New password
-                    </label>
-                    <div className="password-input-container">
-                        <input
-                            type={showPassword.password ? 'text' : 'password'}
-                            className="form-input"
-                            id="password"
-                            name="password"
-                            required
-                            value={formData.password}
-                            onChange={handleInputChange}
-                        />
-                        <button
-                            type="button"
-                            onClick={() => handleShowPassword('password')}
-                            className="show-password-button"
-                        >
-                            <img className="showpass-image" src={require("../../assets/icons/showpass.png")} alt="showpass" />
-                        </button>
+                    <div className="mb-3">
+                            <label htmlFor="email" className="form-label">
+                                Email
+                            </label>
+                            <input
+                                type="text"
+                                className="form-input"
+                                id="email"
+                                name="email"
+                                required
+                                value={formData.email}
+                                onChange={handleInputChange}
+                            />
+                        </div>
+                    <div className="mb-3">
+                        <label htmlFor="password" className="form-label">
+                            Password
+                        </label>
+                        <div className="password-input-container">
+                            <input
+                                type={showPassword.password ? 'text' : 'password'}
+                                className="form-input"
+                                id="password"
+                                name="password"
+                                required
+                                value={formData.password}
+                                onChange={handleInputChange}
+                            />
+                            <button
+                                type="button"
+                                onClick={() => handleShowPassword('password')}
+                                className="show-password-button"
+                            >
+                                <img className="showpass-image" src={require("../../assets/icons/showpass.png")} alt="showpass" />
+                            </button>
+                        </div>
                     </div>
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="confirmPassword" className="form-label">
-                        Confirm new password
-                    </label>
-                    <div className="password-input-container">
-                        <input
-                            type={showPassword.confirmPassword ? 'text' : 'password'}
-                            className="form-input"
-                            id="confirmPassword"
-                            name="confirmPassword"
-                            required
-                            value={formData.confirmPassword}
-                            onChange={handleInputChange}
-                        />
-                        <button
-                            type="button"
-                            onClick={() => handleShowPassword('confirmPassword')}
-                            className="show-password-button"
-                        >
-                            <img className="showpass-image" src={require("../../assets/icons/showpass.png")} alt="showpass" />
-                        </button>
+                    <div className="mb-3">
+                        <label htmlFor="confirmPassword" className="form-label">
+                            Confirm password
+                        </label>
+                        <div className="password-input-container">
+                            <input
+                                type={showPassword.confirmPassword ? 'text' : 'password'}
+                                className="form-input"
+                                id="confirmPassword"
+                                name="confirmPassword"
+                                required
+                                value={formData.confirmPassword}
+                                onChange={handleInputChange}
+                            />
+                            <button
+                                type="button"
+                                onClick={() => handleShowPassword('confirmPassword')}
+                                className="show-password-button"
+                            >
+                                <img className="showpass-image" src={require("../../assets/icons/showpass.png")} alt="showpass" />
+                            </button>
+                        </div>
                     </div>
-                </div>
 
                     {passwordsMatch === false && (
                         <div className="alert alert-danger">Passwords do not match.</div>

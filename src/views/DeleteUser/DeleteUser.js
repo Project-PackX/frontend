@@ -8,7 +8,7 @@ import './deleteuser.css';
 export const DeleteUser = () => {
     const { isLoggedIn } = useAuth();
     const navigate = useNavigate();
-    const access_level= localStorage.getItem('access_level');
+    const access_level= parseInt(localStorage.getItem('access_level'));
     console.log(access_level);
 
     const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
@@ -57,7 +57,7 @@ export const DeleteUser = () => {
         };
     };
 
-    if (access_level !== 1 || access_level !== 3) {
+    if (access_level === 2) {
         return (
             <div className="container">
                 <div className="d-flex justify-content-center align-items-center vh-100">

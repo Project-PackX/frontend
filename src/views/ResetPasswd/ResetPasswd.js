@@ -1,19 +1,21 @@
-import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import React, { useState, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import UserDataService from '../../services/user';
 import { useAuth } from '../../context/auth';
 import ReCaptchaWidget from '../../components/reCAPTCHA/reCAPTCHA';
 import './resetpasswd.css';
-import {NoPermission} from "../../components/Slave/NoPermission/NoPermission";
+import { NoPermission } from "../../components/Slave/NoPermission/NoPermission";
 
 export const ResetPasswd = () => {
-    const navigate = useNavigate();
-    const { user, isLoggedIn } = useAuth(); // Get user information
+    const { isLoggedIn } = useAuth();
     const location = useLocation();
 
     const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
     const onRecaptchaChange = (isVerified) => {
         setIsRecaptchaVerified(isVerified);
+        if (isVerified) {
+            setError('');
+        }
     };
     const [formData, setFormData] = useState({
         email: '',
@@ -34,21 +36,25 @@ export const ResetPasswd = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
+    
         if (!isRecaptchaVerified) {
             setError("Please verify that you're a human.");
             return;
         }
-
+    
         if (formData.password === formData.confirmPassword) {
             setPasswordsMatch(true);
+            setError(''); // Clear the error message when the passwords match
             const requestData = {
-                email: user.email,
+                email: formData.email,
                 password: formData.password,
+                password_again: formData.confirmPassword,
             };
-            UserDataService.resetpasswd(requestData)
+            UserDataService.resetPassword(requestData)
                 .then((response) => {
                     if (response.status === 200) {
+                        // Password reset was successful
+                        // You can navigate to another page or show a success message here
                     } else {
                         setError("Please check your email and your new password again.");
                     }
@@ -59,6 +65,25 @@ export const ResetPasswd = () => {
         } else {
             setPasswordsMatch(false);
         }
+    };
+
+    const [showPassword, setShowPassword] = useState({ password: false, confirmPassword: false });
+    const timers = useRef({ password: null, confirmPassword: null });
+
+    const handleShowPassword = (field) => {
+        const newShowPassword = { ...showPassword };
+        newShowPassword[field] = true;
+        setShowPassword(newShowPassword);
+
+        if (timers.current[field]) {
+            clearTimeout(timers.current[field]);
+        }
+
+        timers.current[field] = setTimeout(() => {
+            const newShowPassword = { ...showPassword };
+            newShowPassword[field] = false;
+            setShowPassword(newShowPassword);
+        }, 300);
     };
 
     if (!isLoggedIn && location.state?.referrer !== 'codeauth') {
@@ -74,7 +99,11 @@ export const ResetPasswd = () => {
                 <p className="resetpasswd-subtitle">
                     Make sure to always use a different password for security reasons.
                 </p>
-                {error && <div className="error-message">{error}</div>}
+                {error && (
+                    <div className="alert alert-danger">
+                        {error}
+                    </div>
+                )}
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3">
                         <label htmlFor="email" className="form-label">
@@ -90,13 +119,13 @@ export const ResetPasswd = () => {
                             onChange={handleInputChange}
                         />
                     </div>
-
                     <div className="mb-3">
-                        <label htmlFor="password" className="form-label">
-                            New password
-                        </label>
+                    <label htmlFor="password" className="form-label">
+                        New password
+                    </label>
+                    <div className="password-input-container">
                         <input
-                            type="password"
+                            type={showPassword.password ? 'text' : 'password'}
                             className="form-input"
                             id="password"
                             name="password"
@@ -104,14 +133,22 @@ export const ResetPasswd = () => {
                             value={formData.password}
                             onChange={handleInputChange}
                         />
+                        <button
+                            type="button"
+                            onClick={() => handleShowPassword('password')}
+                            className="show-password-button"
+                        >
+                            <img className="showpass-image" src={require("../../assets/icons/showpass.png")} alt="showpass" />
+                        </button>
                     </div>
-
-                    <div className="mb-3">
-                        <label htmlFor="confirmPassword" className="form-label">
-                            Confirm new password
-                        </label>
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="confirmPassword" className="form-label">
+                        Confirm new password
+                    </label>
+                    <div className="password-input-container">
                         <input
-                            type="password"
+                            type={showPassword.confirmPassword ? 'text' : 'password'}
                             className="form-input"
                             id="confirmPassword"
                             name="confirmPassword"
@@ -119,19 +156,27 @@ export const ResetPasswd = () => {
                             value={formData.confirmPassword}
                             onChange={handleInputChange}
                         />
+                        <button
+                            type="button"
+                            onClick={() => handleShowPassword('confirmPassword')}
+                            className="show-password-button"
+                        >
+                            <img className="showpass-image" src={require("../../assets/icons/showpass.png")} alt="showpass" />
+                        </button>
                     </div>
+                </div>
 
-                    {passwordsMatch === false && (
-                        <div className="alert alert-danger">Passwords do not match.</div>
-                    )}
+                {passwordsMatch === false && (
+                    <div className="alert alert-danger">Passwords do not match.</div>
+                )}
 
-                    <div>
-                        <ReCaptchaWidget onRecaptchaChange={onRecaptchaChange} />
-                    </div>
+                <div>
+                    <ReCaptchaWidget onRecaptchaChange={onRecaptchaChange} />
+                </div>
 
-                    <button type="submit" className="resetpasswd-btn">
-                        Save
-                    </button>
+                <button type="submit" className="resetpasswd-btn">
+                    Save
+                </button>
                 </form>
             </div>
             <div className="col-md-6">

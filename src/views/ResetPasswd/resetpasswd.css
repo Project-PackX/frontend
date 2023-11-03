@@ -64,3 +64,21 @@
     font-size: 12px;
     margin-top: 10px;
 }
+
+.password-input-container {
+    display: flex;
+    align-items: center;
+}
+
+.show-password-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    margin-left: 10px;
+}
+
+.show-password-button img {
+    width: 17px; 
+    height: 17px;
+}

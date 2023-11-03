@@ -41,10 +41,14 @@ class UserDataService {
         });
     }
 
-    resetPassword(email) {
+    resetPassword(email, password, password_again) {
         return http.post("/users/password-reset", null, {
             headers: {
                 email: email
+            },
+            body: {
+                password: password,
+                password_again: password_again
             }
         });
     }

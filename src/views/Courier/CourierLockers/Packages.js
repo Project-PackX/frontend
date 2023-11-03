@@ -26,7 +26,7 @@ export const Packages = () => {
     return (
         <div>
             <h1>Packages</h1>
-            <Link to="/courier-lockers">Back to lockers</Link>
+            <Link className="btn submit-btn" to="/courier-lockers">Back to lockers</Link>
             <table className="table">
                 <thead>
                     <tr>

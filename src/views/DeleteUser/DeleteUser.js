@@ -1,14 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
+import React, { useState, useRef } from 'react';
 import { useAuth } from '../../context/auth';
-import decode from 'jwt-decode';
 import ReCaptchaWidget from '../../components/reCAPTCHA/reCAPTCHA';
 import './deleteuser.css';
 import {NoPermission} from "../../components/Slave/NoPermission/NoPermission";
 
 export const DeleteUser = () => {
     const { isLoggedIn } = useAuth();
-    const navigate = useNavigate();
     const access_level= parseInt(localStorage.getItem('access_level'));
     console.log(access_level);
 
@@ -52,10 +49,29 @@ export const DeleteUser = () => {
         }
 
         // Create a JSON object to send to the server with updated data
-        const updatedUserData = {
+        const UserData = {
             Email: formData.email,
             Password: formData.password,
         };
+    };
+
+    const [showPassword, setShowPassword] = useState({ password: false, confirmPassword: false });
+    const timers = useRef({ password: null, confirmPassword: null });
+
+    const handleShowPassword = (field) => {
+        const newShowPassword = { ...showPassword };
+        newShowPassword[field] = true;
+        setShowPassword(newShowPassword);
+
+        if (timers.current[field]) {
+            clearTimeout(timers.current[field]);
+        }
+
+        timers.current[field] = setTimeout(() => {
+            const newShowPassword = { ...showPassword };
+            newShowPassword[field] = false;
+            setShowPassword(newShowPassword);
+        }, 300);
     };
 
     if (access_level === 2) {
@@ -77,11 +93,6 @@ export const DeleteUser = () => {
         );
     }
     
-
-    const handleRecaptchaChange = (value) => {
-        setIsRecaptchaVerified(!!value);
-    };
-
     return (
         <div className="delete container row col-12">
             <div className="form-container col-md-6 mt-5">
@@ -90,45 +101,64 @@ export const DeleteUser = () => {
                 {error && <div className="error-message">{error}</div>}
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3">
-                        <label htmlFor="email" className="form-label">
-                            Email
-                        </label>
-                        <input
-                            type="text"
-                            className="form-input"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleInputChange}
-                        />
-                    </div>
-
+                            <label htmlFor="email" className="form-label">
+                                Email
+                            </label>
+                            <input
+                                type="text"
+                                className="form-input"
+                                id="email"
+                                name="email"
+                                required
+                                value={formData.email}
+                                onChange={handleInputChange}
+                            />
+                        </div>
                     <div className="mb-3">
                         <label htmlFor="password" className="form-label">
                             Password
                         </label>
-                        <input
-                            type="text"
-                            className="form-input"
-                            name="password"
-                            required
-                            value={formData.password}
-                            onChange={handleInputChange}
-                        />
+                        <div className="password-input-container">
+                            <input
+                                type={showPassword.password ? 'text' : 'password'}
+                                className="form-input"
+                                id="password"
+                                name="password"
+                                required
+                                value={formData.password}
+                                onChange={handleInputChange}
+                            />
+                            <button
+                                type="button"
+                                onClick={() => handleShowPassword('password')}
+                                className="show-password-button"
+                            >
+                                <img className="showpass-image" src={require("../../assets/icons/showpass.png")} alt="showpass" />
+                            </button>
+                        </div>
                     </div>
-
                     <div className="mb-3">
                         <label htmlFor="confirmPassword" className="form-label">
                             Confirm password
                         </label>
-                        <input
-                            type="password"
-                            className="form-input"
-                            id="confirmPassword"
-                            name="confirmPassword"
-                            required
-                            value={formData.confirmPassword}
-                            onChange={handleInputChange}
-                        />
+                        <div className="password-input-container">
+                            <input
+                                type={showPassword.confirmPassword ? 'text' : 'password'}
+                                className="form-input"
+                                id="confirmPassword"
+                                name="confirmPassword"
+                                required
+                                value={formData.confirmPassword}
+                                onChange={handleInputChange}
+                            />
+                            <button
+                                type="button"
+                                onClick={() => handleShowPassword('confirmPassword')}
+                                className="show-password-button"
+                            >
+                                <img className="showpass-image" src={require("../../assets/icons/showpass.png")} alt="showpass" />
+                            </button>
+                        </div>
                     </div>
 
                     {passwordsMatch === false && (

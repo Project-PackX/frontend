@@ -26,7 +26,7 @@ class UserDataService {
     }
 
     sendPasswordResetCode(email) {
-        return http.get("/api/users/password-reset-code", {
+        return http.get("/users/password-reset-code", {
             headers: {
                 email: email
             }
@@ -34,7 +34,7 @@ class UserDataService {
     }
 
     checkPasswordResetCode(code) {
-        return http.post("/api/users/check-code", null, {
+        return http.post("/users/check-code", null, {
             headers: {
                 code: code
             }
@@ -42,7 +42,7 @@ class UserDataService {
     }
 
     resetPassword(email) {
-        return http.post("/api/users/password-reset", null, {
+        return http.post("/users/password-reset", null, {
             headers: {
                 email: email
             }
@@ -50,7 +50,7 @@ class UserDataService {
     }
 
     updateUser(id, token, userData) {
-        return http.put(`/api/users/${id}`, userData, {
+        return http.put(`/users/${id}`, userData, {
             headers: {
                 Authorization: `${token}`
             }

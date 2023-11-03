@@ -1,0 +1,17 @@
+/* CourierLockers.css */
+.green-bar {
+    background-color: green;
+}
+
+.yellow-bar {
+    background-color: orange;
+}
+
+.red-bar {
+    background-color: red;
+}
+
+.progress-bar {
+    color: white; /* Text color on the progress bar */
+    text-align: center; /* Center the text within the progress bar */
+}

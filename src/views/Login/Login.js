@@ -10,7 +10,7 @@ import {AlreadyLoggedIn} from "../../components/Slave/AlreadyLoggedIn/AlreadyLog
 export const Login = () => {
 
     const navigate = useNavigate();
-    const { login } = useAuth(); 
+    const { login, isLoggedIn } = useAuth();
 
     const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
     const onRecaptchaChange = (isVerified) => {
@@ -63,10 +63,8 @@ export const Login = () => {
             });
     };
     
-    if (login) {
-        return (
-            <AlreadyLoggedIn />
-          );
+    if (isLoggedIn) {
+        return <AlreadyLoggedIn />;
     }
 
     return (

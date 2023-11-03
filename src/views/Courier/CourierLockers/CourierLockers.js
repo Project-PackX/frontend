@@ -42,12 +42,11 @@ export function CourierLockers() {
     };
 
     return (
-        <div>
-            <h1>Courier Lockers</h1>
-            <div className="history-container">
+        <div className="container my-5">
+                <h1>Lockers</h1>
                 <div className="row">
                 {lockers.map((locker, index) => (
-                    <div className="col-md-4" key={index}>
+                    <div className="col-md-6" key={index}>
                         <div className="history-card">
                             <div className="history-item">
                                 <h5 className="card-title">Locker ID: {locker.ID}</h5>
@@ -85,7 +84,6 @@ export function CourierLockers() {
                         </div>
                     </div>
                 ))}
-                </div>
             </div>
         </div>
     );

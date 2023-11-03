@@ -1,4 +1,4 @@
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import LockerDataService from "../../../services/locker";
 import {useEffect, useState} from "react";
 
@@ -26,6 +26,7 @@ export const Packages = () => {
     return (
         <div>
             <h1>Packages</h1>
+            <Link to="/courier-lockers">Back to lockers</Link>
             <table className="table">
                 <thead>
                     <tr>

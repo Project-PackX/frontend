@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import UserDataService from '../../services/user';
 import { useAuth } from '../../context/auth';
 import ReCaptchaWidget from '../../components/reCAPTCHA/reCAPTCHA';
@@ -7,8 +7,7 @@ import './resetpasswd.css';
 import { NoPermission } from "../../components/Slave/NoPermission/NoPermission";
 
 export const ResetPasswd = () => {
-    const navigate = useNavigate();
-    const { user, isLoggedIn } = useAuth();
+    const { isLoggedIn } = useAuth();
     const location = useLocation();
 
     const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);

@@ -40,19 +40,14 @@ export const ResetPasswd = () => {
         }
 
         if (formData.password === formData.confirmPassword) {
-            // Passwords match, you can proceed with form submission or other actions.
             setPasswordsMatch(true);
-
-            // Add your form submission logic here.
             const requestData = {
-                email: user.email, // Use the email from the logged-in user
+                email: user.email,
                 password: formData.password,
             };
-
             UserDataService.resetpasswd(requestData)
                 .then((response) => {
                     if (response.status === 200) {
-                        // Handle success, e.g., show a success message to the user
                     } else {
                         setError("Please check your email and your new password again.");
                     }
@@ -61,7 +56,6 @@ export const ResetPasswd = () => {
                     setError("An error occurred while resetting your password. Please try again.");
                 });
         } else {
-            // Passwords do not match.
             setPasswordsMatch(false);
         }
     };

@@ -22,6 +22,11 @@ export const Navbar = () => {
 
   localStorage.setItem('access_level', access_level);
 
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       {access_level === 1 ? (
@@ -140,15 +145,10 @@ export const Navbar = () => {
           </li>
           <li className="nav-item">
             {isLoggedIn ? (
-              <button
-                className="button button-primary"
-                onClick={() => logout()}
-              >
-                <Link className="logout-button" to="/">
-                <p className='button-text mb-0'>Log out, {localStorage.getItem("name")}</p>
-                </Link>
-              </button>
-            ) : (
+                <button className="button button-primary" onClick={handleLogout}>
+                  <p className='button-text mb-0'>Log out, {localStorage.getItem("name")}</p>
+                </button>
+              ) : (
               <Link className="button button-primary" to="/login">
                 <p className='button-text mb-0'>Log in</p>
               </Link>

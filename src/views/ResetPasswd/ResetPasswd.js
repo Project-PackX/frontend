@@ -3,12 +3,12 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import UserDataService from '../../services/user';
 import { useAuth } from '../../context/auth';
 import ReCaptchaWidget from '../../components/reCAPTCHA/reCAPTCHA';
-import './resetpasswd.css'; // Import your custom styles for resetpasswd
+import './resetpasswd.css';
 import { NoPermission } from "../../components/Slave/NoPermission/NoPermission";
 
 export const ResetPasswd = () => {
     const navigate = useNavigate();
-    const { user, isLoggedIn } = useAuth(); // Get user information
+    const { user, isLoggedIn } = useAuth();
     const location = useLocation();
 
     const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
@@ -37,22 +37,25 @@ export const ResetPasswd = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
+    
         if (!isRecaptchaVerified) {
             setError("Please verify that you're a human.");
             return;
         }
-
+    
         if (formData.password === formData.confirmPassword) {
             setPasswordsMatch(true);
+            setError(''); // Clear the error message when the passwords match
             const requestData = {
                 email: formData.email,
                 password: formData.password,
                 password_again: formData.confirmPassword,
             };
             UserDataService.resetPassword(requestData)
-            .then((response) => {
+                .then((response) => {
                     if (response.status === 200) {
+                        // Password reset was successful
+                        // You can navigate to another page or show a success message here
                     } else {
                         setError("Please check your email and your new password again.");
                     }

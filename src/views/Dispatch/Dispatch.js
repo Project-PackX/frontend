@@ -15,30 +15,41 @@ export const Dispatch = () => {
     const [error, setError] = useState("");
     const [estDeliveryDate, setEstDeliveryDate] = useState("");
     const [isAfterNoon, setIsAfterNoon] = useState(false);
-    
-    const [lockerOptions, setLockerOptions] = useState([]);
-    const [senderLockerAddress, setSenderLockerAddress] = useState("");
-    const [receiverLockerAddress, setReceiverLockerAddress] = useState("");
-    const [formData, setFormData] = useState({
-        senderLocker: 0,
-        receiverLocker: 0,
-        receiverName: '',
-        receiverEmail: '',
-        packageSize: 'small',
-        isRapid: false,
-        isUltraRapid: false,
-        isSameDay: false,
-        note: '',
-        deliveryDate: '',
-        userId: decode(localStorage.getItem("token")).user_id
-    });
 
     const [exchangeRates, setExchangeRates] = useState(null);
     const [deliveryCost, setDeliveryCost] = useState(0);
     const [deliveryCostEUR, setDeliveryCostEUR] = useState(0);
     const [deliveryCostUSD, setDeliveryCostUSD] = useState(0);
     const [selectedCurrency, setSelectedCurrency] = useState(localStorage.getItem("selectedCurrency") ?? "HUF");
-    const [currentSelectedCurrency, setCurrentSelectedCurrency] = useState(selectedCurrency);
+    const [tokenDecodingError, setTokenDecodingError] = useState(false);
+    
+    const [lockerOptions, setLockerOptions] = useState([]);
+    const [senderLockerAddress, setSenderLockerAddress] = useState("");
+    const [receiverLockerAddress, setReceiverLockerAddress] = useState("");
+    const [formData, setFormData] = useState(() => {
+        try {
+            const userId = decode(localStorage.getItem("token")).user_id;
+            setTokenDecodingError(false);
+            return {
+                senderLocker: 0,
+                receiverLocker: 0,
+                receiverName: '',
+                receiverEmail: '',
+                packageSize: 'small',
+                isRapid: false,
+                isUltraRapid: false,
+                isSameDay: false,
+                note: '',
+                deliveryDate: '',
+                userId: userId
+            };
+        } catch (error) {
+            console.error("Error decoding token:", error);
+            setTokenDecodingError(true);
+            return {
+            };
+        }
+    });
 
     useEffect(() => {
         // Store the selected currency in local storage
@@ -264,14 +275,18 @@ export const Dispatch = () => {
             navigate("/successful-send");
         };
     
-        if (!isLoggedIn) {
+        if (!isLoggedIn || tokenDecodingError) {
             return (
-                <div className="container">
-                    <p>Please log in to access this feature.</p>
+              <div className="container">
+                <div className="d-flex justify-content-center align-items-center vh-100">
+                  <div className="text-center">
+                    <h1>Please log in to access this feature.</h1>
                     <img className="error-image" src={require("../../assets/images/undraw_access_denied_re_awnf.svg").default} alt="user-data" />
+                  </div>
                 </div>
+              </div>
             );
-        }
+          }
     
         return (
             <div className="container my-5 col-md-8">

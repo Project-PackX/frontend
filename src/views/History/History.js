@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import UserDataService from '../../services/user';
 import LockerDataService from '../../services/locker';
 import { useAuth } from '../../context/auth';
@@ -7,19 +7,17 @@ import decode from 'jwt-decode';
 import './history.css';
 
 export const History = () => {
-  const navigate = useNavigate();
   const [history, setHistory] = useState([]);
   const { isLoggedIn } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const [lockerOptions, setLockerOptions] = useState([]);
-
 
   const [exchangeRates, setExchangeRates] = useState(null);
   const [deliveryCost, setDeliveryCost] = useState(0);
   const [deliveryCostEUR, setDeliveryCostEUR] = useState(0);
   const [deliveryCostUSD, setDeliveryCostUSD] = useState(0);
   const [selectedCurrency, setSelectedCurrency] = useState(localStorage.getItem("selectedCurrency") ?? "HUF");
-  const [currentSelectedCurrency, setCurrentSelectedCurrency] = useState(selectedCurrency);
+  const [tokenDecodingError, setTokenDecodingError] = useState(false);
 
   useEffect(() => {
     // Store the selected currency in local storage
@@ -46,41 +44,46 @@ const handleCurrencyChange = (currency) => {
   };
 
   const loadHistory = (d) => {
-    UserDataService.history(
-      decode(localStorage.getItem('token')).user_id,
-      localStorage.getItem('token')
-    )
-      .then((response) => {
-        const formattedHistory = response.data.map((item) => {
-          const senderLockerId = parseInt(item.SenderLockerId);
-          const destinationLockerId = parseInt(item.DestinationLockerId);
+    try {
+      UserDataService.history(
+        decode(localStorage.getItem('token')).user_id,
+        localStorage.getItem('token')
+      )
+        .then((response) => {
+          const formattedHistory = response.data.map((item) => {
+            const senderLockerId = parseInt(item.SenderLockerId);
+            const destinationLockerId = parseInt(item.DestinationLockerId);
 
-          const senderLocker = lockerOptions.find((locker) => locker.id === senderLockerId);
-          const receiverLocker = lockerOptions.find((locker) => locker.id === destinationLockerId);
+            const senderLocker = lockerOptions.find((locker) => locker.id === senderLockerId);
+            const receiverLocker = lockerOptions.find((locker) => locker.id === destinationLockerId);
 
-          if (exchangeRates) {
-            const deliveryCostHUF = parseFloat(item.Price);
-            setDeliveryCost(deliveryCostHUF);
-            setDeliveryCostEUR((deliveryCostHUF * exchangeRates.EUR).toFixed(2));
-            setDeliveryCostUSD((deliveryCostHUF * exchangeRates.USD).toFixed(2));
-          }
+            if (exchangeRates) {
+              const deliveryCostHUF = parseFloat(item.Price);
+              setDeliveryCost(deliveryCostHUF);
+              setDeliveryCostEUR((deliveryCostHUF * exchangeRates.EUR).toFixed(2));
+              setDeliveryCostUSD((deliveryCostHUF * exchangeRates.USD).toFixed(2));
+            }
 
-          return {
-            ...item,
-            CreatedAt: new Date(item.CreatedAt).toLocaleString(),
-            DeliveryDate: new Date(item.DeliveryDate).toLocaleString(),
-            SenderLockerLabel: senderLocker ? senderLocker.label : "N/A",
-            ReceiverLockerLabel: receiverLocker ? receiverLocker.label : "N/A",
-          };
+            return {
+              ...item,
+              CreatedAt: new Date(item.CreatedAt).toLocaleString(),
+              DeliveryDate: new Date(item.DeliveryDate).toLocaleString(),
+              SenderLockerLabel: senderLocker ? senderLocker.label : "N/A",
+              ReceiverLockerLabel: receiverLocker ? receiverLocker.label : "N/A",
+            };
+          });
+
+          setHistory(formattedHistory);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          console.error('Error while loading history', error);
+          setIsLoading(false);
         });
-
-        setHistory(formattedHistory);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error('Error while loading history', error);
-        setIsLoading(false);
-      });
+    } catch (error) {
+      console.error('Error decoding the token', error);
+      setTokenDecodingError(true);
+    }
   };
 
   const displayPrice = () => {
@@ -119,7 +122,7 @@ const handleCurrencyChange = (currency) => {
     }
   }, [lockerOptions, exchangeRates, selectedCurrency]);
 
-  if (!isLoggedIn) {
+  if (!isLoggedIn || tokenDecodingError) {
     return (
       <div className="container">
         <div className="d-flex justify-content-center align-items-center vh-100">

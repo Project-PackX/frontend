@@ -12,11 +12,13 @@
 }
 
 .progress {
-    height: 30px;
+    height: 22px;
     border-radius: 25px;
+    margin-top: 25px;
 }
 
 .progress-bar {
     color: white; /* Text color on the progress bar */
     text-align: center; /* Center the text within the progress bar */
+    font-weight: bold; /* Make the text bold */
 }

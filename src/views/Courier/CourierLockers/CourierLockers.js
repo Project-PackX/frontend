@@ -52,7 +52,7 @@ export function CourierLockers() {
                                 <h5 className="card-title">Locker ID: {locker.ID}</h5>
                                 <p className="card-text">City: {locker.City}</p>
                                 <p className='card-text'>Locker Address: {locker.Address}</p>
-                                <p className="card-text">Capacity: {locker.Capacity}</p>
+                                <p className="card-text">Capacity: {Math.ceil(locker.Capacity * (fullness[locker.ID - 1] / 100))} / {locker.Capacity}</p>
                                 <div className="progress">
                                     <div
                                         className={`progress-bar ${getProgressBarColorClass(fullness[locker.ID - 1])}`}

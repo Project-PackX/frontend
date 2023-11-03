@@ -429,7 +429,6 @@ export const Dispatch = () => {
                                             className="img-fluid small"
                                         />
                                         <p className="mb-0">Small</p>
-                                        <p className="mb-1">Max size: 20x20x20</p>
                                     </div>
                                 </label>
                             </div>
@@ -454,7 +453,6 @@ export const Dispatch = () => {
                                             className="img-fluid medium"
                                         />
                                         <p className="mb-0">Medium</p>
-                                        <p className="mb-1">Max size: 50x50x50</p>
                                     </div>
                                 </label>
                             </div>
@@ -479,11 +477,15 @@ export const Dispatch = () => {
                                             className="img-fluid large"
                                         />
                                         <p className="mb-0">Large</p>
-                                        <p className="mb-1">Max size: 100x100x100</p>
                                     </div>
                                 </label>
                             </div>
                         </div>
+                        {formData.packageSize && (
+                            <p className="package-size">
+                                <strong>Package Size:</strong> {formData.packageSize === 'small' ? 'Max size: 20x20x20' : formData.packageSize === 'medium' ? 'Max size: 50x50x50' : 'Max size: 100x100x100'} centimeters
+                            </p>
+                        )}
                     </div>
                     <div className="mb-3">
                     <label htmlFor="note" className="form-label">Note</label>

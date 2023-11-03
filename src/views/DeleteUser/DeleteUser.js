@@ -4,6 +4,7 @@ import { useAuth } from '../../context/auth';
 import decode from 'jwt-decode';
 import ReCaptchaWidget from '../../components/reCAPTCHA/reCAPTCHA';
 import './deleteuser.css';
+import {NoPermission} from "../../components/Slave/NoPermission/NoPermission";
 
 export const DeleteUser = () => {
     const { isLoggedIn } = useAuth();
@@ -72,14 +73,7 @@ export const DeleteUser = () => {
 
     if (!isLoggedIn) {
         return (
-            <div className="container">
-                <div className="d-flex justify-content-center align-items-center vh-100">
-                    <div className="text-center">
-                        <h1>Please log in to access this feature.</h1>
-                        <img className="error-image" src={require("../../assets/images/undraw_access_denied_re_awnf.svg").default} alt="user-data" />
-                    </div>
-                </div>
-            </div>
+            <NoPermission />
         );
     }
     

@@ -4,6 +4,7 @@ import UserDataService from '../../services/user';
 import { useAuth } from '../../context/auth';
 import ReCaptchaWidget from '../../components/reCAPTCHA/reCAPTCHA';
 import './resetpasswd.css';
+import {NoPermission} from "../../components/Slave/NoPermission/NoPermission";
 
 export const ResetPasswd = () => {
     const navigate = useNavigate();
@@ -62,15 +63,7 @@ export const ResetPasswd = () => {
 
     if (!isLoggedIn && location.state?.referrer !== 'codeauth') {
         return (
-            <div className="container">
-                <div className="d-flex justify-content-center align-items-center vh-100">
-                    <div className="text-center">
-                        <h1>
-                            Access to this feature is restricted. Please log in and use the password reset code from the CodeAuth page.
-                        </h1>
-                    </div>
-                </div>
-            </div>
+            <NoPermission />
         );
     }
 

@@ -5,6 +5,7 @@ import LockerDataService from '../../services/locker';
 import { useAuth } from '../../context/auth';
 import decode from 'jwt-decode';
 import './history.css';
+import {NoPermission} from "../../components/Slave/NoPermission/NoPermission";
 
 export const History = () => {
   const [history, setHistory] = useState([]);
@@ -124,14 +125,7 @@ const handleCurrencyChange = (currency) => {
 
   if (!isLoggedIn || tokenDecodingError) {
     return (
-      <div className="container">
-        <div className="d-flex justify-content-center align-items-center vh-100">
-          <div className="text-center">
-            <h1>Please log in to access this feature.</h1>
-            <img className="error-image" src={require("../../assets/images/undraw_access_denied_re_awnf.svg").default} alt="user-data" />
-          </div>
-        </div>
-      </div>
+      <NoPermission />
     );
   }
 

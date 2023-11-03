@@ -6,6 +6,7 @@ import PackageDataService from '../../services/package';
 import decode from 'jwt-decode';
 import ReCaptchaWidget from '../../components/reCAPTCHA/reCAPTCHA';
 import "./dispatch.css"
+import {NoPermission} from "../../components/Slave/NoPermission/NoPermission";
 
 export const Dispatch = () => {
     const { isLoggedIn } = useAuth();
@@ -289,14 +290,7 @@ export const Dispatch = () => {
     
         if (!isLoggedIn || tokenDecodingError) {
             return (
-              <div className="container">
-                <div className="d-flex justify-content-center align-items-center vh-100">
-                  <div className="text-center">
-                    <h1>Please log in to access this feature.</h1>
-                    <img className="error-image" src={require("../../assets/images/undraw_access_denied_re_awnf.svg").default} alt="user-data" />
-                  </div>
-                </div>
-              </div>
+              <NoPermission />
             );
           }
     

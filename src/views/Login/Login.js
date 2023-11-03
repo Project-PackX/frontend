@@ -4,11 +4,13 @@ import UserDataService from '../../services/user';
 import { useAuth } from '../../context/auth';
 import ReCaptchaWidget from '../../components/reCAPTCHA/reCAPTCHA';
 import './login.css';
+import {AlreadyLoggedIn} from "../../components/Slave/AlreadyLoggedIn/AlreadyLoggedIn";
+
 
 export const Login = () => {
 
     const navigate = useNavigate();
-    const { login } = useAuth(); // Access the login function from the authentication context
+    const { login } = useAuth(); 
 
     const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
     const onRecaptchaChange = (isVerified) => {
@@ -60,6 +62,12 @@ export const Login = () => {
                 setError("Error while logging in. Please check your email and password.");
             });
     };
+    
+    if (login) {
+        return (
+            <AlreadyLoggedIn />
+          );
+    }
 
     return (
         <div className="login container row col-12">

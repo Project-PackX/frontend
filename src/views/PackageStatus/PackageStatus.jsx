@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import PackageDataService from '../../services/package.js';
-import { Loading } from '../../components/Loading/Loading.js';
+import { Loading } from '../../components/Loading/Loading.jsx';
 import './package-status.css';
 
 // Import your SVGs here (replace these with your SVGs)

@@ -24,23 +24,15 @@ export const UserData = () => {
 
     useEffect(() => {
         if (isLoggedIn) {
-          UserDataService.updateUser(decode(localStorage.getItem('token')).user_id,
-            localStorage.getItem('token'))
-            .then((response) => {
-              const userData = response.data;
-              setFormData({
-                name: userData.Name,
-                address: userData.Address,
-                phone: userData.Phone,
-                email: userData.Email,
-              });
-            })
-            .catch((error) => {
-              console.error('Error fetching user data:', error);
-            });
+          setFormData({
+            name: localStorage.getItem('name'),
+            address: localStorage.getItem('address'),
+            phone: localStorage.getItem('phone'),
+            email: localStorage.getItem('email'),
+          });
         }
       }, [isLoggedIn]);
-      
+
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -71,6 +63,10 @@ export const UserData = () => {
         localStorage.getItem('token'), updatedUserData)
           .then((response) => {
             console.log('User data updated successfully', response.data);
+            localStorage.setItem('name', response.data.name);
+            localStorage.setItem('address', response.data.address);
+            localStorage.setItem('phone', response.data.phone);
+            localStorage.setItem('email', response.data.email);
           })
           .catch((error) => {
             setError('Error updating user data. Please try again.');

@@ -50,6 +50,8 @@ export const Login = () => {
                 localStorage.setItem("token", response.data.token)
                 localStorage.setItem("name", response.data.name)
                 localStorage.setItem("email", response.data.email)
+                localStorage.setItem("address", response.data.address)
+                localStorage.setItem("phone", response.data.phone)
                 login(); // Call the login function from the authentication context
                 navigate("/")
                 console.log("user logged in successfully", response.data.token);

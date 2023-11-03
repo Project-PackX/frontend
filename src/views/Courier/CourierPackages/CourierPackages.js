@@ -2,10 +2,14 @@ import React, { useState, useEffect } from "react";
 import PackageService from "../../../services/package";
 import decode from "jwt-decode";
 import {Link} from "react-router-dom";
+import {useAuth} from "../../../context/auth";
+import {NoPermission} from "../../../components/Slave/NoPermission/NoPermission";
 
 export function CourierPackages() {
     const token = localStorage.getItem('token');
     const user_id = 0; // You can use the decoded user ID from the token if needed.
+
+    const { isLoggedIn } = useAuth();
 
     const [packages, setPackages] = useState([]);
     const [statuses, setStatuses] = useState([]);
@@ -37,6 +41,12 @@ export function CourierPackages() {
                     console.log(e);
                 });
         }
+    }
+
+    if (!isLoggedIn) {
+        return (
+            <NoPermission />
+        );
     }
 
     return (

@@ -3,8 +3,12 @@ import { Link } from "react-router-dom";
 import LockerDataService from "../../../services/locker";
 
 import "./courierlockers.css";
+import {NoPermission} from "../../../components/Slave/NoPermission/NoPermission";
+import {useAuth} from "../../../context/auth";
 
 export function CourierLockers() {
+
+    const { isLoggedIn } = useAuth();
 
     const [lockers, setLockers] = useState([]);
     const [fullness, setFullness] = useState([]);
@@ -81,6 +85,12 @@ export function CourierLockers() {
             width: percentage + "%",
         };
     };
+
+    if (!isLoggedIn) {
+        return (
+            <NoPermission />
+        );
+    }
 
     return (
         <div className="container my-5">

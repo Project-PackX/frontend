@@ -1,8 +1,12 @@
 import {Link, useParams} from "react-router-dom";
 import LockerDataService from "../../../services/locker";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
+import {NoPermission} from "../../../components/Slave/NoPermission/NoPermission";
+import {useAuth} from "../../../context/auth";
 
 export const Packages = () => {
+
+    const { isLoggedIn } = useAuth();
 
     const { id } = useParams();
     const [packages, setPackages] = useState([]);
@@ -22,6 +26,12 @@ export const Packages = () => {
     useEffect(() => {
         getLockerPackages();
     }, []);
+
+    if (!isLoggedIn) {
+        return (
+            <NoPermission />
+        );
+    }
 
     return (
         <div>

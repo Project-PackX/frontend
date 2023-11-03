@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import PackageService from "../../../services/package";
-import decode from "jwt-decode";
 import {Link} from "react-router-dom";
 import {useAuth} from "../../../context/auth";
 import {NoPermission} from "../../../components/Slave/NoPermission/NoPermission";

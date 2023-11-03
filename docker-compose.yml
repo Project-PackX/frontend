@@ -1,0 +1,16 @@
+---
+version: "3.8"
+services:
+  packx-frontend:
+    container_name: packx-frontend
+    image: ghcr.io/project-packx/backend
+    build: .
+    ports:
+      - 3000:80
+    networks:
+      - packx-frontend
+    restart: unless-stopped
+
+networks:
+  packx-frontend:
+    name: packx-frontend

@@ -4,7 +4,7 @@ import "./alreadyloggedin.css";
 
 export const AlreadyLoggedIn = () => {
     return (
-        <div className="container no-permission">
+        <div className="container already-logged-in">
             <div className="d-flex justify-content-center align-items-center">
                 <div className="text-center">
                     <h1>You have already logged in</h1>

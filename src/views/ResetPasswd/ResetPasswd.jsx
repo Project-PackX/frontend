@@ -126,7 +126,7 @@ export const ResetPasswd = () => {
                 onChange={handleInputChange}
               />
               <button type="button" onClick={() => handleShowPassword("password")} className="show-password-button">
-                <img className="showpass-image" src={"../../assets/icons/showpass.png"} alt="showpass" />
+                <img className="showpass-image" src="assets/icons/showpass.png" alt="showpass" />
               </button>
             </div>
           </div>
@@ -145,7 +145,7 @@ export const ResetPasswd = () => {
                 onChange={handleInputChange}
               />
               <button type="button" onClick={() => handleShowPassword("confirmPassword")} className="show-password-button">
-                <img className="showpass-image" src={"../../assets/icons/showpass.png"} alt="showpass" />
+                <img className="showpass-image" src="assets/icons/showpass.png" alt="showpass" />
               </button>
             </div>
           </div>
@@ -162,7 +162,7 @@ export const ResetPasswd = () => {
         </form>
       </div>
       <div className="col-md-6">
-        <img className="image" src={"../../assets/images/undraw_secure_login_pdn4.svg".default} alt="resetpasswd" />
+        <img className="image" src="assets/images/undraw_secure_login_pdn4.svg" alt="resetpasswd" />
       </div>
     </div>
   );

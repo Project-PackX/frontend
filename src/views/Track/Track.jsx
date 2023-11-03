@@ -32,7 +32,7 @@ export const Track = () => {
             }}
           >
             <div className="input-with-icon">
-              <img src={"../../assets/icons/search.png"} alt="track" className="search-icon" />
+              <img src="assets/icons/search.png" alt="track" className="search-icon" />
               <input
                 type="text"
                 value={packageID}
@@ -51,7 +51,7 @@ export const Track = () => {
         className="col-md-6"
         style={{ width: "400px", height: "400px", overflow: "hidden", borderRadius: "50%", position: "relative" }}
       >
-        <img className="track-image" src={"../../assets/images/track_background.gif"} alt="login" />
+        <img className="track-image" src="assets/images/track_background.gif" alt="login" />
       </div>
     </div>
   );

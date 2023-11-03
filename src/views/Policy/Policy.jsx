@@ -8,7 +8,7 @@ export const Policy = () => {
         <strong>Terms and Conditions</strong>
       </h1>
       <div className="policy-picture">
-        <img className="" src={"../../assets/logos/pack_norm_black.svg".default} alt="login" />
+        <img className="" src="assets/logos/pack_norm_black.svg" alt="login" />
       </div>
       <h2>
         <strong>Welcome to PackX!</strong>

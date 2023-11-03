@@ -51,7 +51,7 @@ export const Contact = () => {
                 />
               ) : (
                 <div className="loading-logo-contact">
-                  <img src={"../../assets/loading/loading_trans.gif"} alt="loading" />
+                  <img src="assets/loading/loading_trans.gif" alt="loading" />
                 </div>
               )}
             </div>

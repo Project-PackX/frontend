@@ -173,12 +173,12 @@ export const History = () => {
               </div>
             </div>
           ))}
-          {history.length % 3 !== 0 && <img src={"../../assets/images/undraw_file_searching_re_3evy.svg".default} alt="history" />}
+          {history.length % 3 !== 0 && <img src="assets/images/undraw_file_searching_re_3evy.svg" alt="history" />}
         </div>
       ) : null}
       {!isLoading && history.length === 0 && (
         <div className="no-history">
-          <img src={"../../assets/images/undraw_void_-3-ggu.svg".default} alt="login" />
+          <img src="assets/images/undraw_void_-3-ggu.svg" alt="login" />
           <h1>You have not sent any package with us yet.</h1>
           <Link to="/dispatch" className="history-btn">
             Send now

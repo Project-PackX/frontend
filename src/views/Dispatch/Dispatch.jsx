@@ -425,7 +425,7 @@ export const Dispatch = () => {
                   onChange={handleInputChange}
                 />
                 <div className="text-center">
-                  <img src={"../../assets/icons/box.svg".default} alt="Small Package" className="img-fluid small" />
+                  <img src="assets/icons/box.svg" alt="Small Package" className="img-fluid small" />
                   <p className="mb-0">Small</p>
                 </div>
               </label>
@@ -441,7 +441,7 @@ export const Dispatch = () => {
                   onChange={handleInputChange}
                 />
                 <div className="text-center">
-                  <img src={"../../assets/icons/box.svg".default} alt="Medium Package" className="img-fluid medium" />
+                  <img src="assets/icons/box.svg" alt="Medium Package" className="img-fluid medium" />
                   <p className="mb-0">Medium</p>
                 </div>
               </label>
@@ -457,7 +457,7 @@ export const Dispatch = () => {
                   onChange={handleInputChange}
                 />
                 <div className="text-center">
-                  <img src={"../../assets/icons/box.svg".default} alt="Large Package" className="img-fluid large" />
+                  <img src="assets/icons/box.svg" alt="Large Package" className="img-fluid large" />
                   <p className="mb-0">Large</p>
                 </div>
               </label>

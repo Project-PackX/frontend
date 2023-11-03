@@ -31,15 +31,15 @@ export const Navbar = () => {
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       {access_level === 1 ? (
         <Link to="/" className="navbar-brand mx-5">
-          <img className="navbar-logo-user" src={"../../assets/logos/packx_full_white.svg".default} alt="logo" />
+          <img className="navbar-logo-user" src="assets/logos/packx_full_white.svg" alt="logo" />
         </Link>
       ) : access_level === 2 ? (
         <Link to="/" className="navbar-brand mx-5">
-          <img className="navbar-logo-courier" src={"../../assets/logos/packx_full_white_courier.svg".default} alt="logo" />
+          <img className="navbar-logo-courier" src="assets/logos/packx_full_white_courier.svg" alt="logo" />
         </Link>
       ) : (
         <Link to="/" className="navbar-brand mx-5">
-          <img className="navbar-logo-admin" src={"../../assets/logos/packx_full_white_admin.svg".default} alt="logo" />
+          <img className="navbar-logo-admin" src="assets/logos/packx_full_white_admin.svg" alt="logo" />
         </Link>
       )}
       <button

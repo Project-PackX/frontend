@@ -115,7 +115,7 @@ export const Login = () => {
         </p>
       </div>
       <div className="col-md-6">
-        <img src={"../../assets/images/undraw_delivery_truck_vt6p.svg".default} alt="login" />
+        <img src="assets/images/undraw_delivery_truck_vt6p.svg" alt="login" />
       </div>
     </div>
   );

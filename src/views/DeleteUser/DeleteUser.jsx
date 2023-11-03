@@ -79,7 +79,7 @@ export const DeleteUser = () => {
         <div className="d-flex justify-content-center align-items-center vh-100">
           <div className="text-center">
             <h1>You do not have permission to view this page.</h1>
-            <img className="error-image" src={"../../assets/images/undraw_access_denied_re_awnf.svg".default} alt="user-data" />
+            <img className="error-image" src="assets/images/undraw_access_denied_re_awnf.svg" alt="user-data" />
           </div>
         </div>
       </div>
@@ -126,7 +126,7 @@ export const DeleteUser = () => {
                 onChange={handleInputChange}
               />
               <button type="button" onClick={() => handleShowPassword("password")} className="show-password-button">
-                <img className="showpass-image" src={"../../assets/icons/showpass.png"} alt="showpass" />
+                <img className="showpass-image" src="assets/icons/showpass.png" alt="showpass" />
               </button>
             </div>
           </div>
@@ -145,7 +145,7 @@ export const DeleteUser = () => {
                 onChange={handleInputChange}
               />
               <button type="button" onClick={() => handleShowPassword("confirmPassword")} className="show-password-button">
-                <img className="showpass-image" src={"../../assets/icons/showpass.png"} alt="showpass" />
+                <img className="showpass-image" src="assets/icons/showpass.png" alt="showpass" />
               </button>
             </div>
           </div>
@@ -162,7 +162,7 @@ export const DeleteUser = () => {
         </form>
       </div>
       <div className="col-md-6">
-        <img className="image" src={"../../assets/images/undraw_throw_away_re_x60k.svg".default} alt="user-data" />
+        <img className="image" src="assets/images/undraw_throw_away_re_x60k.svg" alt="user-data" />
       </div>
     </div>
   );

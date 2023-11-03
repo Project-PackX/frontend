@@ -157,7 +157,7 @@ export const Home = () => {
             )}
           </div>
           <div className="hero-image col-md-6">
-            <img src={"../../assets/images/undraw_delivery_truck_vt6p.svg".default} alt="hero" />
+            <img src="assets/images/undraw_delivery_truck_vt6p.svg" alt="hero" />
           </div>
         </div>
       </div>
@@ -198,7 +198,7 @@ export const Home = () => {
         <div className="sending-boxes row col-12">
           <div className="sending-box col-md-4">
             <h2>Create an account</h2>
-            <img src={"../../assets/images/undraw_female_avatar_efig.svg".default} alt="box" />
+            <img src="assets/images/undraw_female_avatar_efig.svg" alt="box" />
             <p>
               You can only dispatch a package if you have a PackX Account.{" "}
               <Link to="/register" className="link">
@@ -209,7 +209,7 @@ export const Home = () => {
           </div>
           <div className="sending-box col-md-4">
             <h2>Give the package details</h2>
-            <img src={"../../assets/images/undraw_server_status_re_n8ln.svg".default} alt="box" />
+            <img src="assets/images/undraw_server_status_re_n8ln.svg" alt="box" />
             <p>
               You can select the closest locker to you and the destination locker too. Select the size of the package and the delivery
               method.
@@ -217,7 +217,7 @@ export const Home = () => {
           </div>
           <div className="sending-box col-md-4">
             <h2>Track your package</h2>
-            <img src={"../../assets/images/undraw_location_tracking_re_n3ok.svg".default} alt="box" />
+            <img src="assets/images/undraw_location_tracking_re_n3ok.svg" alt="box" />
             <p>You can follow along your package and get a notification when it arrives at the destination.</p>
           </div>
         </div>
@@ -225,7 +225,7 @@ export const Home = () => {
       <div className="checkrates features row col-12">
         <div className="container">
           <div className="checkrates-img col-md-6">
-            <img src={"../../assets/images/undraw_mobile_search_jxq5.svg".default} alt="login" />
+            <img src="assets/images/undraw_mobile_search_jxq5.svg" alt="login" />
           </div>
           <div className="checkrates-form form-container col-md-6 mt-5">
             <h1 className="title">Check rates</h1>
@@ -314,7 +314,7 @@ export const Home = () => {
             <div className="map-home">
               {selectedLockerForMap !== 0 && (
                 <div className="loading-logo">
-                  <img src={"../../assets/loading/loading_trans.gif"} alt="loading" />
+                  <img src="assets/loading/loading_trans.gif" alt="loading" />
                 </div>
               )}
               {selectedLockerForMap > 0 && lockerOptions[selectedLockerForMap - 1]?.coordinates && (
@@ -334,11 +334,7 @@ export const Home = () => {
               )}
               {selectedLockerForMap === 0 && (
                 <div className="image-container">
-                  <img
-                    className="home-map-image"
-                    src={"../../assets/images/undraw_current_location_re_j130.svg".default}
-                    alt="login"
-                  />
+                  <img className="home-map-image" src="assets/images/undraw_current_location_re_j130.svg" alt="login" />
                 </div>
               )}
             </div>

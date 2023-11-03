@@ -110,7 +110,7 @@ export const CodeAuth = () => {
         </form>
       </div>
       <div className="col-md-6">
-        <img className="image" src={"../../assets/images/undraw_two_factor_authentication_namy.svg".default} alt="codeauth" />
+        <img className="image" src="assets/images/undraw_two_factor_authentication_namy.svg" alt="codeauth" />
       </div>
     </div>
   );

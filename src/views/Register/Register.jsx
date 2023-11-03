@@ -63,7 +63,7 @@ export const Register = () => {
   return (
     <div className="register container row col-12">
       <div className="col-md-6">
-        <img src={"../../assets/images/undraw_order_delivered_re_v4ab.svg".default} alt="register" />
+        <img src="assets/images/undraw_order_delivered_re_v4ab.svg" alt="register" />
       </div>
       <div className="form-container col-md-6 mt-5">
         <h1 className="title">Welcome here!</h1>

@@ -78,7 +78,7 @@ export const UserData = () => {
         <div className="d-flex justify-content-center align-items-center vh-100">
           <div className="text-center">
             <h1>Please log in to access this feature.</h1>
-            <img className="error-image" src={"../../assets/images/undraw_access_denied_re_awnf.svg".default} alt="user-data" />
+            <img className="error-image" src="assets/images/undraw_access_denied_re_awnf.svg" alt="user-data" />
           </div>
         </div>
       </div>
@@ -123,7 +123,7 @@ export const UserData = () => {
         </form>
       </div>
       <div className="col-md-6">
-        <img className="image" src={"../../assets/images/undraw_private_data_re_4eab.svg".default} alt="user-data" />
+        <img className="image" src="assets/images/undraw_private_data_re_4eab.svg" alt="user-data" />
       </div>
     </div>
   );

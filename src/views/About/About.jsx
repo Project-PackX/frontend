@@ -20,14 +20,14 @@ export const About = () => {
                         <p className="about-data">We are a university startup company with a dedicated and enthusiastic team. Our journey started in 2022 as a little project, which developed into the final form of the currently-existing PackX. The original idea was to bring innovation to the delivery industry. We take full advantage of digitalization and automation to offer world-class delivery solutions to our customers.</p>
                     </div>
                     <div className="col-md-7">
-                        <img src={require("../../assets/logos/pack_norm_black.svg").default} alt="startup" className="about-img-right" />
+                        <img src={"../../assets/logos/pack_norm_black.svg".default} alt="startup" className="about-img-right" />
                     </div>
                 </div>
             </div>
             <div className="container about-container">
                 <div className="row">
                     <div className="col-md-7">
-                        <img src={require("../../assets/images/undraw_in_no_time_-6-igu.svg").default} alt="system" className="about-img-left" />
+                        <img src={"../../assets/images/undraw_in_no_time_-6-igu.svg".default} alt="system" className="about-img-left" />
                     </div>
                     <div className="col-md-5">
                         <h1 className="about-title">How it works?</h1>
@@ -42,7 +42,7 @@ export const About = () => {
                         <p className="about-data">The PackX experience is unlike any other carrier could ever provide. Every item gets our "Quick'n Go" sorting treatment, resulting in fast warehouse logistics processing and the quickest delivery possible. Our truck fleet is completely electric, further reducing the carbon footprint of our company.</p>
                     </div>
                     <div className="col-md-7">
-                        <img src={require("../../assets/images/undraw_environment_iaus.svg").default} alt="electric" className="about-img-right" />
+                        <img src={"../../assets/images/undraw_environment_iaus.svg".default} alt="electric" className="about-img-right" />
                     </div>
                 </div>
             </div>
@@ -50,34 +50,34 @@ export const About = () => {
                 <h1 className="about-title">Designed and created by</h1>
                 <div className="row justify-content-center about-logo-container">
                     <div className="col-md-2 about-logo-column">
-                        <img src={require("../../assets/people/karcsi.jpg")} alt="Szakály Károly" className="about-img-profile" />
+                        <img src={"../../assets/people/karcsi.jpg"} alt="Szakály Károly" className="about-img-profile" />
                         <a href="https://github.com/szkly" className="about-people-link" >Szakály Károly</a>
                         <p className="about-people-data">DevOps and Backend</p>
                     </div>
                     <div className="col-md-2 about-logo-column">
-                        <img src={require("../../assets/people/artur.jpg")} alt="Friedrich Artúr" className="about-img-profile" />
+                        <img src={"../../assets/people/artur.jpg"} alt="Friedrich Artúr" className="about-img-profile" />
                         <a href="https://github.com/arturfriedrich" className="about-people-link" >Friedrich Artúr</a>
                         <p className="about-people-data">Frontend and UX Design</p>
                     </div>
                     <div className="col-md-2 about-logo-column">
-                        <img src={require("../../assets/people/domi.jpg")} alt="Szilágyi Dominik" className="about-img-profile" />
+                        <img src={"../../assets/people/domi.jpg"} alt="Szilágyi Dominik" className="about-img-profile" />
                         <a href="https://github.com/dominikszilagyi" className="about-people-link" >Szilágyi Dominik</a>
                         <p className="about-people-data">Backend</p>
                     </div>
                     <div className="col-md-2 about-logo-column">
-                        <img src={require("../../assets/people/zsombi.jpg")} alt="Töreky Zsombor" className="about-img-profile" />
+                        <img src={"../../assets/people/zsombi.jpg"} alt="Töreky Zsombor" className="about-img-profile" />
                         <a href="https://github.com/tzsombi01" className="about-people-link" >Töreky Zsombor</a>
                         <p className="about-people-data">Backend</p>
                     </div>
                     <div className="col-md-2 about-logo-column">
-                        <img src={require("../../assets/people/danci.jpg")} alt="Székely Dániel" className="about-img-profile" />
+                        <img src={"../../assets/people/danci.jpg"} alt="Székely Dániel" className="about-img-profile" />
                         <a href="https://github.com/MrHumanRebel" className="about-people-link" >Székely Dániel</a>
                         <p className="about-people-data">Frontend and UX Design</p>
                     </div>
                 </div>
                 <div className="about-content-center">
                 <img
-                        src={clickCount < maxClickCount ? require("../../assets/logos/sze.png") : require("../../assets/images/sze_2.webp")}
+                        src={clickCount < maxClickCount ? "../../assets/logos/sze.png") : require("../../assets/images/sze_2.webp"}
                         alt="sze"
                         className="about-img-sze"
                         onClick={handleImageClick}

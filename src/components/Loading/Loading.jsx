@@ -14,7 +14,7 @@ export const Loading = () => {
 
   return loading ? (
     <div className="loading">
-      <img src={require("../../assets/loading/loading_trans.gif")} alt="loading..." />
+      <img src={"../../assets/loading/loading_trans.gif"} alt="loading..." />
     </div>
   ) : null;
 };

@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { Link} from 'react-router-dom';
-import UserDataService from '../../services/user';
-import LockerDataService from '../../services/locker';
-import { useAuth } from '../../context/auth';
-import decode from 'jwt-decode';
-import './history.css';
-import {NoPermission} from "../../components/Slave/NoPermission/NoPermission";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import UserDataService from "../../services/user";
+import LockerDataService from "../../services/locker";
+import { useAuth } from "../../context/auth";
+import decode from "jwt-decode";
+import "./history.css";
+import { NoPermission } from "../../components/Slave/NoPermission/NoPermission";
 
 export const History = () => {
   const [history, setHistory] = useState([]);
@@ -22,13 +22,13 @@ export const History = () => {
 
   useEffect(() => {
     // Store the selected currency in local storage
-    localStorage.setItem('selectedCurrency', selectedCurrency);
-}, [selectedCurrency]);
+    localStorage.setItem("selectedCurrency", selectedCurrency);
+  }, [selectedCurrency]);
 
-const handleCurrencyChange = (currency) => {
+  const handleCurrencyChange = (currency) => {
     setSelectedCurrency(currency);
-    localStorage.setItem('selectedCurrency', currency);
-};
+    localStorage.setItem("selectedCurrency", currency);
+  };
 
   const loadLockerOptions = () => {
     LockerDataService.getAll()
@@ -46,10 +46,7 @@ const handleCurrencyChange = (currency) => {
 
   const loadHistory = (d) => {
     try {
-      UserDataService.history(
-        decode(localStorage.getItem('token')).user_id,
-        localStorage.getItem('token')
-      )
+      UserDataService.history(decode(localStorage.getItem("token")).user_id, localStorage.getItem("token"))
         .then((response) => {
           const formattedHistory = response.data.map((item) => {
             const senderLockerId = parseInt(item.SenderLockerId);
@@ -78,31 +75,31 @@ const handleCurrencyChange = (currency) => {
           setIsLoading(false);
         })
         .catch((error) => {
-          console.error('Error while loading history', error);
+          console.error("Error while loading history", error);
           setIsLoading(false);
         });
     } catch (error) {
-      console.error('Error decoding the token', error);
+      console.error("Error decoding the token", error);
       setTokenDecodingError(true);
     }
   };
 
   const displayPrice = () => {
     switch (selectedCurrency) {
-        case "HUF":
-            return `${deliveryCost} HUF`;
-        case "EUR":
-            return `${deliveryCostEUR} EUR`;
-            case "USD":
-                return `${deliveryCostUSD} USD`;
-            default:
-                return `${deliveryCost} HUF`;
-        }
-    };
+      case "HUF":
+        return `${deliveryCost} HUF`;
+      case "EUR":
+        return `${deliveryCostEUR} EUR`;
+      case "USD":
+        return `${deliveryCostUSD} USD`;
+      default:
+        return `${deliveryCost} HUF`;
+    }
+  };
 
   // Fetch exchange rates when the component mounts
   const fetchExchangeRates = () => {
-    fetch('https://open.er-api.com/v6/latest/HUF')
+    fetch("https://open.er-api.com/v6/latest/HUF")
       .then((response) => response.json())
       .then((data) => {
         setExchangeRates(data.rates);
@@ -116,7 +113,7 @@ const handleCurrencyChange = (currency) => {
     loadLockerOptions();
     fetchExchangeRates();
   }, []);
-  
+
   useEffect(() => {
     if (loadLockerOptions && fetchExchangeRates) {
       loadHistory();
@@ -124,9 +121,7 @@ const handleCurrencyChange = (currency) => {
   }, [lockerOptions, exchangeRates, selectedCurrency]);
 
   if (!isLoggedIn || tokenDecodingError) {
-    return (
-      <NoPermission />
-    );
+    return <NoPermission />;
   }
 
   return (
@@ -135,13 +130,29 @@ const handleCurrencyChange = (currency) => {
       {!isLoading && history.length > 0 ? (
         <div className="row">
           <div className="dropdown text-end">
-            <button className="button button-primary dropdown-toggle currency-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <button
+              className="button button-primary dropdown-toggle currency-dropdown"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
               {selectedCurrency}
             </button>
             <ul className="dropdown-menu" aria-labelledby="currencyDropdown">
-              <li><a className="dropdown-item" onClick={() => handleCurrencyChange('HUF')}>HUF</a></li>
-              <li><a className="dropdown-item" onClick={() => handleCurrencyChange('EUR')}>EUR</a></li>
-              <li><a className="dropdown-item" onClick={() => handleCurrencyChange('USD')}>USD</a></li>
+              <li>
+                <a className="dropdown-item" onClick={() => handleCurrencyChange("HUF")}>
+                  HUF
+                </a>
+              </li>
+              <li>
+                <a className="dropdown-item" onClick={() => handleCurrencyChange("EUR")}>
+                  EUR
+                </a>
+              </li>
+              <li>
+                <a className="dropdown-item" onClick={() => handleCurrencyChange("USD")}>
+                  USD
+                </a>
+              </li>
             </ul>
           </div>
           {history.map((item, index) => (
@@ -150,8 +161,8 @@ const handleCurrencyChange = (currency) => {
                 <div className="history-item">
                   <h5 className="card-title">Track ID: {item.TrackID}</h5>
                   <p className="card-text">Created At: {item.CreatedAt}</p>
-                  <p className='card-text'>Sender Locker Address: {item.SenderLockerLabel}</p>
-                  <p className='card-text'>Destination Locker Address: {item.ReceiverLockerLabel}</p>
+                  <p className="card-text">Sender Locker Address: {item.SenderLockerLabel}</p>
+                  <p className="card-text">Destination Locker Address: {item.ReceiverLockerLabel}</p>
                   <p className="card-text">Price: {displayPrice()}</p>
                   <p className="card-text">Delivery Date: {item.DeliveryDate}</p>
                   <p className="card-text">Note: {item.Note}</p>
@@ -162,16 +173,16 @@ const handleCurrencyChange = (currency) => {
               </div>
             </div>
           ))}
-          {history.length % 3 !== 0 && (
-            <img src={require("../../assets/images/undraw_file_searching_re_3evy.svg").default} alt="history" />
-          )}
+          {history.length % 3 !== 0 && <img src={"../../assets/images/undraw_file_searching_re_3evy.svg".default} alt="history" />}
         </div>
       ) : null}
       {!isLoading && history.length === 0 && (
         <div className="no-history">
-          <img src={require("../../assets/images/undraw_void_-3-ggu.svg").default} alt="login" />
+          <img src={"../../assets/images/undraw_void_-3-ggu.svg".default} alt="login" />
           <h1>You have not sent any package with us yet.</h1>
-          <Link to="/dispatch" className="history-btn">Send now</Link>
+          <Link to="/dispatch" className="history-btn">
+            Send now
+          </Link>
         </div>
       )}
     </div>

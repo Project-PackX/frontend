@@ -27,27 +27,36 @@ export const CodeAuth = () => {
 
     const handleSendCode = (e) => {
         e.preventDefault();
-
+    
         if (!isRecaptchaVerified) {
             setError("Please verify that you're a human.");
             return;
         }
-
+    
         const requestData = {
             email: formData.email,
         };
-
+    
         UserDataService.sendPasswordResetCode(requestData)
             .then((response) => {
-                if (response.status === 200) {
-                    // Handle success, e.g., show a success message to the user
+                if (response.data.success) {
+                    // Password reset code sent successfully
+                    setError(null); // Clear any previous error
+                    // You can also show a success message if needed
                 } else {
                     setError(
                         <div className="alert alert-danger">
-                            Failed to send the reset code. Please try again.
+                            {response.data.message || "Failed to send the reset code. Please try again."}
                         </div>
                     );
                 }
+            })
+            .catch((error) => {
+                setError(
+                    <div className="alert alert-danger">
+                        Failed to send the reset code. Please try again.
+                    </div>
+                );
             });
     };
 

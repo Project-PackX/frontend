@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import PackageDataService from "../../services/package.js";
 import { Loading } from "../../components/Loading/Loading.jsx";

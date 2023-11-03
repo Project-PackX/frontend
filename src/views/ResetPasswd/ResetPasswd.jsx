@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import { useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import UserDataService from "../../services/user";
 import { useAuth } from "../../context/auth";

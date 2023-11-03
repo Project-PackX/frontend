@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import { useState, useRef } from "react";
 import { useAuth } from "../../context/auth";
 import ReCaptchaWidget from "../../components/reCAPTCHA/reCAPTCHA";
 import "./deleteuser.css";

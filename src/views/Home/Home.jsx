@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import LockerDataService from "../../services/locker";
 import { useAuth } from "../../context/auth";
 import { Link } from "react-router-dom";

@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import "./policy.css";
 
 export const Policy = () => {

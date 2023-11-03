@@ -1,5 +1,3 @@
-import React from "react";
-
 import "./no-permission.css";
 
 export const NoPermission = () => {

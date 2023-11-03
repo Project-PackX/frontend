@@ -1,5 +1,3 @@
-import React from "react";
-
 import "./alreadyloggedin.css";
 
 export const AlreadyLoggedIn = () => {

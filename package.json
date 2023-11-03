@@ -39,12 +39,6 @@
     "vite": "^4.5.0",
     "vitest": "^0.34.6"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.2%",

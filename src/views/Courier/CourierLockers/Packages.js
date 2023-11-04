@@ -33,19 +33,11 @@ export const Packages = () => {
         console.log(response.data.Message);
   
         const formattedPackages = response.data.Message.map((item) => {
-          // Parse the price value from the item
-          const priceHUF = parseFloat(item.Price);
   
-          // Calculate prices in other currencies if exchange rates are available
-          if (exchangeRates) {
-            const priceEUR = (priceHUF * exchangeRates.EUR).toFixed(2);
-            const priceUSD = (priceHUF * exchangeRates.USD).toFixed(2);
-  
-            // Update the delivery cost values
-            setDeliveryCost(priceHUF);
-            setDeliveryCostEUR(priceEUR);
-            setDeliveryCostUSD(priceUSD);
-          }
+          const deliveryCostHUF = parseFloat(item.Price);
+          setDeliveryCost(deliveryCostHUF);
+          setDeliveryCostEUR((deliveryCostHUF * exchangeRates.EUR).toFixed(2));
+          setDeliveryCostUSD((deliveryCostHUF * exchangeRates.USD).toFixed(2));
   
           return {
             ...item,
@@ -89,8 +81,13 @@ export const Packages = () => {
 
   useEffect(() => {
     fetchExchangeRates();
-    getLockerPackages();
   }, []);
+
+  useEffect(() => {
+    if (exchangeRates) {
+      getLockerPackages();
+    }
+  }, [exchangeRates]);
 
   if (!isLoggedIn) {
     return (

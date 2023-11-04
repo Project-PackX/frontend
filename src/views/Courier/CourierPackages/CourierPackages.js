@@ -38,11 +38,6 @@ export function CourierPackages() {
     localStorage.setItem('selectedCurrency', currency);
   };
 
-  useEffect(() => {
-    fetchExchangeRates();
-    getAllCourierPackages();
-  }, []);
-
   const getAllCourierPackages = () => {
     PackageService.getCourierPackages(user_id, token)
       .then((response) => {
@@ -118,6 +113,16 @@ export function CourierPackages() {
     };
     return svgMap[status] || DispatchSvg; // Fallback to DispatchSvg if status is not found.
   };
+
+  useEffect(() => {
+    fetchExchangeRates();
+  }, []);
+
+  useEffect(() => {
+    if (exchangeRates) {
+      getAllCourierPackages();
+    }
+  }, [exchangeRates]);
 
   if (!isLoggedIn) {
     return (

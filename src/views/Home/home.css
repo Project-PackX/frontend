@@ -11,7 +11,7 @@
 }
 
 .hero-content h1 {
-    font-size: 3rem;
+    font-size: 3.1rem;
     font-weight: 700;
     color: var(--black);
     text-align: left;
@@ -24,7 +24,7 @@
     background: -webkit-linear-gradient(var(--purple), var(--blue));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    font-size: 4rem;
+    font-size: 4.1rem;
 }
 
 .hero-content h1 span{
@@ -34,7 +34,7 @@
 }
 
 .hero-content p {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     font-weight: 400;
     color: var(--black);
     text-align: left;
@@ -92,13 +92,13 @@
 }
 
 .feature h3 {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     margin: 10px 0;
     color: #333;
 }
 
 .feature p {
-    font-size: 1rem;
+    font-size: 1.1rem;
     color: #666;
 }
 
@@ -111,7 +111,7 @@
 }
 
 .sending .title h2 {
-    font-size: 2.5rem;
+    font-size: 2.6rem;
     font-weight: bold;
     letter-spacing: -1px;
     max-width: 75%;
@@ -119,7 +119,7 @@
 }
 
 .sending p {
-    font-size: 1rem;
+    font-size: 1.1rem;
     color: var(--gray);
     max-width: 75%;
     text-align: center;
@@ -144,7 +144,7 @@
 }
 
 .sending-box h2 {
-    font-size: 1.6rem;
+    font-size: 1.7rem;
     letter-spacing: -1px;
     margin-bottom: 5rem;
 }
@@ -156,7 +156,7 @@
 }
 
 .sending-box p {
-    font-size: 1rem;
+    font-size: 1.1rem;
     color: var(--gray);
     text-align: center;
 }

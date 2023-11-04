@@ -271,11 +271,11 @@ export const Home = () => {
                                     <iframe
                                         title="map"
                                         src={`https://maps.google.com/maps?q=${lockerOptions[selectedLockerForMap - 1]?.coordinates?.latitude || 0},${lockerOptions[selectedLockerForMap - 1]?.coordinates?.longitude || 0}&hl=en&z=14&output=embed`}
-                                        width="100%"
-                                        height="450"
+                                        width="900rem"
+                                        height="600rem"
                                         style={{ border: 0 }}
                                         allowFullScreen=""
-                                        loading="lazy"
+                                        className='location-map'
                                     ></iframe>
                                 </div>
                             )}

@@ -46,6 +46,7 @@ export const Contact = () => {
                   style={{ border: 0, display: showMap ? 'block' : 'none' }}
                   allowFullScreen
                   src={`https://maps.google.com/maps?q=47.6804636,17.7461013&hl=en&z=14&output=embed`}
+                  className='contact-map'
                 />
               ) : (
                 <div className="loading-logo-contact">

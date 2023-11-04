@@ -4,7 +4,6 @@ import PackageDataService from '../../services/package.js';
 import { Loading } from '../../components/Loading/Loading.js';
 import './package-status.css';
 
-// Import your SVGs here (replace these with your SVGs)
 import DispatchSvg from '../../assets/images/undraw_data_processing_yrrv.svg';
 import TransitSvg from '../../assets/images/undraw_aircraft_re_m05i.svg';
 import InWarehouseSvg from '../../assets/images/undraw_building_re_xfcm.svg';
@@ -15,11 +14,10 @@ export const PackageStatus = () => {
     const [packageData, setPackageData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const { id } = useParams();
-    const [exchangeRates, setExchangeRates] = useState(null); // State for exchange rates
-    const [selectedCurrency, setSelectedCurrency] = useState(localStorage.getItem("selectedCurrency") ?? "HUF"); // Default currency
+    const [exchangeRates, setExchangeRates] = useState(null);
+    const [selectedCurrency, setSelectedCurrency] = useState(localStorage.getItem("selectedCurrency") || "HUF");
 
     useEffect(() => {
-        // Store the selected currency in local storage
         localStorage.setItem('selectedCurrency', selectedCurrency);
     }, [selectedCurrency]);
 
@@ -30,42 +28,27 @@ export const PackageStatus = () => {
 
     const getPackageStatus = (id) => {
         PackageDataService.get(id)
-            .then((response) => {
-                setPackageData(response.data);
-            })
-            .catch((e) => {
-                console.log(e);
-            });
+            .then((response) => setPackageData(response.data))
+            .catch((e) => console.error(e));
     };
 
     useEffect(() => {
-        const loadingTimeout = setTimeout(() => {
-            setIsLoading(false);
-        }, 2000);
+        const loadingTimeout = setTimeout(() => setIsLoading(false), 2000);
 
         getPackageStatus(id);
-
-        // Fetch exchange rates when the component mounts
         fetchExchangeRates();
 
         return () => clearTimeout(loadingTimeout);
     }, [id]);
 
-    // Function to fetch exchange rates
     const fetchExchangeRates = () => {
         fetch('https://open.er-api.com/v6/latest/HUF')
             .then((response) => response.json())
-            .then((data) => {
-                setExchangeRates(data.rates);
-            })
-            .catch((error) => {
-                console.error("Error while fetching exchange rates", error);
-            });
+            .then((data) => setExchangeRates(data.rates))
+            .catch((error) => console.error("Error while fetching exchange rates", error));
     };
 
-    if (isLoading) {
-        return <Loading className="loading" />;
-    }
+    if (isLoading) return <Loading className="loading" />
 
     if (!packageData) {
         return (
@@ -79,9 +62,7 @@ export const PackageStatus = () => {
         );
     }
 
-    // Calculate prices in different currencies
     const deliveryDate = new Date(packageData.Data.DeliveryDate);
-    const dayOfWeek = deliveryDate.toLocaleDateString('en-US', { weekday: 'long' });
     const formattedDate = deliveryDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
     const hufPrice = packageData.Data.Price;
@@ -123,7 +104,6 @@ export const PackageStatus = () => {
                         key={index}
                         className={`state-images ${stage === currentState ? 'current' : ''}`}
                     >
-                        {/* Render the SVG for the current stage and apply color conditionally */}
                         <img
                             src={getSvgForStage(stage)}
                             alt={stage}

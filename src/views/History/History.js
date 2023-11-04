@@ -12,15 +12,11 @@ export const History = () => {
   const { isLoggedIn } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const [lockerOptions, setLockerOptions] = useState([]);
-
   const [exchangeRates, setExchangeRates] = useState(null);
   const [selectedCurrency, setSelectedCurrency] = useState(localStorage.getItem("selectedCurrency") || "HUF");
   const [tokenDecodingError, setTokenDecodingError] = useState(false);
 
-  useEffect(() => {
-    // Store the selected currency in local storage
-    localStorage.setItem('selectedCurrency', selectedCurrency);
-  }, [selectedCurrency]);
+  useEffect(() => localStorage.setItem('selectedCurrency', selectedCurrency), [selectedCurrency]);
 
   const handleCurrencyChange = (currency) => {
     setSelectedCurrency(currency);
@@ -29,62 +25,47 @@ export const History = () => {
 
   const loadLockerOptions = () => {
     LockerDataService.getAll()
-      .then((response) => {
-        const lockerOptions = response.data.lockers.map((locker) => ({
+      .then(response => {
+        const lockerOptions = response.data.lockers.map(locker => ({
           id: locker.ID,
           label: `${locker.City} - ${locker.Address}`,
         }));
         setLockerOptions(lockerOptions);
       })
-      .catch((error) => {
-        console.error("Error while loading locker options", error);
-      });
+      .catch(error => console.error("Error while loading locker options", error));
   };
 
-  const loadHistory = (d) => {
+  const loadHistory = () => {
     try {
       UserDataService.history(
         decode(localStorage.getItem('token')).user_id,
         localStorage.getItem('token')
       )
-        .then((response) => {
-          const formattedHistory = response.data.map((item) => {
+        .then(response => {
+          const formattedHistory = response.data.map(item => {
             const senderLockerId = parseInt(item.SenderLockerId);
             const destinationLockerId = parseInt(item.DestinationLockerId);
-
-            const senderLocker = lockerOptions.find((locker) => locker.id === senderLockerId);
-            const receiverLocker = lockerOptions.find((locker) => locker.id === destinationLockerId);
-
-            if (exchangeRates) {
-              const deliveryCostHUF = parseFloat(item.Price);
-              const deliveryCostEUR = (deliveryCostHUF * exchangeRates.EUR).toFixed(2);
-              const deliveryCostUSD = (deliveryCostHUF * exchangeRates.USD).toFixed(2);
-
-              return {
-                ...item,
-                CreatedAt: new Date(item.CreatedAt).toLocaleString(),
-                DeliveryDate: new Date(item.DeliveryDate).toLocaleString(),
-                SenderLockerLabel: senderLocker ? senderLocker.label : "N/A",
-                ReceiverLockerLabel: receiverLocker ? receiverLocker.label : "N/A",
-                DeliveryCostHUF: deliveryCostHUF,
-                DeliveryCostEUR: deliveryCostEUR,
-                DeliveryCostUSD: deliveryCostUSD,
-              };
-            }
-
-            return {
+            const senderLocker = lockerOptions.find(locker => locker.id === senderLockerId);
+            const receiverLocker = lockerOptions.find(locker => locker.id === destinationLockerId);
+            const deliveryCostHUF = parseFloat(item.Price);
+            const deliveryCostEUR = (deliveryCostHUF * exchangeRates.EUR).toFixed(2);
+            const deliveryCostUSD = (deliveryCostHUF * exchangeRates.USD).toFixed(2);
+            const formattedItem = {
               ...item,
               CreatedAt: new Date(item.CreatedAt).toLocaleString(),
               DeliveryDate: new Date(item.DeliveryDate).toLocaleString(),
               SenderLockerLabel: senderLocker ? senderLocker.label : "N/A",
               ReceiverLockerLabel: receiverLocker ? receiverLocker.label : "N/A",
+              DeliveryCostHUF: deliveryCostHUF,
+              DeliveryCostEUR: deliveryCostEUR,
+              DeliveryCostUSD: deliveryCostUSD,
             };
+            return exchangeRates ? formattedItem : { ...formattedItem, DeliveryCostHUF: null, DeliveryCostEUR: null, DeliveryCostUSD: null };
           });
-
           setHistory(formattedHistory);
           setIsLoading(false);
         })
-        .catch((error) => {
+        .catch(error => {
           console.error('Error while loading history', error);
           setIsLoading(false);
         });
@@ -95,28 +76,19 @@ export const History = () => {
   };
 
   const displayPrice = (item) => {
-    switch (selectedCurrency) {
-      case "HUF":
-        return `${item.DeliveryCostHUF} HUF`;
-      case "EUR":
-        return `${item.DeliveryCostEUR} EUR`;
-      case "USD":
-        return `${item.DeliveryCostUSD} USD`;
-      default:
-        return `${item.DeliveryCostHUF} HUF`;
-    }
+    const currency = {
+      HUF: `${item.DeliveryCostHUF} HUF`,
+      EUR: `${item.DeliveryCostEUR} EUR`,
+      USD: `${item.DeliveryCostUSD} USD`,
+    };
+    return currency[selectedCurrency] || currency.HUF;
   };
 
-  // Fetch exchange rates when the component mounts
   const fetchExchangeRates = () => {
     fetch('https://open.er-api.com/v6/latest/HUF')
-      .then((response) => response.json())
-      .then((data) => {
-        setExchangeRates(data.rates);
-      })
-      .catch((error) => {
-        console.error("Error while fetching exchange rates", error);
-      });
+      .then(response => response.json())
+      .then(data => setExchangeRates(data.rates))
+      .catch(error => console.error("Error while fetching exchange rates", error));
   };
 
   useEffect(() => {
@@ -144,9 +116,9 @@ export const History = () => {
               {selectedCurrency}
             </button>
             <ul className="dropdown-menu" aria-labelledby="currencyDropdown">
-              <li><a className="dropdown-item" onClick={() => handleCurrencyChange('HUF')}>HUF</a></li>
-              <li><a className="dropdown-item" onClick={() => handleCurrencyChange('EUR')}>EUR</a></li>
-              <li><a className="dropdown-item" onClick={() => handleCurrencyChange('USD')}>USD</a></li>
+              {["HUF", "EUR", "USD"].map(currency => (
+                <li key={currency}><a className="dropdown-item" onClick={() => handleCurrencyChange(currency)}>{currency}</a></li>
+              ))}
             </ul>
           </div>
           {history.map((item, index) => (

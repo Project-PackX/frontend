@@ -5,7 +5,6 @@ import { useAuth } from "../../../context/auth";
 import { NoPermission } from "../../../components/Slave/NoPermission/NoPermission";
 import './courierpackages.css';
 
-// Import your SVGs here (replace these with your SVGs)
 import DispatchSvg from '../../../assets/images/undraw_data_processing_yrrv.svg';
 import TransitSvg from '../../../assets/images/undraw_aircraft_re_m05i.svg';
 import InWarehouseSvg from '../../../assets/images/undraw_building_re_xfcm.svg';
@@ -14,21 +13,13 @@ import DeliveredSvg from '../../../assets/images/undraw_order_delivered_re_v4ab.
 
 export function CourierPackages() {
   const token = localStorage.getItem('token');
-  // You can use the decoded user ID from the token if needed.
   const user_id = 0;
 
   const { isLoggedIn } = useAuth();
-
   const [packages, setPackages] = useState([]);
   const [statuses, setStatuses] = useState([]);
-
   const [exchangeRates, setExchangeRates] = useState(null);
   const [selectedCurrency, setSelectedCurrency] = useState(localStorage.getItem("selectedCurrency") || "HUF");
-
-  useEffect(() => {
-    // Store the selected currency in local storage
-    localStorage.setItem('selectedCurrency', selectedCurrency);
-  }, [selectedCurrency]);
 
   const handleCurrencyChange = (currency) => {
     setSelectedCurrency(currency);
@@ -38,8 +29,6 @@ export function CourierPackages() {
   const getAllCourierPackages = () => {
     PackageService.getCourierPackages(user_id, token)
       .then((response) => {
-        console.log(response.data);
-
         const formattedPackages = response.data.packages.map((item, index) => {
           if (exchangeRates) {
             const deliveryCostHUF = parseFloat(item.Price);
@@ -79,7 +68,6 @@ export function CourierPackages() {
     }
   };
 
-  // Fetch exchange rates when the component mounts
   const fetchExchangeRates = () => {
     fetch('https://open.er-api.com/v6/latest/HUF')
       .then((response) => response.json())
@@ -91,29 +79,24 @@ export function CourierPackages() {
       });
   };
 
-  const handleSkipToNextStatus = (packageId) => {
-    return () => {
-      PackageService.statusUpdate(packageId, token)
-        .then(response => {
-          console.log(response.data);
-          getAllCourierPackages();
-        })
-        .catch(e => {
-          console.log(e);
-        });
-    };
+  const handleSkipToNextStatus = (packageId) => () => {
+    PackageService.statusUpdate(packageId, token)
+      .then(response => {
+        console.log(response.data);
+        getAllCourierPackages();
+      })
+      .catch(e => {
+        console.log(e);
+      });
   };
 
-  const getStatusSvg = (status) => {
-    const svgMap = {
-      'Dispatch': DispatchSvg,
-      'Transit': TransitSvg,
-      'In Warehouse': InWarehouseSvg,
-      'In Delivery': InDeliverySvg,
-      'Delivered': DeliveredSvg,
-    };
-    return svgMap[status] || DispatchSvg; // Fallback to DispatchSvg if status is not found.
-  };
+  const getStatusSvg = (status) => ({
+    'Dispatch': DispatchSvg,
+    'Transit': TransitSvg,
+    'In Warehouse': InWarehouseSvg,
+    'In Delivery': InDeliverySvg,
+    'Delivered': DeliveredSvg,
+  }[status] || DispatchSvg);
 
   useEffect(() => {
     fetchExchangeRates();
@@ -140,9 +123,11 @@ export function CourierPackages() {
             {selectedCurrency}
           </button>
           <ul className="dropdown-menu" aria-labelledby="currencyDropdown">
-            <li><a className="dropdown-item" onClick={() => handleCurrencyChange('HUF')}>HUF</a></li>
-            <li><a className="dropdown-item" onClick={() => handleCurrencyChange('EUR')}>EUR</a></li>
-            <li><a className="dropdown-item" onClick={() => handleCurrencyChange('USD')}>USD</a></li>
+            {['HUF', 'EUR', 'USD'].map(currency => (
+              <li key={currency}>
+                <a className="dropdown-item" onClick={() => handleCurrencyChange(currency)}>{currency}</a>
+              </li>
+            ))}
           </ul>
         </div>
       </div>

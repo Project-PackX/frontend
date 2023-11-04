@@ -9,23 +9,15 @@ export const Home = () => {
     const access_level = parseInt(localStorage.getItem('access_level'));
     const [selectedLocker, setSelectedLocker] = useState(0);
     const [lockerOptions, setLockerOptions] = useState([]);
-    const [, setSenderLockerAddress] = useState('');
     const [selectedLockerForMap, setSelectedLockerForMap] = useState(0);
-    const [formData, setFormData] = useState({
-        senderLocker: 0,
-        receiverLocker: 0,
-    });
-
+    const [formData, setFormData] = useState({ senderLocker: 0, receiverLocker: 0 });
     const [showMap, setShowMap] = useState(false);
-    const [cost, setCost] = useState(0)
-
+    const [cost, setCost] = useState(0);
 
     const calculateCost = () => {
-        if (lockerOptions[formData.senderLocker]?.label.split( ' - ')[0] === lockerOptions[formData.receiverLocker - 1]?.label.split( ' - ')[0]) {
-            setCost(390);
-        } else {
-            setCost(490);
-        }
+        const senderLabel = lockerOptions[formData.senderLocker]?.label.split(' - ')[0];
+        const receiverLabel = lockerOptions[formData.receiverLocker - 1]?.label.split(' - ')[0];
+        setCost(senderLabel === receiverLabel ? 390 : 490);
     };
 
     useEffect(() => {
@@ -35,33 +27,23 @@ export const Home = () => {
     useEffect(() => {
         let timer;
         setShowMap(false);
-    
+
         if (selectedLocker > 0) {
-            const delay = 500;
-            
-            timer = setTimeout(() => {
-                setShowMap(true);
-            }, delay);
+            timer = setTimeout(() => setShowMap(true), 500);
         }
-    
+
         return () => clearTimeout(timer);
     }, [selectedLocker]);
-    
 
     useEffect(() => {
-        setSenderLockerAddress(
-            formData.senderLocker
-                ? lockerOptions.find((locker) => String(locker.id) === String(formData.senderLocker))?.label || ''
-                : ''
-        );
-    }, [formData, lockerOptions]);
+        setFormData((prevFormData) => ({ ...prevFormData, senderLocker: selectedLocker }));
+    }, [selectedLocker, lockerOptions]);
 
     const handleLockerChange = (e) => {
         const value = parseInt(e.target.value, 10);
-        // Check if the selected location is different from the current one
         if (value !== selectedLocker) {
             setSelectedLockerForMap(value);
-            setShowMap(false); // Revert to false to show the loading again
+            setShowMap(false);
         }
     };
 
@@ -71,15 +53,10 @@ export const Home = () => {
             .then((response) => response.json())
             .then((data) => {
                 if (data.length > 0) {
-                    console.log(data)
-                    const latitude = data[0].lat;
-                    const longitude = data[0].lon;
+                    const { lat, lon } = data[0];
                     const updatedLockerOptions = [...lockerOptions];
-                    updatedLockerOptions[selectedLockerForMap - 1].coordinates = { latitude, longitude };
-                    console.log(updatedLockerOptions[selectedLockerForMap - 1])
+                    updatedLockerOptions[selectedLockerForMap - 1].coordinates = { latitude: lat, longitude: lon };
                     setLockerOptions(updatedLockerOptions);
-                    console.log(`https://maps.google.com/maps?q=${lockerOptions[selectedLockerForMap - 1]?.coordinates?.latitude || 0},${lockerOptions[selectedLockerForMap - 1]?.coordinates?.longitude || 0}&hl=en&z=14&output=embed`)
-                    console.log(lockerOptions[selectedLockerForMap - 1])
                 }
             })
             .catch((error) => {
@@ -96,15 +73,16 @@ export const Home = () => {
                 }));
 
                 const uniqueLockerOptions = Array.from(
-                    new Set(lockerOptions.map(option => option.label))
-                ).map(label => {
-                    return { id: lockerOptions.find(option => option.label === label).id, label: label };
-                });
+                    new Set(lockerOptions.map((option) => option.label))
+                ).map((label) => ({
+                    id: lockerOptions.find((option) => option.label === label).id,
+                    label: label,
+                }));
 
                 setLockerOptions(uniqueLockerOptions);
             })
             .catch((error) => {
-                console.error("Error while loading locker options", error);
+                console.error('Error while loading locker options', error);
             });
     };
 
@@ -119,24 +97,18 @@ export const Home = () => {
                 fetchCoordinates(selectedLockerInfo.label);
             }
         }
-
-        setFormData((prevFormData) => ({
-            ...prevFormData,
-            senderLocker: selectedLocker,
-        }));
     }, [selectedLockerForMap, lockerOptions]);
 
-    const calculateCO2= () => {
-        let totalkm  = 5234569;
-        return (totalkm * 105 * 0.001) //average truck co2 emissions per km
-    }
+    const calculateCO2 = () => (5234569 * 105 * 0.001);
 
     return (
         <main>
             <div className="container">
                 <div className="hero row col-12">
                     <div className="hero-content col-md-6">
-                        <h1>Make your life easier <br/> with <span>PackX!</span></h1>
+                        <h1>
+                            Make your life easier <br /> with <span>PackX!</span>
+                        </h1>
                         <p>Send and receive packages was never quicker and easier.</p>
                         {isLoggedIn ? (
                             access_level === 2 ? (
@@ -206,7 +178,7 @@ export const Home = () => {
             <div className="checkrates features row col-12">
                 <div className="container">
                     <div className="checkrates-img col-md-6">
-                        <img src={require("../../assets/images/undraw_mobile_search_jxq5.svg").default} alt="login" />
+                        <img src={require('../../assets/images/undraw_mobile_search_jxq5.svg').default} alt="login" />
                     </div>
                     <div className="checkrates-form form-container col-md-6 mt-5">
                         <h1 className="title">Check rates</h1>
@@ -263,60 +235,59 @@ export const Home = () => {
                 </div>
             </div>
             <div className="package-locations row col-12">
-            <h1 className="title">Package point locations</h1>
+                <h1 className="home-title">Package point locations</h1>
                 <div className="container">
-                <div className="checkrates-img col-md-6">
-                    <div style={{ flex: 1 }}>
-                        <label htmlFor="senderLocker" className="form-label">
-                            Locations
-                        </label>
-                        <select
-                            name="senderLockerForMap"
-                            className="form-select"
-                            value={selectedLockerForMap}
-                            onChange={(e) => handleLockerChange(e)}
-                            style={{ maxWidth: '300px' }}
-                        >
-                            <option value="0">Select Sender Locker</option>
-                            {lockerOptions.map((option) => (
-                                <option key={option.id} value={option.id}>
-                                    {option.label}
-                                </option>
-                            ))}
-                        </select>
-
-                    </div>
-                </div>
-                {/* Embed Google Map */}
-                <div className="checkrates-form form-container col-md-6 mt-5">
-                    <div className="map-home">
-                        {selectedLockerForMap !== 0 && (
-                            <div className="loading-logo">
-                                <img src={require("../../assets/loading/loading_trans.gif")} alt="loading" />
-                            </div>
-                        )}
-                        {selectedLockerForMap > 0 && lockerOptions[selectedLockerForMap - 1]?.coordinates && (
-                            <div className={`location-map ${showMap ? '' : 'hidden'}`}>
-                                <iframe
-                                    title="map"
-                                    src={`https://maps.google.com/maps?q=${lockerOptions[selectedLockerForMap - 1]?.coordinates?.latitude || 0},${lockerOptions[selectedLockerForMap - 1]?.coordinates?.longitude || 0}&hl=en&z=14&output=embed`}
-                                    width="100%"
-                                    height="450"
-                                    style={{ border: 0 }}
-                                    allowFullScreen=""
-                                    loading="lazy"
-                                ></iframe>
+                    <div className="checkrates-img col-md-6">
+                        <div style={{ flex: 1 }}>
+                            <label htmlFor="senderLocker" className="form-label">
+                                Locations
+                            </label>
+                            <select
+                                name="senderLockerForMap"
+                                className="form-select"
+                                value={selectedLockerForMap}
+                                onChange={(e) => handleLockerChange(e)}
+                                style={{ maxWidth: '300px' }}
+                            >
+                                <option value="0">Select Sender Locker</option>
+                                {lockerOptions.map((option) => (
+                                    <option key={option.id} value={option.id}>
+                                        {option.label}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
-                        )}
-                        {selectedLockerForMap === 0 && (
-                            <div className="image-container">
-                                <img className="home-map-image" src={require("../../assets/images/undraw_current_location_re_j130.svg").default} alt="login" />
-                            </div>
-                        )}
                     </div>
-                </div>
+                    {/* Embed Google Map */}
+                    <div className="checkrates-form form-container col-md-6 mt-5">
+                        <div className="map-home">
+                            {selectedLockerForMap !== 0 && (
+                                <div className="loading-logo">
+                                    <img src={require('../../assets/loading/loading_trans.gif')} alt="loading" />
+                                </div>
+                            )}
+                            {selectedLockerForMap > 0 && lockerOptions[selectedLockerForMap - 1]?.coordinates && (
+                                <div className={`location-map ${showMap ? '' : 'hidden'}`}>
+                                    <iframe
+                                        title="map"
+                                        src={`https://maps.google.com/maps?q=${lockerOptions[selectedLockerForMap - 1]?.coordinates?.latitude || 0},${lockerOptions[selectedLockerForMap - 1]?.coordinates?.longitude || 0}&hl=en&z=14&output=embed`}
+                                        width="100%"
+                                        height="450"
+                                        style={{ border: 0 }}
+                                        allowFullScreen=""
+                                        loading="lazy"
+                                    ></iframe>
+                                </div>
+                            )}
+                            {selectedLockerForMap === 0 && (
+                                <div className="image-container">
+                                    <img className="home-map-image" src={require('../../assets/images/undraw_current_location_re_j130.svg').default} alt="login" />
+                                </div>
+                            )}
+                        </div>
+                    </div>
                 </div>
             </div>
         </main>
     );
-}
+};

@@ -4,32 +4,21 @@ import UserDataService from '../../services/user';
 import { useAuth } from '../../context/auth';
 import ReCaptchaWidget from '../../components/reCAPTCHA/reCAPTCHA';
 import './login.css';
-import {AlreadyLoggedIn} from "../../components/Slave/AlreadyLoggedIn/AlreadyLoggedIn";
-
+import { AlreadyLoggedIn } from "../../components/Slave/AlreadyLoggedIn/AlreadyLoggedIn";
 
 export const Login = () => {
-
     const navigate = useNavigate();
     const { login, isLoggedIn } = useAuth();
 
     const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
-    const onRecaptchaChange = (isVerified) => {
-        setIsRecaptchaVerified(isVerified);
-    };
+    const onRecaptchaChange = (isVerified) => setIsRecaptchaVerified(isVerified);
 
-
-    const [formData, setFormData] = useState({
-        email: '',
-        password: '',
-    });
-    const [error, setError] = useState(''); // Error state to display error message if login fails
+    const [formData, setFormData] = useState({ email: '', password: '' });
+    const [error, setError] = useState('');
 
     const handleInputChange = (e) => {
         const { id, value } = e.target;
-        setFormData({
-            ...formData,
-            [id]: value,
-        });
+        setFormData({ ...formData, [id]: value });
     };
 
     const handleSubmit = (e) => {
@@ -39,30 +28,24 @@ export const Login = () => {
             setError("Please verify that you're a human.");
             return;
         }
-        
-        // Create a JSON object to send to the server
-        const requestData = {
-            Email: formData.email,
-            Password: formData.password,
-        };
 
-        // Call the login method from UserDataService to send the data to the server
+        const requestData = { Email: formData.email, Password: formData.password };
+
         UserDataService.login(requestData)
             .then((response) => {
-                localStorage.setItem("token", response.data.token)
-                localStorage.setItem("name", response.data.name)
-                localStorage.setItem("email", response.data.email)
-                localStorage.setItem("address", response.data.address)
-                localStorage.setItem("phone", response.data.phone)
-                login(); // Call the login function from the authentication context
-                navigate("/")
-                console.log("user logged in successfully", response.data.token);
+                const { token, name, email, address, phone } = response.data;
+                localStorage.setItem("token", token);
+                localStorage.setItem("name", name);
+                localStorage.setItem("email", email);
+                localStorage.setItem("address", address);
+                localStorage.setItem("phone", phone);
+                login();
+                navigate("/");
+                console.log("user logged in successfully", token);
             })
-            .catch((error) => {
-                setError("Error while logging in. Please check your email and password.");
-            });
+            .catch(() => setError("Error while logging in. Please check your email and password."));
     };
-    
+
     if (isLoggedIn) {
         return <AlreadyLoggedIn />;
     }
@@ -72,35 +55,19 @@ export const Login = () => {
             <div className="login-form-container col-md-6 mt-5">
                 <h1 className="title">Welcome back!</h1>
                 <p className="login-subtitle">Please enter your details</p>
-                {error && <div className="error-message">{error}</div>} {/* Display error message if error state is set */}
+                {error && <div className="error-message">{error}</div>}
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3">
-                        <label htmlFor="username" className="login-form-label">Email</label>
-                        <input
-                            type="text"
-                            className="login-form-input"
-                            id="email"
-                            required
-                            value={formData.email}
-                            onChange={handleInputChange}
-                        />
+                        <label htmlFor="email" className="login-form-label">Email</label>
+                        <input type="text" className="login-form-input" id="email" required value={formData.email} onChange={handleInputChange} />
                     </div>
                     <div className="mb-3">
                         <label htmlFor="password" className="login-form-label">Password</label>
-                        <input
-                            type="password"
-                            className="login-form-input"
-                            id="password"
-                            required
-                            value={formData.password}
-                            onChange={handleInputChange}
-                        />
+                        <input type="password" className="login-form-input" id="password" required value={formData.password} onChange={handleInputChange} />
                     </div>
-                    
                     <div>
-                    <ReCaptchaWidget onRecaptchaChange={onRecaptchaChange} />
+                        <ReCaptchaWidget onRecaptchaChange={onRecaptchaChange} />
                     </div>
-
                     <button type="submit" className="login-btn">Log In</button>
                 </form>
                 <p className="register-text">Don't have an account?<Link className="register-link" to="/register"> Sign Up</Link></p>

@@ -3,6 +3,14 @@ import PackageService from "../../../services/package";
 import {Link} from "react-router-dom";
 import {useAuth} from "../../../context/auth";
 import {NoPermission} from "../../../components/Slave/NoPermission/NoPermission";
+import './courierpackages.css';
+
+// Import your SVGs here (replace these with your SVGs)
+import DispatchSvg from '../../../assets/images/undraw_data_processing_yrrv.svg';
+import TransitSvg from '../../../assets/images/undraw_aircraft_re_m05i.svg';
+import InWarehouseSvg from '../../../assets/images/undraw_building_re_xfcm.svg';
+import InDeliverySvg from '../../../assets/images/undraw_delivery_truck_vt6p.svg';
+import DeliveredSvg from '../../../assets/images/undraw_order_delivered_re_v4ab.svg';
 
 export function CourierPackages() {
     const token = localStorage.getItem('token');
@@ -49,6 +57,17 @@ export function CourierPackages() {
         }
     }
 
+    const getStatusSvg = (status) => {
+        const svgMap = {
+            'Dispatch': DispatchSvg,
+            'Transit': TransitSvg,
+            'In Warehouse': InWarehouseSvg,
+            'In Delivery': InDeliverySvg,
+            'Delivered': DeliveredSvg,
+        };
+        return svgMap[status];
+    };
+
     if (!isLoggedIn) {
         return (
             <NoPermission />
@@ -70,6 +89,9 @@ export function CourierPackages() {
                             <p className="card-text">Price: {item.Price}</p>
                             <p className="card-text">Delivery Date: {item.DeliveryDate}</p>
                             <p className="card-text">Note: {item.Note}</p>
+                        </div>
+                        <div className="courier-status-icon">
+                            <img src={getStatusSvg(statuses[index])} alt={statuses[index]} />
                         </div>
                         <Link to={`/track/${item.TrackID}`} className="btn login-btn">
                             Track

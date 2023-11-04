@@ -10,7 +10,7 @@ import KingSvg from '../../assets/logos/king.svg';
 
 export const Loyalty = () => {
   const { isLoggedIn } = useAuth();
-  const currentOrderNumber = 15;
+  const currentOrderNumber = localStorage.getItem('historyCount');
   const loyaltyState = getLoyaltyState(currentOrderNumber);
   const nextTier = getNextTier(currentOrderNumber);
 

@@ -53,6 +53,8 @@ export const Dispatch = () => {
     }
   });
 
+  const currentOrderNumber = parseInt(localStorage.getItem('historyCount'));
+
   useEffect(() => {
     localStorage.setItem('selectedCurrency', selectedCurrency);
   }, [selectedCurrency]);
@@ -201,7 +203,15 @@ export const Dispatch = () => {
       return;
     }
 
-    setDeliveryCost(deliveryCostHUF);
+    if (currentOrderNumber >= 15) {
+      deliveryCostHUF /= 1.05;
+    } else if (currentOrderNumber >= 10) {
+      deliveryCostHUF /= 1.075;
+    } else if (currentOrderNumber >= 5) {
+      deliveryCostHUF /= 1.1;
+    }
+
+    setDeliveryCost(Math.round(deliveryCostHUF));
 
     if (exchangeRates) {
       const exchangeRateHUFToEUR = exchangeRates.EUR;
@@ -264,6 +274,19 @@ export const Dispatch = () => {
       });
 
     navigate('/successful-send');
+  };
+
+  const getLoyaltyPercentage = (level) => {
+    if (level >= 15) {
+      return 10;
+    }
+    if (level >= 10) {
+      return 7.5;
+    }
+    if (level >= 5) {
+      return 5;
+    }
+    return 0;
   };
 
   if (!isLoggedIn || tokenDecodingError) {
@@ -410,7 +433,13 @@ export const Dispatch = () => {
         <div className="mb-3">
           <p>Delivery cost: {displayPrice()}</p>
         </div>
-  
+
+        <div className="mb-3">
+          {currentOrderNumber >= 5 && (
+            <p>Loyalty discount of {getLoyaltyPercentage(currentOrderNumber)}% has been automatically subtracted.</p>
+          )}
+        </div>
+
         <div className="mb-3">
           <p>Estimated delivery date: <span>{estDeliveryDate}</span></p>
         </div>

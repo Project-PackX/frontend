@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import LockerDataService from '../../services/locker';
+import UserDataService from '../../services/user';
 import { useAuth } from '../../context/auth';
 import { Link } from 'react-router-dom';
+import decode from 'jwt-decode';
 import './home.css';
 
 export const Home = () => {
@@ -23,6 +25,28 @@ export const Home = () => {
           .then(data => setExchangeRates(data.rates))
           .catch(error => console.error("Error while fetching exchange rates", error));
       };
+
+      const [historyCount, setHistoryCount] = useState(0);
+
+      const loadHistory = () => {
+        try {
+          UserDataService.history(
+            decode(localStorage.getItem('token')).user_id,
+            localStorage.getItem('token')
+          )
+            .then(response => {
+              const historyCount = response.data.length;
+              setHistoryCount(historyCount);
+              localStorage.setItem('historyCount', historyCount);
+            })
+            .catch(error => {
+              console.error('Error while loading history', error);
+            });
+        } catch (error) {
+          console.error('Error decoding the token', error);
+        }
+      };
+      
 
     const calculateCost = () => {
         const senderLabel = lockerOptions[formData.senderLocker]?.label.split(' - ')[0];
@@ -97,6 +121,7 @@ export const Home = () => {
     };
 
     useEffect(() => {
+        loadHistory();
         fetchExchangeRates();
         loadLockerOptions();
     }, []);

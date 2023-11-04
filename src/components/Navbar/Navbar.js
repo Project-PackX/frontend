@@ -132,6 +132,11 @@ export const Navbar = () => {
                 </a>
                 <ul className="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkDropdownMenuLinkUser">
                   <li>
+                    <Link className="dropdown-item" to="/loyalty">
+                      <p className='button-text mb-0'>Loyalty tier</p>
+                    </Link>
+                  </li>
+                  <li>
                     <Link className="dropdown-item" to="/userdata">
                       <p className='button-text mb-0'>Edit user data</p>
                     </Link>

@@ -14,14 +14,21 @@ export const Packages = () => {
 
     const getLockerPackages = () => {
         LockerDataService.getPackages(id, token)
-            .then((response) => {
-                console.log(response.data.Message);
-                setPackages(response.data.Message)
-            })
-            .catch((error) => {
-                console.error("Error while loading locker packages", error);
-            });
-    }
+          .then((response) => {
+            console.log(response.data.Message);
+      
+            const formattedPackages = response.data.Message.map((item) => ({
+              ...item,
+              CreatedAt: new Date(item.CreatedAt).toLocaleString(),
+              DeliveryDate: new Date(item.DeliveryDate).toLocaleString(),
+            }));
+      
+            setPackages(formattedPackages);
+          })
+          .catch((error) => {
+            console.error("Error while loading locker packages", error);
+          });
+      };     
 
     useEffect(() => {
         getLockerPackages();

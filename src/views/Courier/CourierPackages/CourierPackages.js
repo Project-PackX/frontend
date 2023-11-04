@@ -23,9 +23,6 @@ export function CourierPackages() {
   const [statuses, setStatuses] = useState([]);
 
   const [exchangeRates, setExchangeRates] = useState(null);
-  const [deliveryCost, setDeliveryCost] = useState(0);
-  const [deliveryCostEUR, setDeliveryCostEUR] = useState(0);
-  const [deliveryCostUSD, setDeliveryCostUSD] = useState(0);
   const [selectedCurrency, setSelectedCurrency] = useState(localStorage.getItem("selectedCurrency") || "HUF");
 
   useEffect(() => {
@@ -43,18 +40,22 @@ export function CourierPackages() {
       .then((response) => {
         console.log(response.data);
 
-        const formattedPackages = response.data.packages.map((item) => {
+        const formattedPackages = response.data.packages.map((item, index) => {
           if (exchangeRates) {
             const deliveryCostHUF = parseFloat(item.Price);
-            setDeliveryCost(deliveryCostHUF);
-            setDeliveryCostEUR((deliveryCostHUF * exchangeRates.EUR).toFixed(2));
-            setDeliveryCostUSD((deliveryCostHUF * exchangeRates.USD).toFixed(2));
+            const deliveryCostEUR = (deliveryCostHUF * exchangeRates.EUR).toFixed(2);
+            const deliveryCostUSD = (deliveryCostHUF * exchangeRates.USD).toFixed(2);
+            
+            return {
+              ...item,
+              CreatedAt: new Date(item.CreatedAt).toLocaleString(),
+              DeliveryDate: new Date(item.DeliveryDate).toLocaleString(),
+              DeliveryCostHUF: deliveryCostHUF,
+              DeliveryCostEUR: deliveryCostEUR,
+              DeliveryCostUSD: deliveryCostUSD,
+            };
           }
-          return {
-            ...item,
-            CreatedAt: new Date(item.CreatedAt).toLocaleString(),
-            DeliveryDate: new Date(item.DeliveryDate).toLocaleString(),
-          };
+          return item;
         });
 
         setPackages(formattedPackages);
@@ -65,16 +66,16 @@ export function CourierPackages() {
       });
   };
 
-  const displayPrice = () => {
+  const displayPrice = (item) => {
     switch (selectedCurrency) {
       case "HUF":
-        return `${deliveryCost} HUF`;
+        return `${item.DeliveryCostHUF} HUF`;
       case "EUR":
-        return `${deliveryCostEUR} EUR`;
+        return `${item.DeliveryCostEUR} EUR`;
       case "USD":
-        return `${deliveryCostUSD} USD`;
+        return `${item.DeliveryCostUSD} USD`;
       default:
-        return `${deliveryCost} HUF`;
+        return `${item.DeliveryCostHUF} HUF`;
     }
   };
 
@@ -154,7 +155,7 @@ export function CourierPackages() {
               <p className="card-text">Created At: {item.CreatedAt}</p>
               <p className='card-text'>Sender Locker Address: {item.SenderLockerLabel}</p>
               <p className='card-text'>Destination Locker Address: {item.ReceiverLockerLabel}</p>
-              <p className="card-text">Price: {displayPrice()}</p>
+              <p className="card-text">Price: {displayPrice(item)}</p>
               <p className="card-text">Delivery Date: {item.DeliveryDate}</p>
               <p className="card-text">Note: {item.Note}</p>
             </div>

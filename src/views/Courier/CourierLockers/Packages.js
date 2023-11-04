@@ -12,9 +12,6 @@ export const Packages = () => {
   const token = localStorage.getItem('token');
 
   const [exchangeRates, setExchangeRates] = useState(null);
-  const [deliveryCost, setDeliveryCost] = useState(0);
-  const [deliveryCostEUR, setDeliveryCostEUR] = useState(0);
-  const [deliveryCostUSD, setDeliveryCostUSD] = useState(0);
   const [selectedCurrency, setSelectedCurrency] = useState(localStorage.getItem("selectedCurrency") || "HUF");
 
   useEffect(() => {
@@ -30,40 +27,39 @@ export const Packages = () => {
   const getLockerPackages = () => {
     LockerDataService.getPackages(id, token)
       .then((response) => {
-        console.log(response.data.Message);
-  
         const formattedPackages = response.data.Message.map((item) => {
-  
+          // Compute delivery costs for each item separately
           const deliveryCostHUF = parseFloat(item.Price);
-          setDeliveryCost(deliveryCostHUF);
-          setDeliveryCostEUR((deliveryCostHUF * exchangeRates.EUR).toFixed(2));
-          setDeliveryCostUSD((deliveryCostHUF * exchangeRates.USD).toFixed(2));
-  
+          const deliveryCostEUR = (deliveryCostHUF * exchangeRates.EUR).toFixed(2);
+          const deliveryCostUSD = (deliveryCostHUF * exchangeRates.USD).toFixed(2);
+
           return {
             ...item,
             CreatedAt: new Date(item.CreatedAt).toLocaleString(),
             DeliveryDate: new Date(item.DeliveryDate).toLocaleString(),
+            DeliveryCostHUF: deliveryCostHUF,
+            DeliveryCostEUR: deliveryCostEUR,
+            DeliveryCostUSD: deliveryCostUSD,
           };
         });
-  
+
         setPackages(formattedPackages);
       })
       .catch((error) => {
         console.error("Error while loading locker packages", error);
       });
   };
-  
 
-  const displayPrice = () => {
+  const displayPrice = (item) => {
     switch (selectedCurrency) {
       case "HUF":
-        return `${deliveryCost} HUF`;
+        return `${item.DeliveryCostHUF} HUF`;
       case "EUR":
-        return `${deliveryCostEUR} EUR`;
+        return `${item.DeliveryCostEUR} EUR`;
       case "USD":
-        return `${deliveryCostUSD} USD`;
+        return `${item.DeliveryCostUSD} USD`;
       default:
-        return `${deliveryCost} HUF`;
+        return `${item.DeliveryCostHUF} HUF`;
     }
   };
 
@@ -130,7 +126,7 @@ export const Packages = () => {
               <td>{item.TrackID}</td>
               <td>{item.SenderLocker}</td>
               <td>{item.ReceiverLocker}</td>
-              <td>{displayPrice()}</td>
+              <td>{displayPrice(item)}</td> {/* Pass the item to displayPrice */}
               <td>{item.DeliveryDate}</td>
               <td>{item.Note}</td>
             </tr>

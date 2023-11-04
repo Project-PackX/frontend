@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import UserDataService from '../../services/user';
 import LockerDataService from '../../services/locker';
 import { useAuth } from '../../context/auth';
 import decode from 'jwt-decode';
 import './history.css';
-import {NoPermission} from "../../components/Slave/NoPermission/NoPermission";
+import { NoPermission } from "../../components/Slave/NoPermission/NoPermission";
 
 export const History = () => {
   const [history, setHistory] = useState([]);
@@ -14,21 +14,18 @@ export const History = () => {
   const [lockerOptions, setLockerOptions] = useState([]);
 
   const [exchangeRates, setExchangeRates] = useState(null);
-  const [deliveryCost, setDeliveryCost] = useState(0);
-  const [deliveryCostEUR, setDeliveryCostEUR] = useState(0);
-  const [deliveryCostUSD, setDeliveryCostUSD] = useState(0);
-  const [selectedCurrency, setSelectedCurrency] = useState(localStorage.getItem("selectedCurrency") ?? "HUF");
+  const [selectedCurrency, setSelectedCurrency] = useState(localStorage.getItem("selectedCurrency") || "HUF");
   const [tokenDecodingError, setTokenDecodingError] = useState(false);
 
   useEffect(() => {
     // Store the selected currency in local storage
     localStorage.setItem('selectedCurrency', selectedCurrency);
-}, [selectedCurrency]);
+  }, [selectedCurrency]);
 
-const handleCurrencyChange = (currency) => {
+  const handleCurrencyChange = (currency) => {
     setSelectedCurrency(currency);
     localStorage.setItem('selectedCurrency', currency);
-};
+  };
 
   const loadLockerOptions = () => {
     LockerDataService.getAll()
@@ -58,10 +55,22 @@ const handleCurrencyChange = (currency) => {
             const senderLocker = lockerOptions.find((locker) => locker.id === senderLockerId);
             const receiverLocker = lockerOptions.find((locker) => locker.id === destinationLockerId);
 
+            if (exchangeRates) {
               const deliveryCostHUF = parseFloat(item.Price);
-              setDeliveryCost(deliveryCostHUF);
-              setDeliveryCostEUR((deliveryCostHUF * exchangeRates.EUR).toFixed(2));
-              setDeliveryCostUSD((deliveryCostHUF * exchangeRates.USD).toFixed(2));
+              const deliveryCostEUR = (deliveryCostHUF * exchangeRates.EUR).toFixed(2);
+              const deliveryCostUSD = (deliveryCostHUF * exchangeRates.USD).toFixed(2);
+
+              return {
+                ...item,
+                CreatedAt: new Date(item.CreatedAt).toLocaleString(),
+                DeliveryDate: new Date(item.DeliveryDate).toLocaleString(),
+                SenderLockerLabel: senderLocker ? senderLocker.label : "N/A",
+                ReceiverLockerLabel: receiverLocker ? receiverLocker.label : "N/A",
+                DeliveryCostHUF: deliveryCostHUF,
+                DeliveryCostEUR: deliveryCostEUR,
+                DeliveryCostUSD: deliveryCostUSD,
+              };
+            }
 
             return {
               ...item,
@@ -85,18 +94,18 @@ const handleCurrencyChange = (currency) => {
     }
   };
 
-  const displayPrice = () => {
+  const displayPrice = (item) => {
     switch (selectedCurrency) {
-        case "HUF":
-            return `${deliveryCost} HUF`;
-        case "EUR":
-            return `${deliveryCostEUR} EUR`;
-            case "USD":
-                return `${deliveryCostUSD} USD`;
-            default:
-                return `${deliveryCost} HUF`;
-        }
-    };
+      case "HUF":
+        return `${item.DeliveryCostHUF} HUF`;
+      case "EUR":
+        return `${item.DeliveryCostEUR} EUR`;
+      case "USD":
+        return `${item.DeliveryCostUSD} USD`;
+      default:
+        return `${item.DeliveryCostHUF} HUF`;
+    }
+  };
 
   // Fetch exchange rates when the component mounts
   const fetchExchangeRates = () => {
@@ -114,17 +123,15 @@ const handleCurrencyChange = (currency) => {
     fetchExchangeRates();
     loadLockerOptions();
   }, []);
-  
+
   useEffect(() => {
-    if (loadLockerOptions && fetchExchangeRates) {
+    if (lockerOptions.length > 0 && exchangeRates) {
       loadHistory();
     }
   }, [lockerOptions, exchangeRates, selectedCurrency]);
 
   if (!isLoggedIn || tokenDecodingError) {
-    return (
-      <NoPermission />
-    );
+    return <NoPermission />;
   }
 
   return (
@@ -150,7 +157,7 @@ const handleCurrencyChange = (currency) => {
                   <p className="card-text">Created At: {item.CreatedAt}</p>
                   <p className='card-text'>Sender Locker Address: {item.SenderLockerLabel}</p>
                   <p className='card-text'>Destination Locker Address: {item.ReceiverLockerLabel}</p>
-                  <p className="card-text">Price: {displayPrice()}</p>
+                  <p className="card-text">Price: {displayPrice(item)}</p>
                   <p className="card-text">Delivery Date: {item.DeliveryDate}</p>
                   <p className="card-text">Note: {item.Note}</p>
                 </div>

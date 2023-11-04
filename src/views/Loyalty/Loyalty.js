@@ -1,5 +1,7 @@
 import React from 'react';
+import { useAuth } from '../../context/auth';
 import './loyalty.css';
+import { NoPermission } from '../../components/Slave/NoPermission/NoPermission';
 
 import RegularSvg from '../../assets/logos/regular.svg';
 import BaronSvg from '../../assets/logos/baron.svg';
@@ -7,6 +9,7 @@ import PrinceSvg from '../../assets/logos/prince.svg';
 import KingSvg from '../../assets/logos/king.svg';
 
 export const Loyalty = () => {
+  const { isLoggedIn } = useAuth();
   const currentOrderNumber = 15;
   const loyaltyState = getLoyaltyState(currentOrderNumber);
   const nextTier = getNextTier(currentOrderNumber);
@@ -63,6 +66,10 @@ export const Loyalty = () => {
     };
     return percentageMap[level];
   };
+
+  if (!isLoggedIn) {
+    return <NoPermission />;
+  }
 
   const loyaltyDetails = (
     <div className="loyalty-details container">

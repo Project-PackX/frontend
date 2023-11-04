@@ -113,8 +113,8 @@ const handleCurrencyChange = (currency) => {
   };
 
   useEffect(() => {
-    loadLockerOptions();
     fetchExchangeRates();
+    loadLockerOptions();
   }, []);
   
   useEffect(() => {

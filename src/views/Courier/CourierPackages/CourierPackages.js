@@ -19,15 +19,22 @@ export function CourierPackages() {
 
     const getAllCourierPackages = () => {
         PackageService.getCourierPackages(user_id, token)
-            .then(response => {
-                console.log(response.data)
-                setPackages(response.data.packages); // Update the packages state with the received data
-                setStatuses(response.data.statuses);
-            })
-            .catch(e => {
-                console.log(e);
-            });
-    }
+          .then((response) => {
+            console.log(response.data);
+    
+            const formattedPackages = response.data.packages.map((item) => ({
+              ...item,
+              CreatedAt: new Date(item.CreatedAt).toLocaleString(),
+              DeliveryDate: new Date(item.DeliveryDate).toLocaleString(),
+            }));
+    
+            setPackages(formattedPackages);
+            setStatuses(response.data.statuses);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      };
 
     const handleSkipToNextStatus = (packageId) => {
         return () => {
@@ -56,8 +63,7 @@ export function CourierPackages() {
                     <div className="history-card">
                         <div className="history-item">
                             <h5 className="card-title">Track ID: {item.TrackID}</h5>
-                            <p className="card-text">Created At: {item.CreatedAt}</p>
-                            <p className="card-text">Status: {statuses[index]}</p>
+                            <h5 className="card-text">Status: {statuses[index]}</h5>
                             <p className="card-text">Created At: {item.CreatedAt}</p>
                             <p className='card-text'>Sender Locker Address: {item.SenderLockerLabel}</p>
                             <p className='card-text'>Destination Locker Address: {item.ReceiverLockerLabel}</p>

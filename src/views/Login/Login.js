@@ -69,16 +69,16 @@ export const Login = () => {
 
     return (
         <div className="login container row col-12">
-            <div className="form-container col-md-6 mt-5">
+            <div className="login-form-container col-md-6 mt-5">
                 <h1 className="title">Welcome back!</h1>
-                <p className="subtitle">Please enter your details</p>
+                <p className="login-subtitle">Please enter your details</p>
                 {error && <div className="error-message">{error}</div>} {/* Display error message if error state is set */}
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3">
-                        <label htmlFor="username" className="form-label">Email</label>
+                        <label htmlFor="username" className="login-form-label">Email</label>
                         <input
                             type="text"
-                            className="form-input"
+                            className="login-form-input"
                             id="email"
                             required
                             value={formData.email}
@@ -86,10 +86,10 @@ export const Login = () => {
                         />
                     </div>
                     <div className="mb-3">
-                        <label htmlFor="password" className="form-label">Password</label>
+                        <label htmlFor="password" className="login-form-label">Password</label>
                         <input
                             type="password"
-                            className="form-input"
+                            className="login-form-input"
                             id="password"
                             required
                             value={formData.password}

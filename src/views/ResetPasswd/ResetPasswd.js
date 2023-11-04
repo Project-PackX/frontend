@@ -94,7 +94,7 @@ export const ResetPasswd = () => {
 
     return (
         <div className="resetpasswd container row col-12">
-            <div className="form-container col-md-6 mt-5">
+            <div className="resetpasswd-form-container col-md-6 mt-5">
                 <h1 className="resetpasswd-title">Please enter your new login credentials</h1>
                 <p className="resetpasswd-subtitle">
                     Make sure to always use a different password for security reasons.
@@ -106,12 +106,12 @@ export const ResetPasswd = () => {
                 )}
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3">
-                        <label htmlFor="email" className="form-label">
+                        <label htmlFor="email" className="resetpasswd-form-label">
                             Email
                         </label>
                         <input
                             type="text"
-                            className="form-input"
+                            className="resetpasswd-form-input"
                             id="email"
                             name="email"
                             required
@@ -120,13 +120,13 @@ export const ResetPasswd = () => {
                         />
                     </div>
                     <div className="mb-3">
-                    <label htmlFor="password" className="form-label">
+                    <label htmlFor="password" className="resetpasswd-form-label">
                         New password
                     </label>
                     <div className="password-input-container">
                         <input
                             type={showPassword.password ? 'text' : 'password'}
-                            className="form-input"
+                            className="resetpasswd-form-input"
                             id="password"
                             name="password"
                             required
@@ -143,13 +143,13 @@ export const ResetPasswd = () => {
                     </div>
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="confirmPassword" className="form-label">
+                    <label htmlFor="confirmPassword" className="resetpasswd-form-label">
                         Confirm new password
                     </label>
                     <div className="password-input-container">
                         <input
                             type={showPassword.confirmPassword ? 'text' : 'password'}
-                            className="form-input"
+                            className="resetpasswd-form-input"
                             id="confirmPassword"
                             name="confirmPassword"
                             required

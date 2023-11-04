@@ -9,7 +9,7 @@
 .package-details h2 {
     color: var(--black);
     text-align: center;
-    font-size: 32px;
+    font-size: 2.3rem;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
@@ -18,7 +18,7 @@
 .package-details h3 {
     color: var(--gray);
     text-align: center;
-    font-size: 14px;
+    font-size: 0.9rem;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
@@ -37,7 +37,7 @@
 .package-table .package-table-title {
     color: var(--black);
     text-align: right;
-    font-size: 14px;
+    font-size: 1rem;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
@@ -47,7 +47,7 @@
 .package-table .package-table-info {
     color: var(--purple);
     text-align: left;
-    font-size: 14px;
+    font-size: 1rem;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
@@ -121,13 +121,13 @@
 }
 
 .send-box p {
-    font-size: 14px;
+    font-size: 1.1rem;
     color: var(--gray);
     margin: 0;
 }
 
 .send-box h2 {
-    font-size: 24px;
+    font-size: 1.2rem;
     color: var(--purple);
     margin: 0;
 }

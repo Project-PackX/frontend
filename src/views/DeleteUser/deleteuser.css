@@ -7,11 +7,11 @@
 }
 
 .delete-title {
-    font-size: 48px;
+    font-size: 3rem;
 }
 
 .delete-subtitle {
-    font-size: 18px;
+    font-size: 1.1rem;
     color: var(--gray);
 }
 
@@ -24,7 +24,7 @@
 
 .form-label {
     font-weight: bold;
-    font-size: 12px;
+    font-size: 1rem;
     color: #303030;
     margin-bottom: 5px;
 }
@@ -54,6 +54,6 @@
 
 .error-message {
     color: var(--red);
-    font-size: 12px;
+    font-size: 1rem;
     margin-top: 10px;
 }

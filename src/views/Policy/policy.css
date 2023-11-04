@@ -4,16 +4,20 @@
 }
 
 .policy-container h1{
-    font-size: 50px;
+    font-size: 3rem;
     text-align: center;
 }
 
 .policy-container h2{
-    font-size: 30px;
+    font-size: 2.2rem;
 }
 
 .policy-container h3{
-    font-size: 17px;
+    font-size: 1rem;
+}
+
+.policy-container p{
+    font-size: 1rem;
 }
 
 .policy-picture {
@@ -23,7 +27,7 @@
 }
 
 .policy-picture img {
-    width: 37.245678969%; /*The magic number*/
+    width: 30%;
     height: auto;
 }
 

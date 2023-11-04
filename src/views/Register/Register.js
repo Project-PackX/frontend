@@ -49,7 +49,7 @@ export const Register = () => {
         // Call the register method from UserDataService to send the data to the server
         UserDataService.register(requestData)
             .then((response) => {
-                navigate("/login")
+                navigate("/register")
                 console.log("user registered successfully", response.data);
             })
             .catch((error) => {
@@ -66,15 +66,15 @@ export const Register = () => {
             <div className="col-md-6">
                 <img src={require("../../assets/images/undraw_order_delivered_re_v4ab.svg").default} alt="register" />
             </div>
-            <div className="form-container col-md-6 mt-5">
-                <h1 className="title">Welcome here!</h1>
-                <p className="subtitle">Please enter your details</p>
+            <div className="register-form-container col-md-6 mt-5">
+                <h1 className="register-title">Welcome here!</h1>
+                <p className="register-subtitle">Please enter your details</p>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3">
-                        <label htmlFor="name" className="form-label">Name</label>
+                        <label htmlFor="name" className="register-form-label">Name</label>
                         <input
                             type="text"
-                            className="form-input"
+                            className="register-form-input"
                             id="name"
                             value={formData.name}
                             onChange={handleInputChange}
@@ -82,10 +82,10 @@ export const Register = () => {
                         />
                     </div>
                     <div className="mb-3">
-                        <label htmlFor="address" className="form-label">Address</label>
+                        <label htmlFor="address" className="register-form-label">Address</label>
                         <input
                             type="text"
-                            className="form-input"
+                            className="register-form-input"
                             id="address"
                             value={formData.address}
                             onChange={handleInputChange}
@@ -93,10 +93,10 @@ export const Register = () => {
                         />
                     </div>
                     <div className="mb-3">
-                        <label htmlFor="phone" className="form-label">Phone</label>
+                        <label htmlFor="phone" className="register-form-label">Phone</label>
                         <input
                             type="text"
-                            className="form-input"
+                            className="register-form-input"
                             id="phone"
                             value={formData.phone}
                             onChange={handleInputChange}
@@ -104,10 +104,10 @@ export const Register = () => {
                         />
                     </div>
                     <div className="mb-3">
-                        <label htmlFor="email" className="form-label">Email</label>
+                        <label htmlFor="email" className="register-form-label">Email</label>
                         <input
                             type="email"
-                            className="form-input"
+                            className="register-form-input"
                             id="email"
                             value={formData.email}
                             onChange={handleInputChange}
@@ -115,24 +115,24 @@ export const Register = () => {
                         />
                     </div>
                     <div className="mb-3">
-                        <label htmlFor="password" className="form-label">Password</label>
+                        <label htmlFor="password" className="register-form-label">Password</label>
                         <input
                             type="password"
-                            className="form-input"
+                            className="register-form-input"
                             id="password"
                             value={formData.password}
                             onChange={handleInputChange}
                             required
                         />
                     </div>
-                    <div className="mb-3 form-check">
+                    <div className="mb-3 register-form-check">
                         <input
                             type="checkbox"
-                            className="form-check-input"
+                            className="register-form-check-input"
                             id="acceptTerms"
                             required
                         />
-                        <label className="form-check-label" htmlFor="acceptTerms">
+                        <label className="register-form-check-label" htmlFor="acceptTerms">
                         I have read and agreed to the <a href="/policy" target="_blank">terms and conditions</a>.
                         </label>
 
@@ -144,7 +144,7 @@ export const Register = () => {
 
                     <button type="submit" className="register-btn">Register</button>
                 </form>
-                <p className="login-text">Already have an account? <Link className="login-link" to="/login"> Sign In</Link></p>
+                <p className="register-text">Already have an account? <Link className="register-link" to="/register"> Sign In</Link></p>
             </div>
         </div>
     );

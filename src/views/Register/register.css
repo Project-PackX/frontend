@@ -6,32 +6,32 @@
     margin: 0 auto;
 }
 
-.title {
-    font-size: 48px;
+.register-title {
+    font-size: 3rem;
     margin-bottom: 20px;
 }
 
-.subtitle {
-    font-size: 18px;
+.register-subtitle {
+    font-size: 1.1rem;
     color: var(--gray);
     margin-bottom: 60px;
 }
 
-.form-container {
+.register-form-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-.form-label {
+.register-form-label {
     font-weight: bold;
-    font-size: 12px;
+    font-size: 0.8rem;
     color: #303030;
     margin-bottom: 5px;
 }
 
-.form-input {
+.register-form-input {
     width: 100%;
     border: none;
     border-bottom: 1px solid var(--light-gray);
@@ -53,14 +53,14 @@
     background-color: var(--black);
 }
 
-.login-text {
+.register-text {
     margin-top: 20px;
-    font-size: 12px;
+    font-size: 0.8rem;
     color: var(--black);
 }
 
-.login-link {
-    font-size: 14px;
+.register-link {
+    font-size: 0.8rem;
     color: var(--blue);
     text-decoration: none;
     font-weight: bold;
@@ -69,13 +69,13 @@
 
 .error-message {
     color: var(--red);
-    font-size: 12px;
+    font-size: 1rem;
     margin-top: 10px;
 }
 
-.form-check-label {
-    font-size: 14px;
+.register-form-check-label {
+    font-size: 0.8rem;
     font-weight: bold;
     color: var(--purple);
-    margin-bottom: 5px;
+    padding: 5px;
 }

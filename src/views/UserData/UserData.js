@@ -89,18 +89,18 @@ export const UserData = () => {
 
     return (
         <div className="userdata container row col-12">
-            <div className="form-container col-md-6 mt-5">
+            <div className="userdata-form-container col-md-6 mt-5">
                 <h1 className="userdata-title">Edit Your User Data</h1>
                 <p className="delete-subtitle">Here you can modify your account informations.</p>
                 {error && <div className="error-message">{error}</div>}
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3">
-                        <label htmlFor="name" className="form-label">
+                        <label htmlFor="name" className="userdata-form-label">
                             Name
                         </label>
                         <input
                             type="text"
-                            className="form-input"
+                            className="userdata-form-input"
                             name="name"
                             value={formData.name}
                             onChange={handleInputChange}
@@ -108,12 +108,12 @@ export const UserData = () => {
                     </div>
 
                     <div className="mb-3">
-                        <label htmlFor="address" className="form-label">
+                        <label htmlFor="address" className="userdata-form-label">
                             Address
                         </label>
                         <input
                             type="text"
-                            className="form-input"
+                            className="userdata-form-input"
                             name="address"
                             value={formData.address}
                             onChange={handleInputChange}
@@ -121,12 +121,12 @@ export const UserData = () => {
                     </div>
 
                     <div className="mb-3">
-                        <label htmlFor="phone" className="form-label">
+                        <label htmlFor="phone" className="userdata-form-label">
                             Phone
                         </label>
                         <input
                             type="text"
-                            className="form-input"
+                            className="userdata-form-input"
                             name="phone"
                             value={formData.phone}
                             onChange={handleInputChange}

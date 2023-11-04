@@ -8,32 +8,32 @@
 }
 
 .about-title {
-    font-size: 36px;
+    font-size: 2.5rem;
     font-weight: 600;
     color: #333;
     margin-bottom: 15px;
 }
 
 .about-subtitle {
-    font-size: 18px;
+    font-size: 1.5rem;
     color: #666; 
     margin-bottom: 25px;
     text-align: center;
 }
 
 .about-data{
-    font-size: 18px;
+    font-size: 1.2rem;
     margin-top: 5px;
 }
 
 .about-people-data{
-    font-size: 15px;
+    font-size: 1rem;
     color: var(--gray);
     
 }
 
 .about-people-link{
-    font-size: 18px;
+    font-size: 1.2rem;
     text-decoration: none;
     color: var(--purple);
 }

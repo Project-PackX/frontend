@@ -106,7 +106,7 @@ export const PackageStatus = () => {
     return (
         <div className="package-details container">
             <h2>{packageData.Status}</h2>
-            <h3>{`${dayOfWeek}, ${formattedDate}`}</h3>
+            <h3>{new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</h3>
             <div className="dropdown text-end">
                 <button className="button button-primary dropdown-toggle currency-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
                     {selectedCurrency}

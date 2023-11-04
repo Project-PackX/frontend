@@ -11,7 +11,7 @@ export const Packages = () => {
   const [packages, setPackages] = useState([]);
   const token = localStorage.getItem('token');
 
-  const [exchangeRates, setExchangeRates] = useState(null);
+  const exchangeRates = JSON.parse(localStorage.getItem("exchangeRates"));
   const [selectedCurrency, setSelectedCurrency] = useState(localStorage.getItem("selectedCurrency") || "HUF");
 
   useEffect(() => {
@@ -62,22 +62,6 @@ export const Packages = () => {
         return `${item.DeliveryCostHUF} HUF`;
     }
   };
-
-  // Fetch exchange rates when the component mounts
-  const fetchExchangeRates = () => {
-    fetch('https://open.er-api.com/v6/latest/HUF')
-      .then((response) => response.json())
-      .then((data) => {
-        setExchangeRates(data.rates);
-      })
-      .catch((error) => {
-        console.error("Error while fetching exchange rates", error);
-      });
-  };
-
-  useEffect(() => {
-    fetchExchangeRates();
-  }, []);
 
   useEffect(() => {
     if (exchangeRates) {

@@ -18,7 +18,7 @@ export const Dispatch = () => {
   const [estDeliveryDate, setEstDeliveryDate] = useState('');
   const [isAfterNoon, setIsAfterNoon] = useState(false);
 
-  const [exchangeRates, setExchangeRates] = useState(null);
+  const exchangeRates = JSON.parse(localStorage.getItem("exchangeRates"));
   const [deliveryCost, setDeliveryCost] = useState(0);
   const [deliveryCostEUR, setDeliveryCostEUR] = useState(0);
   const [deliveryCostUSD, setDeliveryCostUSD] = useState(0);
@@ -70,7 +70,6 @@ export const Dispatch = () => {
   }, [formData]);
 
   useEffect(() => {
-    fetchExchangeRates();
     loadLockerOptions();
   }, []);
 
@@ -120,13 +119,6 @@ export const Dispatch = () => {
   };
 
   const findLockerAddress = (lockerId) => lockerOptions.find((locker) => String(locker.id) === String(lockerId))?.label || '';
-
-  const fetchExchangeRates = () => {
-    fetch('https://open.er-api.com/v6/latest/HUF')
-      .then((response) => response.json())
-      .then((data) => setExchangeRates(data.rates))
-      .catch((error) => console.error('Error while fetching exchange rates', error));
-  };
 
   const loadLockerOptions = () => {
     LockerDataService.getAll()

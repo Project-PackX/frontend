@@ -14,7 +14,7 @@ export const PackageStatus = () => {
     const [packageData, setPackageData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const { id } = useParams();
-    const [exchangeRates, setExchangeRates] = useState(null);
+    const exchangeRates = JSON.parse(localStorage.getItem("exchangeRates"));
     const [selectedCurrency, setSelectedCurrency] = useState(localStorage.getItem("selectedCurrency") || "HUF");
 
     useEffect(() => {
@@ -34,19 +34,9 @@ export const PackageStatus = () => {
 
     useEffect(() => {
         const loadingTimeout = setTimeout(() => setIsLoading(false), 2000);
-
         getPackageStatus(id);
-        fetchExchangeRates();
-
         return () => clearTimeout(loadingTimeout);
     }, [id]);
-
-    const fetchExchangeRates = () => {
-        fetch('https://open.er-api.com/v6/latest/HUF')
-            .then((response) => response.json())
-            .then((data) => setExchangeRates(data.rates))
-            .catch((error) => console.error("Error while fetching exchange rates", error));
-    };
 
     if (isLoading) return <Loading className="loading" />
 

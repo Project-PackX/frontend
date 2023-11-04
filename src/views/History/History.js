@@ -12,7 +12,7 @@ export const History = () => {
   const { isLoggedIn } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const [lockerOptions, setLockerOptions] = useState([]);
-  const [exchangeRates, setExchangeRates] = useState(null);
+  const exchangeRates = JSON.parse(localStorage.getItem("exchangeRates"));
   const [selectedCurrency, setSelectedCurrency] = useState(localStorage.getItem("selectedCurrency") || "HUF");
   const [tokenDecodingError, setTokenDecodingError] = useState(false);
 
@@ -84,15 +84,7 @@ export const History = () => {
     return currency[selectedCurrency] || currency.HUF;
   };
 
-  const fetchExchangeRates = () => {
-    fetch('https://open.er-api.com/v6/latest/HUF')
-      .then(response => response.json())
-      .then(data => setExchangeRates(data.rates))
-      .catch(error => console.error("Error while fetching exchange rates", error));
-  };
-
   useEffect(() => {
-    fetchExchangeRates();
     loadLockerOptions();
   }, []);
 

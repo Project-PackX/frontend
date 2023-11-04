@@ -14,6 +14,16 @@ export const Home = () => {
     const [showMap, setShowMap] = useState(false);
     const [cost, setCost] = useState(0);
 
+    const [exchangeRates, setExchangeRates] = useState(null);
+    localStorage.setItem('exchangeRates', JSON.stringify(exchangeRates));
+
+    const fetchExchangeRates = () => {
+        fetch('https://open.er-api.com/v6/latest/HUF')
+          .then(response => response.json())
+          .then(data => setExchangeRates(data.rates))
+          .catch(error => console.error("Error while fetching exchange rates", error));
+      };
+
     const calculateCost = () => {
         const senderLabel = lockerOptions[formData.senderLocker]?.label.split(' - ')[0];
         const receiverLabel = lockerOptions[formData.receiverLocker - 1]?.label.split(' - ')[0];
@@ -87,6 +97,7 @@ export const Home = () => {
     };
 
     useEffect(() => {
+        fetchExchangeRates();
         loadLockerOptions();
     }, []);
 

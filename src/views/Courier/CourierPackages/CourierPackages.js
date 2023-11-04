@@ -18,7 +18,7 @@ export function CourierPackages() {
   const { isLoggedIn } = useAuth();
   const [packages, setPackages] = useState([]);
   const [statuses, setStatuses] = useState([]);
-  const [exchangeRates, setExchangeRates] = useState(null);
+  const exchangeRates = JSON.parse(localStorage.getItem("exchangeRates"));
   const [selectedCurrency, setSelectedCurrency] = useState(localStorage.getItem("selectedCurrency") || "HUF");
 
   const handleCurrencyChange = (currency) => {
@@ -68,17 +68,6 @@ export function CourierPackages() {
     }
   };
 
-  const fetchExchangeRates = () => {
-    fetch('https://open.er-api.com/v6/latest/HUF')
-      .then((response) => response.json())
-      .then((data) => {
-        setExchangeRates(data.rates);
-      })
-      .catch((error) => {
-        console.error("Error while fetching exchange rates", error);
-      });
-  };
-
   const handleSkipToNextStatus = (packageId) => () => {
     PackageService.statusUpdate(packageId, token)
       .then(response => {
@@ -97,10 +86,6 @@ export function CourierPackages() {
     'In Delivery': InDeliverySvg,
     'Delivered': DeliveredSvg,
   }[status] || DispatchSvg);
-
-  useEffect(() => {
-    fetchExchangeRates();
-  }, []);
 
   useEffect(() => {
     if (exchangeRates) {

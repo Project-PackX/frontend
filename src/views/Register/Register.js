@@ -25,12 +25,12 @@ export const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+  
     if (!isRecaptchaVerified) {
       alert("Please verify that you're a human.");
       return;
     }
-
+  
     const requestData = {
       Name: formData.name,
       Address: formData.address,
@@ -38,16 +38,18 @@ export const Register = () => {
       Email: formData.email,
       Password: formData.password,
     };
-
+  
     UserDataService.register(requestData)
       .then((response) => {
-        navigate('/register');
-        console.log('user registered successfully', response.data);
+        // Redirect to the homepage ("/") after successful registration
+        console.log('User registered successfully', response.data);
+        navigate('/');
       })
       .catch((error) => {
-        console.error('error while registering the user', error);
+        console.error('Error while registering the user', error);
       });
   };
+  
 
   return (
     <div className="register container row col-12">
@@ -96,7 +98,7 @@ export const Register = () => {
           </button>
         </form>
         <p className="register-text">
-          Already have an account? <Link className="register-link" to="/register"> Sign In</Link>
+          Already have an account? <Link className="register-link" to="/login"> Sign In</Link>
         </p>
       </div>
     </div>

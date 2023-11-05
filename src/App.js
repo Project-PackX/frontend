@@ -24,7 +24,7 @@ import { Policy } from "./views/Policy/Policy";
 import { AuthProvider } from './context/auth';
 import { Dispatch } from "./views/Dispatch/Dispatch";
 import { History } from "./views/History/History";
-import { SuccessfulSend } from "./components/Slave/SuccessfulSend/SuccessfulSend";
+import { SuccessfulResponse } from './components/Slave/SuccessfulSend/SuccessfulResponse';
 
 import { CourierPackages } from "./views/Courier/CourierPackages/CourierPackages";
 import { CourierLockers } from "./views/Courier/CourierLockers/CourierLockers";
@@ -56,7 +56,7 @@ function App() {
           <Route exact path="/loyalty" element={<Loyalty />} />
           <Route exact path="/contact" element={<Contact />} />
           <Route exact path="/dispatch" element={<Dispatch />} />
-          <Route exact path="/successful-send" element={<SuccessfulSend />} />
+          <Route exact path="/successfulresponse" element={<SuccessfulResponse />} />
           <Route exact path="/history" element={<History />} />
           <Route exact path="/policy" element={<Policy />} />
           <Route exact path="/courier-packages" element={<CourierPackages />} />

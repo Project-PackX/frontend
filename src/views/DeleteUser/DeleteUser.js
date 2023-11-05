@@ -1,16 +1,22 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '../../context/auth';
+import UserDataService from '../../services/user';
 import ReCaptchaWidget from '../../components/reCAPTCHA/reCAPTCHA';
 import './deleteuser.css';
 import { NoPermission } from '../../components/Slave/NoPermission/NoPermission';
+import { useNavigate } from 'react-router-dom';
 
 export const DeleteUser = () => {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, logout } = useAuth();
   const access_level = parseInt(localStorage.getItem('access_level'));
   const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
-  const [formData, setFormData] = useState({ email: '', password: '', confirmPassword: '' });
+  const [formData, setFormData] = useState({ email: '' });
   const [error, setError] = useState('');
-  const [passwordsMatch, setPasswordsMatch] = useState(true);
+  const navigate = useNavigate();
+  const userEmail = localStorage.getItem('email');
+
+  const token = localStorage.getItem('token');
+  const user_id = localStorage.getItem('user_id');
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -21,7 +27,7 @@ export const DeleteUser = () => {
     setIsRecaptchaVerified(isVerified);
   };
 
-  const handleSubmit = (e) => {
+  const handleDeleteUser = (e) => {
     e.preventDefault();
 
     if (!isRecaptchaVerified) {
@@ -29,32 +35,18 @@ export const DeleteUser = () => {
       return;
     }
 
-    if (formData.password === formData.confirmPassword) {
-      setPasswordsMatch(true);
-      const UserData = { Email: formData.email, Password: formData.password };
-      // Add your form submission logic here.
+    if (formData.email === userEmail) {
+      UserDataService.deleteUser(user_id, token)
+        .then(() => {
+          logout();
+          navigate('/successfulresponse');
+        })
+        .catch((error) => {
+          setError('An error occurred while deleting the user.');
+        });
     } else {
-      setPasswordsMatch(false);
+      setError('The email address you entered does not match your account.');
     }
-  };
-
-  const [showPassword, setShowPassword] = useState({ password: false, confirmPassword: false });
-  const timers = useRef({ password: null, confirmPassword: null });
-
-  const handleShowPassword = (field) => {
-    const newShowPassword = { ...showPassword };
-    newShowPassword[field] = true;
-    setShowPassword(newShowPassword);
-
-    if (timers.current[field]) {
-      clearTimeout(timers.current[field]);
-    }
-
-    timers.current[field] = setTimeout(() => {
-      const newShowPassword = { ...showPassword };
-      newShowPassword[field] = false;
-      setShowPassword(newShowPassword);
-    }, 300);
   };
 
   if (access_level === 2) {
@@ -63,7 +55,11 @@ export const DeleteUser = () => {
         <div className="d-flex justify-content-center align-items-center vh-100">
           <div className="text-center">
             <h1>You do not have permission to view this page.</h1>
-            <img className="error-image" src={require("../../assets/images/undraw_access_denied_re_awnf.svg").default} alt="user-data" />
+            <img
+              className="error-image"
+              src={require('../../assets/images/undraw_access_denied_re_awnf.svg').default}
+              alt="user-data"
+            />
           </div>
         </div>
       </div>
@@ -80,7 +76,7 @@ export const DeleteUser = () => {
         <h1 className="delete-title">Delete your account</h1>
         <p className="delete-subtitle">Please note that this process cannot be undone.</p>
         {error && <div className="error-message">{error}</div>}
-        <form onSubmit={handleSubmit}>
+        <form>
           <div className="mb-3">
             <label htmlFor="email" className="form-label">
               Email
@@ -95,42 +91,26 @@ export const DeleteUser = () => {
               onChange={handleInputChange}
             />
           </div>
-          {['password', 'confirmPassword'].map((field) => (
-            <div className="mb-3" key={field}>
-              <label htmlFor={field} className="form-label">
-                {field === 'password' ? 'Password' : 'Confirm password'}
-              </label>
-              <div className="password-input-container">
-                <input
-                  type={showPassword[field] ? 'text' : 'password'}
-                  className="form-input"
-                  id={field}
-                  name={field}
-                  required
-                  value={formData[field]}
-                  onChange={handleInputChange}
-                />
-                <button
-                  type="button"
-                  onClick={() => handleShowPassword(field)}
-                  className="show-password-button"
-                >
-                  <img className="showpass-image" src={require("../../assets/icons/showpass.png")} alt="showpass" />
-                </button>
-              </div>
-            </div>
-          ))}
-          {passwordsMatch === false && <div className="alert alert-danger">Passwords do not match.</div>}
+          <div className="mb-3 register-form-check">
+            <input type="checkbox" className="register-form-check-input" id="acceptTerms" required />
+            <label className="register-form-check-label" htmlFor="acceptTerms">
+              I have read that this process is not reversible and permanent.
+            </label>
+          </div>
           <div>
             <ReCaptchaWidget onRecaptchaChange={onRecaptchaChange} />
           </div>
-          <button type="submit" className="delete-btn">
+          <button type="button" onClick={handleDeleteUser} className="delete-btn">
             Delete
           </button>
         </form>
       </div>
       <div className="col-md-6">
-        <img className="image" src={require("../../assets/images/undraw_throw_away_re_x60k.svg").default} alt="user-data" />
+        <img
+          className="image"
+          src={require('../../assets/images/undraw_throw_away_re_x60k.svg').default}
+          alt="user-data"
+        />
       </div>
     </div>
   );

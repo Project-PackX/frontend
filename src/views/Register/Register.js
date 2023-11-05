@@ -43,7 +43,7 @@ export const Register = () => {
       .then((response) => {
         // Redirect to the homepage ("/") after successful registration
         console.log('User registered successfully', response.data);
-        navigate('/');
+        navigate('/successfulresponse', { state: { referrer: '/register' } });
       })
       .catch((error) => {
         console.error('Error while registering the user', error);

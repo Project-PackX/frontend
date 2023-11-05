@@ -173,6 +173,17 @@ export const Navbar = () => {
               <p className='button-text mb-0'>Contact us</p>
             </Link>
           </li>
+          {isLoggedIn ? (
+            // User is logged in, so don't display the "Register" button
+            null
+          ) : (
+            // User is not logged in, display the "Register" button
+            <li className="nav-item">
+              <Link className="button button-primary" to="/register">
+                <p className="button-text mb-0">Register</p>
+              </Link>
+            </li>
+          )}
           <li className="nav-item">
             {isLoggedIn ? (
                 <button className="button button-primary" onClick={handleLogout}>

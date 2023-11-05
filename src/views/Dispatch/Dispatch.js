@@ -273,7 +273,8 @@ export const Dispatch = () => {
         setError('Error while dispatching the package');
       });
 
-    navigate('/successful-send');
+    navigate('/successfulresponse', { state: { referrer: 'dispatch' } });
+
   };
 
   const getLoyaltyPercentage = (level) => {

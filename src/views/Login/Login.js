@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import UserDataService from '../../services/user';
 import { useAuth } from '../../context/auth';
 import ReCaptchaWidget from '../../components/reCAPTCHA/reCAPTCHA';
+import jwtDecode from 'jwt-decode';
 import './login.css';
 import { AlreadyLoggedIn } from "../../components/Slave/AlreadyLoggedIn/AlreadyLoggedIn";
 
@@ -33,15 +34,17 @@ export const Login = () => {
 
         UserDataService.login(requestData)
             .then((response) => {
-                const { token, name, email, address, phone } = response.data;
+                const { token, user } = response.data;
+                console.log("Server response",response.data);
                 localStorage.setItem("token", token);
-                localStorage.setItem("name", name);
-                localStorage.setItem("email", email);
-                localStorage.setItem("address", address);
-                localStorage.setItem("phone", phone);
+                localStorage.setItem("name", user.Name);
+                localStorage.setItem("email", user.Email);
+                localStorage.setItem("address", user.Address);
+                localStorage.setItem("phone", user.Phone);
+                localStorage.setItem("user_id", jwtDecode(token).user_id);
                 login();
-                navigate("/");
                 console.log("user logged in successfully", token);
+                navigate("/");                
             })
             .catch(() => setError("Error while logging in. Please check your email and password."));
     };

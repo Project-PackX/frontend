@@ -60,6 +60,14 @@ class UserDataService {
             }
         });
     }
+
+    deleteUser(id, token) {
+        return http.delete(`/users/${id}`, {
+            headers: {
+                Authorization: `${token}`
+            }
+        });
+    }
 }
 
 export default new UserDataService();

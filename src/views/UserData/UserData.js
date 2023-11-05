@@ -4,6 +4,7 @@ import UserDataService from '../../services/user';
 import decode from 'jwt-decode';
 import ReCaptchaWidget from '../../components/reCAPTCHA/reCAPTCHA';
 import { NoPermission } from '../../components/Slave/NoPermission/NoPermission';
+import { useNavigate } from 'react-router-dom';
 import './userdata.css';
 
 export const UserData = () => {
@@ -16,6 +17,7 @@ export const UserData = () => {
   });
   const [error, setError] = useState('');
   const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -54,9 +56,14 @@ export const UserData = () => {
     UserDataService.updateUser(userId, token, updatedUserData)
       .then((response) => {
         console.log('User data updated successfully', response.data);
-        ['name', 'address', 'phone', 'email'].forEach((field) => {
+        ['Name', 'Address', 'Phone', 'Email'].forEach((field) => {
           localStorage.setItem(field, response.data[field]);
         });
+        localStorage.setItem('name', formData.name);
+        localStorage.setItem('address', formData.address);
+        localStorage.setItem('phone', formData.phone);
+        localStorage.setItem('email', formData.email);
+        navigate('/successfulresponse' , { state: { referrer: 'userdata' } });
       })
       .catch((error) => {
         setError('Error updating user data. Please try again.');

@@ -11,7 +11,7 @@ export const Register = () => {
   const isAlphaNumeric = (input) => /^[a-zA-Z0-9áéíóöőúüűÁÉÍÓÖŐÚÜŰ\s.,/-]*$/.test(input);
   const isAddressValid = (address) => /^[a-zA-Z0-9áéíóöőúüűÁÉÍÓÖŐÚÜŰ\s.,/-]*$/.test(address);
   const isEmailValid = (email) => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email) && email.split('@').length === 2 && email.split('.').length >= 2;
-  const isPhoneNumberValid = (phone) => /^[0-9+]*$/.test(phone); 
+  const isPhoneNumberValid = (phone) => /^[0-9+]{1,15}$/.test(phone);
   
   const onRecaptchaChange = (isVerified) => setIsRecaptchaVerified(isVerified);
 
@@ -43,7 +43,7 @@ export const Register = () => {
       { id: 'phone', label: 'Phone', validator: isPhoneNumberValid },
     ]) {
       if (formData[input.id] && !input.validator(formData[input.id])) {
-        alert(`Please enter a valid ${input.label}`);
+        alert(`Please enter valid information to the: "${input.label}" field`);
         return;
       }
     }

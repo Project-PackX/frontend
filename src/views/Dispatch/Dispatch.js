@@ -203,12 +203,12 @@ export const Dispatch = () => {
       return;
     }
 
-    if (currentOrderNumber >= 15) {
-      deliveryCostHUF /= 1.05;
-    } else if (currentOrderNumber >= 10) {
-      deliveryCostHUF /= 1.075;
-    } else if (currentOrderNumber >= 5) {
+    if (currentOrderNumber >= 7) {
       deliveryCostHUF /= 1.1;
+    } else if (currentOrderNumber >= 5 && currentOrderNumber < 7) {
+      deliveryCostHUF /= 1.075;
+    } else if (currentOrderNumber >= 3 && currentOrderNumber < 5) {
+      deliveryCostHUF /= 1.05;
     }
 
     setDeliveryCost(Math.round(deliveryCostHUF));
@@ -277,13 +277,13 @@ export const Dispatch = () => {
   };
 
   const getLoyaltyPercentage = (level) => {
-    if (level >= 15) {
+    if (level >= 7) {
       return 10;
     }
-    if (level >= 10) {
+    if (level >= 5) {
       return 7.5;
     }
-    if (level >= 5) {
+    if (level >= 3) {
       return 5;
     }
     return 0;

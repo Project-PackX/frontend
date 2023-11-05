@@ -15,11 +15,11 @@ export const Loyalty = () => {
   const nextTier = getNextTier(currentOrderNumber);
 
   function getLoyaltyState(currentOrderNumber) {
-    if (currentOrderNumber >= 15) {
+    if (currentOrderNumber >= 7) {
       return 'King';
-    } else if (currentOrderNumber >= 10) {
-      return 'Prince';
     } else if (currentOrderNumber >= 5) {
+      return 'Prince';
+    } else if (currentOrderNumber >= 3) {
       return 'Baron';
     } else {
       return 'Regular';
@@ -27,11 +27,11 @@ export const Loyalty = () => {
   }
 
   function getNextTier(currentOrderNumber) {
-    if (currentOrderNumber >= 15) {
+    if (currentOrderNumber >= 7) {
       return 'You have reached the highest tier.';
-    } else if (currentOrderNumber >= 10) {
-      return 'King';
     } else if (currentOrderNumber >= 5) {
+      return 'King';
+    } else if (currentOrderNumber >= 3) {
       return 'Prince';
     } else {
       return 'Baron';
@@ -50,9 +50,9 @@ export const Loyalty = () => {
 
   const getStateMinOrder = (level) => {
     const minMap = {
-      'Baron': 5,
-      'Prince': 10,
-      'King': 15,
+      'Baron': 3,
+      'Prince': 5,
+      'King': 7,
     };
     return minMap[level];
   };

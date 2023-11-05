@@ -36,21 +36,23 @@ export const ResetPasswd = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+  
     if (!isRecaptchaVerified) {
       setError("Please verify that you're a human.");
       return;
     }
-
+  
     if (formData.password === formData.confirmPassword) {
       setPasswordsMatch(true);
       setError('');
       const requestData = {
-        email: formData.email,
         password: formData.password,
         passwordAgain: formData.confirmPassword,
       };
-      UserDataService.resetPassword(requestData)
+  
+      console.log(requestData);
+  
+      UserDataService.resetPassword(formData.email, requestData)
         .then((response) => {
           if (response.status === 200) {
             logout();
@@ -66,6 +68,7 @@ export const ResetPasswd = () => {
       setPasswordsMatch(false);
     }
   };
+  
 
   const handleShowPassword = (field) => {
     const newShowPassword = { ...showPassword, [field]: true };

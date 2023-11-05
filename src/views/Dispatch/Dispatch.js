@@ -435,7 +435,7 @@ export const Dispatch = () => {
         </div>
 
         <div className="mb-3">
-          {currentOrderNumber >= 5 && (
+          {currentOrderNumber >= 3 && (
             <p>Loyalty discount of {getLoyaltyPercentage(currentOrderNumber)}% has been automatically subtracted.</p>
           )}
         </div>

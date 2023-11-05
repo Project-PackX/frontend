@@ -65,3 +65,9 @@
     font-size: 1rem;
     margin-top: 10px;
 }
+
+.success-message {
+    color: var(--green);
+    font-size: 1rem;
+    margin-top: 10px;
+}

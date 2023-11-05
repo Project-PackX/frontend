@@ -26,6 +26,10 @@ export const SuccessfulResponse = () => {
         message = 'Your user data has been updated successfully.';
         linkTo = '/';
         actionText = 'Home';
+    } else if (location.state?.referrer === 'resetpasswd') {
+        message = 'Your password has been updated successfully.';
+        linkTo = '/login';
+        actionText = 'Login';
     }
     else {
         message = '';

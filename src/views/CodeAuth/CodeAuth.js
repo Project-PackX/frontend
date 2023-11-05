@@ -14,31 +14,40 @@ export const CodeAuth = () => {
         const { id, value } = e.target;
         setFormData({ ...formData, [id]: value });
     };
-
     const handleSendCode = (e) => {
         e.preventDefault();
         if (!isRecaptchaVerified) return setError("Please verify that you're a human.");
-        const requestData = { email: formData.email };
-
-        UserDataService.sendPasswordResetCode(requestData)
+        
+        UserDataService.sendPasswordResetCode(formData.email)
             .then((response) => {
-                if (response.data.success) setError(null);
-                else setError(<div className="alert alert-danger">{response.data.message || "Failed to send the reset code. Please try again."}</div>);
+                if (response.data === "OK") {
+                    setError(
+                        <div className="alert alert-success">
+                            The reset code has been sent to your email.
+                        </div>
+                    );
+                } else {
+                    setError(
+                        <div className="alert alert-danger">
+                            Failed to send the reset code. Please try again.
+                        </div>
+                    );
+                }
             })
             .catch(() => setError(<div className="alert alert-danger">Failed to send the reset code. Please try again.</div>));
-    };
-
+    };   
+    
     const handleAuthCode = (e) => {
         e.preventDefault();
         const requestData = { code: formData.code };
-
-        UserDataService.checkPasswordResetCode(requestData)
+    
+        UserDataService.checkPasswordResetCode(requestData.code) 
             .then((response) => {
-                if (response.status === 200) navigate('/resetpasswd');
+                if (response.status === 200) navigate('/resetpasswd', { state: { referrer: 'codeauth' } });
                 else setError(<div className="alert alert-danger">The authentication code you provided appears to be incorrect or has already expired/been used. Please try again.</div>);
             });
     };
-
+    
     return (
         <div className="codeauth container row col-12">
             <div className="form-container col-md-6 mt-5">

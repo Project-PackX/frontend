@@ -8,10 +8,11 @@ export const Register = () => {
   const navigate = useNavigate();
   const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
 
-  const isAlphaNumeric = (input) => /^[a-zA-Z0-9áéíóöőúüűÁÉÍÓÖŐÚÜŰ\s]+$/.test(input);
-  const isEmailValid = (email) => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
-  const isPhoneNumberValid = (phone) => /^[0-9+]+$/.test(phone);
-
+  const isAlphaNumeric = (input) => /^[a-zA-Z0-9áéíóöőúüűÁÉÍÓÖŐÚÜŰ\s.,/-]*$/.test(input);
+  const isAddressValid = (address) => /^[a-zA-Z0-9áéíóöőúüűÁÉÍÓÖŐÚÜŰ\s.,/-]*$/.test(address);
+  const isEmailValid = (email) => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email) && email.split('@').length === 2 && email.split('.').length >= 2;
+  const isPhoneNumberValid = (phone) => /^[0-9+]*$/.test(phone); 
+  
   const onRecaptchaChange = (isVerified) => setIsRecaptchaVerified(isVerified);
 
   const [formData, setFormData] = useState({
@@ -24,23 +25,6 @@ export const Register = () => {
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
-
-    if (id === 'name' || id === 'address' || id === 'password') {
-      if (!isAlphaNumeric(value)) {
-        alert("Please use only alphanumeric characters.");
-        return;
-      }
-    } else if (id === 'email') {
-      if (!isEmailValid(value)) {
-        alert("Please enter a valid email address.");
-        return;
-      }
-    } else if (id === 'phone') {
-      if (!isPhoneNumberValid(value)) {
-        alert("Please enter a valid phone number.");
-        return;
-      }
-    }
     setFormData({ ...formData, [id]: value });
   }
 
@@ -50,6 +34,18 @@ export const Register = () => {
     if (!isRecaptchaVerified) {
       alert("Please verify that you're a human.");
       return;
+    }
+
+    for (const input of [
+      { id: 'name', label: 'Name', validator: isAlphaNumeric },
+      { id: 'address', label: 'Address', validator: isAddressValid },
+      { id: 'email', label: 'Email', validator: isEmailValid },
+      { id: 'phone', label: 'Phone', validator: isPhoneNumberValid },
+    ]) {
+      if (formData[input.id] && !input.validator(formData[input.id])) {
+        alert(`Please enter a valid ${input.label}`);
+        return;
+      }
     }
   
     const requestData = {

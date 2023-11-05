@@ -267,6 +267,7 @@ export const Dispatch = () => {
     PackageDataService.new(requestData, localStorage.getItem('token'))
       .then((response) => {
         console.log('Package dispatched successfully');
+        localStorage.setItem('historyCount', currentOrderNumber + 1);
       })
       .catch((error) => {
         console.error('Error while dispatching the package', error);

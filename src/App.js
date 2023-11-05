@@ -24,7 +24,7 @@ import { Policy } from "./views/Policy/Policy";
 import { AuthProvider } from './context/auth';
 import { Dispatch } from "./views/Dispatch/Dispatch";
 import { History } from "./views/History/History";
-import { SuccessfulResponse } from './components/Slave/SuccessfulSend/SuccessfulResponse';
+import { SuccessfulResponse } from './components/Slave/SuccessfulResponse/SuccessfulResponse';
 
 import { CourierPackages } from "./views/Courier/CourierPackages/CourierPackages";
 import { CourierLockers } from "./views/Courier/CourierLockers/CourierLockers";

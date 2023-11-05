@@ -8,6 +8,10 @@ export const Register = () => {
   const navigate = useNavigate();
   const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
 
+  const isAlphaNumeric = (input) => /^[a-zA-Z0-9áéíóöőúüűÁÉÍÓÖŐÚÜŰ\s]+$/.test(input);
+  const isEmailValid = (email) => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
+  const isPhoneNumberValid = (phone) => /^[0-9+]+$/.test(phone);
+
   const onRecaptchaChange = (isVerified) => setIsRecaptchaVerified(isVerified);
 
   const [formData, setFormData] = useState({
@@ -20,8 +24,25 @@ export const Register = () => {
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
+
+    if (id === 'name' || id === 'address' || id === 'password') {
+      if (!isAlphaNumeric(value)) {
+        alert("Please use only alphanumeric characters.");
+        return;
+      }
+    } else if (id === 'email') {
+      if (!isEmailValid(value)) {
+        alert("Please enter a valid email address.");
+        return;
+      }
+    } else if (id === 'phone') {
+      if (!isPhoneNumberValid(value)) {
+        alert("Please enter a valid phone number.");
+        return;
+      }
+    }
     setFormData({ ...formData, [id]: value });
-  };
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();

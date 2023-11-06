@@ -125,20 +125,30 @@ export const Dispatch = () => {
   const loadLockerOptions = () => {
     LockerDataService.getAll()
       .then((response) => {
-        const lockerOptions = response.data.lockers.map((locker) => ({
+        console.log('Lockers loaded successfully', response.data);
+        const lockerOptions = response.data.lockers.map((locker, index) => ({
           id: locker.ID,
           label: `${locker.City} - ${locker.Address}`,
+          numberofpackages: response.data.numberofpackages[index], // Assign numberofpackages from the response
+          percents: response.data.percents[index], // Assign percents from the response
+          maxcapacity: Math.round(response.data.numberofpackages[index] / response.data.percents[index] * 100),
         }));
-
+  
         const uniqueLockerOptions = Array.from(new Set(lockerOptions.map((option) => option.label))).map((label) => ({
           id: lockerOptions.find((option) => option.label === label).id,
           label: label,
+          numberofpackages: lockerOptions.find((option) => option.label === label).numberofpackages,
+          percents: lockerOptions.find((option) => option.label === label).percents,
+          maxcapacity: lockerOptions.find((option) => option.label === label).maxcapacity,
         }));
-
+  
+        console.log('Unique locker options:', uniqueLockerOptions);
+  
         setLockerOptions(uniqueLockerOptions);
       })
       .catch((error) => console.error('Error while loading locker options', error));
   };
+  
 
   useEffect(() => {
     loadLockerOptions();
@@ -352,6 +362,7 @@ export const Dispatch = () => {
               Map
             </a>
           )}
+          <p className="mb-0 ms-5">Capacity: {formData.senderLocker ? lockerOptions.find((option) => option.id === +formData.senderLocker).maxcapacity - lockerOptions.find((option) => option.id === +formData.senderLocker).numberofpackages : 0}</p>
         </div>
   
         <div className="mb-3 d-flex align-items-center">
@@ -376,6 +387,7 @@ export const Dispatch = () => {
               Map
             </a>
           )}
+          <p className="mb-0 ms-5">Capacity: {formData.receiverLocker ? lockerOptions.find((option) => option.id === +formData.receiverLocker).maxcapacity - lockerOptions.find((option) => option.id === +formData.receiverLocker).numberofpackages : 0}</p>
         </div>
   
         <div className="mb-3">

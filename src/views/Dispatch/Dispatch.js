@@ -125,7 +125,6 @@ export const Dispatch = () => {
   const loadLockerOptions = () => {
     LockerDataService.getAll()
       .then((response) => {
-        console.log('Lockers loaded successfully', response.data);
         const lockerOptions = response.data.lockers.map((locker, index) => ({
           id: locker.ID,
           label: `${locker.City} - ${locker.Address}`,
@@ -141,8 +140,6 @@ export const Dispatch = () => {
           percents: lockerOptions.find((option) => option.label === label).percents,
           maxcapacity: lockerOptions.find((option) => option.label === label).maxcapacity,
         }));
-  
-        console.log('Unique locker options:', uniqueLockerOptions);
   
         setLockerOptions(uniqueLockerOptions);
       })
@@ -277,20 +274,21 @@ export const Dispatch = () => {
     // Make a request to the server
     PackageDataService.new(requestData, localStorage.getItem('token'))
       .then((response) => {
-        // Check if the response indicates a full locker
-        if (response.data.Message === "Sender locker's capacity is full") {
-          setError("Sender locker's capacity is full. Please choose a different sender locker.");
-        } else if (response.data.Message === "Destination locker's capacity is full") {
-          setError("Destination locker's capacity is full. Please choose a different receiver locker.");
-        } else {
           console.log('Package dispatched successfully');
           localStorage.setItem('historyCount', currentOrderNumber + 1);
           navigate('/successfulresponse', { state: { referrer: 'dispatch' } });
-        }
       })
       .catch((error) => {
-        console.error('Error while dispatching the package', error);
-        setError('Error while dispatching the package');
+        const serverResponse = error.response.data.Message; // Define serverResponse here
+
+        if (serverResponse === "Sender locker's capacity is full") {
+          setError(<div className="alert alert-danger">Sender locker's capacity is full. Please choose a different sender locker.</div>);
+        } else if (serverResponse === "Destination locker's capacity is full") {
+          setError(<div className="alert alert-danger">Destination locker's capacity is full. Please choose a different receiver locker.</div>);
+        } else {
+          console.error('Error while dispatching the package', error);
+          setError(<div className="alert alert-danger">Error while dispatching the package</div>);
+        }
       });
   };
   

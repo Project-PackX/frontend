@@ -360,8 +360,10 @@ export const Dispatch = () => {
               Map
             </a>
           )}
+          {senderLockerAddress && (
           <p className="mb-0 ms-5">Capacity: {formData.senderLocker ? lockerOptions.find((option) => option.id === +formData.senderLocker).maxcapacity - lockerOptions.find((option) => option.id === +formData.senderLocker).numberofpackages : 0}</p>
-        </div>
+          )}
+          </div>
   
         <div className="mb-3 d-flex align-items-center">
           <div style={{ flex: 1 }}>
@@ -385,7 +387,9 @@ export const Dispatch = () => {
               Map
             </a>
           )}
-          <p className="mb-0 ms-5">Capacity: {formData.receiverLocker ? lockerOptions.find((option) => option.id === +formData.receiverLocker).maxcapacity - lockerOptions.find((option) => option.id === +formData.receiverLocker).numberofpackages : 0}</p>
+          {receiverLockerAddress && (
+            <p className="mb-0 ms-5">Capacity: {formData.receiverLocker ? lockerOptions.find((option) => option.id === +formData.receiverLocker).maxcapacity - lockerOptions.find((option) => option.id === +formData.receiverLocker).numberofpackages : 0}</p>         
+          )}
         </div>
   
         <div className="mb-3">

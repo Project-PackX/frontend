@@ -43,7 +43,7 @@ export const Loyalty = () => {
       <p>
         {nextTier === 'You have reached the highest tier.'
           ? nextTier
-          : `You are ${getStateMinOrder(nextTier) - currentOrderNumber} orders away from becoming a ${nextTier}.`}
+          : `You are ${getStateMinOrder(nextTier) - currentOrderNumber} order(s) away from becoming a ${nextTier}.`}
       </p>
       {loyaltyState !== 'Regular' && <p>Current tier benefit: {getLoyaltyPercentage(loyaltyState)}% discount on all orders</p>}
     </div>

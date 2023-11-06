@@ -10,9 +10,7 @@
     color: var(--black);
     text-align: center;
     font-size: 2.3rem;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
+    font-style: bold;
 }
 
 .loyalty-logo {
@@ -30,7 +28,5 @@
     text-align: center;
     font-size: 1.4rem;
     font-style: normal;
-    font-weight: 500;
-    line-height: normal;
     margin: 0;
 }

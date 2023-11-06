@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import UserDataService from '../../services/user';
 import LockerDataService from '../../services/locker';
+import EmissionDataService from '../../services/emissions';
 import { useAuth } from '../../context/auth';
 import decode from 'jwt-decode';
 import './history.css';
@@ -50,15 +51,17 @@ export const History = () => {
             const deliveryCostHUF = parseFloat(item.Price);
             const deliveryCostEUR = (deliveryCostHUF * exchangeRates.EUR).toFixed(2);
             const deliveryCostUSD = (deliveryCostHUF * exchangeRates.USD).toFixed(2);
+            const emissions = response.data.map(item => parseFloat(item.Co2).toFixed(2));
             const formattedItem = {
               ...item,
-              CreatedAt: new Date(item.CreatedAt).toLocaleString(),
-              DeliveryDate: new Date(item.DeliveryDate).toLocaleString(),
+              CreatedAt: new Date(item.CreatedAt).toLocaleString() || "N/A",
+              DeliveryDate: new Date(item.DeliveryDate).toLocaleString() || "N/A",
               SenderLockerLabel: senderLocker ? senderLocker.label : "N/A",
               ReceiverLockerLabel: receiverLocker ? receiverLocker.label : "N/A",
-              DeliveryCostHUF: deliveryCostHUF,
-              DeliveryCostEUR: deliveryCostEUR,
-              DeliveryCostUSD: deliveryCostUSD,
+              DeliveryCostHUF: deliveryCostHUF ? deliveryCostHUF : "N/A",
+              DeliveryCostEUR: deliveryCostEUR ? deliveryCostEUR : "N/A",
+              DeliveryCostUSD: deliveryCostUSD ? deliveryCostUSD : "N/A",
+              Emissions: emissions ? emissions : "N/A",
             };
             return exchangeRates ? formattedItem : { ...formattedItem, DeliveryCostHUF: null, DeliveryCostEUR: null, DeliveryCostUSD: null };
           });
@@ -118,6 +121,7 @@ export const History = () => {
               <div className="history-card">
                 <div className="history-item">
                   <h5 className="card-title">Track ID: {item.TrackID}</h5>
+                  <p className="card-text emissions-text ">You saved {item.Co2.toFixed(2)} kilogramms of CO2 with this package</p>
                   <p className="card-text">Created At: {item.CreatedAt}</p>
                   <p className='card-text'>Sender Locker Address: {item.SenderLockerLabel}</p>
                   <p className='card-text'>Destination Locker Address: {item.ReceiverLockerLabel}</p>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import LockerDataService from '../../services/locker';
 import UserDataService from '../../services/user';
+import EmissionDataService from '../../services/emissions';
 import { useAuth } from '../../context/auth';
 import { Link } from 'react-router-dom';
 import decode from 'jwt-decode';
@@ -15,6 +16,7 @@ export const Home = () => {
     const [formData, setFormData] = useState({ senderLocker: 0, receiverLocker: 0 });
     const [showMap, setShowMap] = useState(false);
     const [cost, setCost] = useState(0);
+    const [emission, setEmission] = useState(0);
 
     const [exchangeRates, setExchangeRates] = useState(null);
     localStorage.setItem('exchangeRates', JSON.stringify(exchangeRates));
@@ -98,6 +100,16 @@ export const Home = () => {
             });
     };
 
+    const getEmission = () => {
+        EmissionDataService.getEmissions()
+            .then((response) => {
+                setEmission(response.data.All.toFixed(3));
+            })
+            .catch((error) => {
+                console.error('Error while loading emission', error);
+            });
+    }
+
     const loadLockerOptions = () => {
         LockerDataService.getAll()
             .then((response) => {
@@ -122,6 +134,7 @@ export const Home = () => {
 
     useEffect(() => {
         loadHistory();
+        getEmission();
         fetchExchangeRates();
         loadLockerOptions();
     }, []);
@@ -134,8 +147,6 @@ export const Home = () => {
             }
         }
     }, [selectedLockerForMap, lockerOptions]);
-
-    const calculateCO2 = () => (5234569 * 105 * 0.001);
 
     return (
         <main>
@@ -264,7 +275,7 @@ export const Home = () => {
                 <div className="container">
                     <div className="packxcolor feature col-md-4">
                         <h3>Together we saved a total amount of</h3>
-                        <h5> {calculateCO2()} </h5>
+                        <h5> {emission} </h5>
                         <h3>kilogramms of CO2</h3>
                         <p>and counting...</p>
                     </div>

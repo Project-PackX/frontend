@@ -30,8 +30,11 @@
 }
 
 .card-title {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     margin-bottom: 5px;
+    text-align: center;
+    margin-top: 10px;
+    font-weight: bold;
 }
 
 .card-text {
@@ -73,4 +76,14 @@
 
 .currency-dropdown:hover {
     color: var(--purple) !important;
+}
+
+.emissions-text {
+    font-size: 1rem;
+    background: -webkit-linear-gradient(var(--purple), var(--blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
 }

@@ -124,6 +124,11 @@ export const PackageStatus = () => {
                         <td className="package-table-title">Est. delivery date:</td>
                         <td className="package-table-info">{formattedDate}</td>
                     </tr>
+                    <tr>
+                            <td className="package-table-title">CO2 savings:</td>
+                            <td className="package-table-info"> {packageData.Data.Co2.toFixed(2)} kg</td>
+
+                    </tr>
                 </tbody>
             </table>
         </div>

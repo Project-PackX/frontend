@@ -52,7 +52,7 @@ export const Dispatch = () => {
       return {};
     }
   });
-
+  
   const currentOrderNumber = parseInt(localStorage.getItem('historyCount'));
 
   useEffect(() => {
@@ -238,17 +238,17 @@ export const Dispatch = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+  
     if (!isRecaptchaVerified) {
-      setError('Please verify that you\'re a human.');
+      setError("Please verify that you're a human.");
       return;
     }
-
+  
     if (formData.senderLocker === formData.receiverLocker) {
       setError('Sender locker and receiver locker cannot be the same');
       return;
     }
-
+  
     const requestData = {
       SenderLockerId: +formData.senderLocker, // Convert to uint
       DestinationLockerId: +formData.receiverLocker, // Convert to uint
@@ -263,20 +263,27 @@ export const Dispatch = () => {
       price: deliveryCost,
       DeliveryDate: new Date(estDeliveryDate).toISOString(),
     };
-
+  
+    // Make a request to the server
     PackageDataService.new(requestData, localStorage.getItem('token'))
       .then((response) => {
-        console.log('Package dispatched successfully');
-        localStorage.setItem('historyCount', currentOrderNumber + 1);
+        // Check if the response indicates a full locker
+        if (response.data.Message === "Sender locker's capacity is full") {
+          setError("Sender locker's capacity is full. Please choose a different sender locker.");
+        } else if (response.data.Message === "Destination locker's capacity is full") {
+          setError("Destination locker's capacity is full. Please choose a different receiver locker.");
+        } else {
+          console.log('Package dispatched successfully');
+          localStorage.setItem('historyCount', currentOrderNumber + 1);
+          navigate('/successfulresponse', { state: { referrer: 'dispatch' } });
+        }
       })
       .catch((error) => {
         console.error('Error while dispatching the package', error);
         setError('Error while dispatching the package');
       });
-
-    navigate('/successfulresponse', { state: { referrer: 'dispatch' } });
-
   };
+  
 
   const getLoyaltyPercentage = (level) => {
     if (level >= 7) {

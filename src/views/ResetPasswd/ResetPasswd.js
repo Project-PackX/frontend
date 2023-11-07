@@ -44,14 +44,12 @@ export const ResetPasswd = () => {
   
     if (formData.password === formData.confirmPassword) {
       setPasswordsMatch(true);
-      setError('');
+
       const requestData = {
         password: formData.password,
         passwordAgain: formData.confirmPassword,
       };
-  
-      console.log(requestData);
-  
+
       UserDataService.resetPassword(formData.email, requestData)
         .then((response) => {
           if (response.status === 200) {

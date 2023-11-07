@@ -13,10 +13,6 @@ export const DeleteUser = () => {
   const [formData, setFormData] = useState({ email: '' });
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  const userEmail = localStorage.getItem('email');
-
-  const token = localStorage.getItem('token');
-  const user_id = localStorage.getItem('user_id');
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -35,8 +31,8 @@ export const DeleteUser = () => {
       return;
     }
 
-    if (formData.email === userEmail) {
-      UserDataService.deleteUser(user_id, token)
+    if (formData.email === localStorage.getItem('email') && formData.name === localStorage.getItem('name')) {
+      UserDataService.deleteUser(localStorage.getItem('user_id'), localStorage.getItem('token'))
         .then(() => {
           logout();
           navigate('/successfulresponse');
@@ -77,6 +73,20 @@ export const DeleteUser = () => {
         <p className="delete-subtitle">Please note that this process cannot be undone.</p>
         {error && <div className="error-message">{error}</div>}
         <form>
+          <div className="mb-3">
+            <label htmlFor="name" className="form-label">
+              Name
+            </label>
+            <input
+              type="text"
+              className="form-input"
+              id="name"
+              name="name"
+              required
+              value={formData.name}
+              onChange={handleInputChange}
+            />
+          </div>
           <div className="mb-3">
             <label htmlFor="email" className="form-label">
               Email

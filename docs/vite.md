@@ -26,7 +26,7 @@ That means that when you want to reference an asset into your component or view 
 import DispatchSvg from "/assets/images/undraw_data_processing_yrrv.svg";
 ```
 
-Instead of
+Instead of:
 
 ```jsx
 import DispatchSvg from "../../../assets/images/undraw_data_processing_yrrv.svg";
@@ -34,16 +34,17 @@ import DispatchSvg from "../../../assets/images/undraw_data_processing_yrrv.svg"
 
 ### Use of assets with the src tag
 
-Good news! You don't have to do a whole sing-and-dance to reference an asset as value for your src tag:
-
-```jsx
-<img src={require("../../assets/icons/box.svg").default} alt={`${size} Package`} className={`img-fluid ${size}`} />
-```
-
-becomes:
+Good news! You don't have to do a whole song and dance to reference an asset as value for your src tag:
 
 ```jsx
 <img src="/assets/icons/box.svg" alt={`${size} Package`} className={`img-fluid ${size}`} />
+
+```
+
+Instead of:
+
+```jsx
+<img src={require("../../assets/icons/box.svg").default} alt={`${size} Package`} className={`img-fluid ${size}`} />
 ```
 
 ## Support for env vars

@@ -31,15 +31,15 @@ export const Navbar = () => {
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       {access_level === 1 ? (
         <Link to="/" className="navbar-brand mx-5">
-          <img className="navbar-logo-user" src="assets/logos/packx_full_white.svg" alt="logo" />
+          <img className="navbar-logo-user" src="/assets/logos/packx_full_white.svg" alt="logo" />
         </Link>
       ) : access_level === 2 ? (
         <Link to="/" className="navbar-brand mx-5">
-          <img className="navbar-logo-courier" src="assets/logos/packx_full_white_courier.svg" alt="logo" />
+          <img className="navbar-logo-courier" src="/assets/logos/packx_full_white_courier.svg" alt="logo" />
         </Link>
       ) : (
         <Link to="/" className="navbar-brand mx-5">
-          <img className="navbar-logo-admin" src="assets/logos/packx_full_white_admin.svg" alt="logo" />
+          <img className="navbar-logo-admin" src="/assets/logos/packx_full_white_admin.svg" alt="logo" />
         </Link>
       )}
       <button
@@ -156,6 +156,11 @@ export const Navbar = () => {
                 </a>
                 <ul className="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkDropdownMenuLinkUser">
                   <li>
+                    <Link className="dropdown-item" to="/loyalty">
+                      <p className="button-text mb-0">Loyalty tier</p>
+                    </Link>
+                  </li>
+                  <li>
                     <Link className="dropdown-item" to="/userdata">
                       <p className="button-text mb-0">Edit user data</p>
                     </Link>
@@ -192,6 +197,14 @@ export const Navbar = () => {
               <p className="button-text mb-0">Contact us</p>
             </Link>
           </li>
+          {isLoggedIn ? null : ( // User is logged in, so don't display the "Register" button
+            // User is not logged in, display the "Register" button
+            <li className="nav-item">
+              <Link className="button button-primary" to="/register">
+                <p className="button-text mb-0">Register</p>
+              </Link>
+            </li>
+          )}
           <li className="nav-item">
             {isLoggedIn ? (
               <button className="button button-primary" onClick={handleLogout}>

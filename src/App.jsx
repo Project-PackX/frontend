@@ -14,18 +14,17 @@ import { ResetPasswd } from './views/ResetPasswd/ResetPasswd';
 import { UserData } from './views/UserData/UserData';
 import { DeleteUser } from './views/DeleteUser/DeleteUser';
 import { Register } from './views/Register/Register';
+import { Loyalty } from './views/Loyalty/Loyalty';
 import { Contact } from './views/Contact/Contact';
 import { About } from './views/About/About';
 import { PackageStatus } from './views/PackageStatus/PackageStatus';
 import { PageNotFound } from "./views/PageNotFound/PageNotFound";
-import { Dashboard } from "./views/Dashboard/Dashboard";
-import { AdminDashboard } from "./views/AdminDashboard/AdminDashboard";
 import { Policy } from "./views/Policy/Policy";
 
 import { AuthProvider } from './context/auth';
 import { Dispatch } from "./views/Dispatch/Dispatch";
 import { History } from "./views/History/History";
-import { SuccessfulSend } from "./components/Slave/SuccessfulSend/SuccessfulSend";
+import { SuccessfulResponse } from './components/Slave/SuccessfulResponse/SuccessfulResponse';
 
 import { CourierPackages } from "./views/Courier/CourierPackages/CourierPackages";
 import { CourierLockers } from "./views/Courier/CourierLockers/CourierLockers";
@@ -54,11 +53,10 @@ function App() {
           <Route exact path="/userdata" element={<UserData />} />
           <Route exact path="/deleteuser" element={<DeleteUser />} />
           <Route exact path="/register" element={<Register />} />
+          <Route exact path="/loyalty" element={<Loyalty />} />
           <Route exact path="/contact" element={<Contact />} />
-          <Route exact path="/dashboard" element={<Dashboard />} />
-          <Route exact path="/admin" element={<AdminDashboard />} />
           <Route exact path="/dispatch" element={<Dispatch />} />
-          <Route exact path="/successful-send" element={<SuccessfulSend />} />
+          <Route exact path="/successfulresponse" element={<SuccessfulResponse />} />
           <Route exact path="/history" element={<History />} />
           <Route exact path="/policy" element={<Policy />} />
           <Route exact path="/courier-packages" element={<CourierPackages />} />

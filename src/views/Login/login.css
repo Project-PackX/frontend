@@ -5,32 +5,32 @@
     align-items: center;
 }
 
-.title {
-    font-size: 48px;
+.login-title {
+    font-size: 3rem;
     margin-bottom: 20px;
 }
 
-.subtitle {
-    font-size: 18px;
+.login-subtitle {
+    font-size: 1.1rem;
     color: var(--gray);
-    margin-bottom: 100px;
+    margin-bottom: 20px;
 }
 
-.form-container {
+.login-form-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-.form-label {
+.login-form-label {
     font-weight: bold;
-    font-size: 12px;
+    font-size: 0.8rem;
     color: #303030;
     margin-bottom: 5px;
 }
 
-.form-input {
+.login-form-input {
     width: 100%;
     border: none;
     border-bottom: 1px solid var(--light-gray);
@@ -55,17 +55,17 @@
 
 .register-text {
     margin-top: 15px;
-    font-size: 12px;
+    font-size: 0.8rem;
     color: var(--black);
 }
 
 .reset-text {
-    font-size: 12px;
+    font-size: 0.8rem;
     color: var(--black);
 }
 
 .register-link {
-    font-size: 14px;
+    font-size: 0.8rem;
     color: var(--blue);
     text-decoration: none;
     font-weight: bold;
@@ -74,6 +74,6 @@
 
 .error-message {
     color: var(--red);
-    font-size: 12px;
+    font-size: 1rem;
     margin-top: 10px;
 }

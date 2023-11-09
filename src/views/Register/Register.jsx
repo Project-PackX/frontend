@@ -8,9 +8,13 @@ export const Register = () => {
   const navigate = useNavigate();
   const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
 
-  const onRecaptchaChange = (isVerified) => {
-    setIsRecaptchaVerified(isVerified);
-  };
+  const isAlphaNumeric = (input) => /^[a-zA-Z0-9áéíóöőúüűÁÉÍÓÖŐÚÜŰ\s.,/-]*$/.test(input);
+  const isAddressValid = (address) => /^[a-zA-Z0-9áéíóöőúüűÁÉÍÓÖŐÚÜŰ\s.,/-]*$/.test(address);
+  const isEmailValid = (email) =>
+    /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email) && email.split("@").length === 2 && email.split(".").length >= 2;
+  const isPhoneNumberValid = (phone) => /^[0-9+]{1,15}$/.test(phone);
+
+  const onRecaptchaChange = (isVerified) => setIsRecaptchaVerified(isVerified);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -22,10 +26,7 @@ export const Register = () => {
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
-    setFormData({
-      ...formData,
-      [id]: value,
-    });
+    setFormData({ ...formData, [id]: value });
   };
 
   const handleSubmit = (e) => {
@@ -36,7 +37,18 @@ export const Register = () => {
       return;
     }
 
-    // Create a JSON object to send to the server
+    for (const input of [
+      { id: "name", label: "Name", validator: isAlphaNumeric },
+      { id: "address", label: "Address", validator: isAddressValid },
+      { id: "email", label: "Email", validator: isEmailValid },
+      { id: "phone", label: "Phone", validator: isPhoneNumberValid },
+    ]) {
+      if (formData[input.id] && !input.validator(formData[input.id])) {
+        alert(`Please enter valid information to the: "${input.label}" field`);
+        return;
+      }
+    }
+
     const requestData = {
       Name: formData.name,
       Address: formData.address,
@@ -45,70 +57,50 @@ export const Register = () => {
       Password: formData.password,
     };
 
-    // Call the register method from UserDataService to send the data to the server
     UserDataService.register(requestData)
       .then((response) => {
-        navigate("/login");
-        console.log("user registered successfully", response.data);
+        // Redirect to the homepage ("/") after successful registration
+        console.log("User registered successfully", response.data);
+        navigate("/successfulresponse", { state: { referrer: "register" } });
       })
       .catch((error) => {
-        console.error("error while registering the user", error);
+        console.error("Error while registering the user", error);
       });
-  };
-
-  const handleRecaptchaChange = (value) => {
-    setIsRecaptchaVerified(!!value);
   };
 
   return (
     <div className="register container row col-12">
       <div className="col-md-6">
-        <img src="assets/images/undraw_order_delivered_re_v4ab.svg" alt="register" />
+        <img src="/assets/images/undraw_order_delivered_re_v4ab.svg" alt="register" />
       </div>
-      <div className="form-container col-md-6 mt-5">
-        <h1 className="title">Welcome here!</h1>
-        <p className="subtitle">Please enter your details</p>
+      <div className="register-form-container col-md-6 mt-5">
+        <h1 className="register-title">Welcome here!</h1>
+        <p className="register-subtitle">Please enter your details</p>
         <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label htmlFor="name" className="form-label">
-              Name
-            </label>
-            <input type="text" className="form-input" id="name" value={formData.name} onChange={handleInputChange} required />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="address" className="form-label">
-              Address
-            </label>
-            <input type="text" className="form-input" id="address" value={formData.address} onChange={handleInputChange} required />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="phone" className="form-label">
-              Phone
-            </label>
-            <input type="text" className="form-input" id="phone" value={formData.phone} onChange={handleInputChange} required />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="email" className="form-label">
-              Email
-            </label>
-            <input type="email" className="form-input" id="email" value={formData.email} onChange={handleInputChange} required />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="password" className="form-label">
-              Password
-            </label>
-            <input
-              type="password"
-              className="form-input"
-              id="password"
-              value={formData.password}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-          <div className="mb-3 form-check">
-            <input type="checkbox" className="form-check-input" id="acceptTerms" required />
-            <label className="form-check-label" htmlFor="acceptTerms">
+          {[
+            { id: "name", label: "Name", type: "text" },
+            { id: "address", label: "Address", type: "text" },
+            { id: "phone", label: "Phone", type: "text" },
+            { id: "email", label: "Email", type: "email" },
+            { id: "password", label: "Password", type: "password" },
+          ].map((input) => (
+            <div key={input.id} className="mb-3">
+              <label htmlFor={input.id} className="register-form-label">
+                {input.label}
+              </label>
+              <input
+                type={input.type}
+                className="register-form-input"
+                id={input.id}
+                value={formData[input.id]}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+          ))}
+          <div className="mb-3 register-form-check">
+            <input type="checkbox" className="register-form-check-input" id="acceptTerms" required />
+            <label className="register-form-check-label" htmlFor="acceptTerms">
               I have read and agreed to the{" "}
               <a href="/policy" target="_blank">
                 terms and conditions
@@ -116,18 +108,16 @@ export const Register = () => {
               .
             </label>
           </div>
-
           <div>
             <ReCaptchaWidget onRecaptchaChange={onRecaptchaChange} />
           </div>
-
           <button type="submit" className="register-btn">
             Register
           </button>
         </form>
-        <p className="login-text">
+        <p className="register-text">
           Already have an account?{" "}
-          <Link className="login-link" to="/login">
+          <Link className="register-link" to="/login">
             {" "}
             Sign In
           </Link>

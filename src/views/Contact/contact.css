@@ -1,17 +1,17 @@
 .contact-title {
-    font-size: 48px;
+    font-size: 3rem;
     text-align: center; 
   }
   
   .contact-subtitle {
-    font-size: 18px;
+    font-size: 1.3rem;
     color: var(--gray);
     margin-bottom: 25px;
     text-align: center;
   }
   
   .contact-data h2 {
-    font-size: 20px;
+    font-size: 1.2rem;
     color: var(--blue);
     text-decoration: none; 
   }

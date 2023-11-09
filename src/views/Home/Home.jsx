@@ -1,7 +1,10 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import LockerDataService from "../../services/locker";
+import UserDataService from "../../services/user";
+import EmissionDataService from "../../services/emissions";
 import { useAuth } from "../../context/auth";
 import { Link } from "react-router-dom";
+import decode from "jwt-decode";
 import "./home.css";
 
 export const Home = () => {
@@ -9,24 +12,44 @@ export const Home = () => {
   const access_level = parseInt(localStorage.getItem("access_level"));
   const [selectedLocker, setSelectedLocker] = useState(0);
   const [lockerOptions, setLockerOptions] = useState([]);
-  const [, setSenderLockerAddress] = useState("");
   const [selectedLockerForMap, setSelectedLockerForMap] = useState(0);
-  const [formData, setFormData] = useState({
-    senderLocker: 0,
-    receiverLocker: 0,
-  });
-
+  const [formData, setFormData] = useState({ senderLocker: 0, receiverLocker: 0 });
   const [showMap, setShowMap] = useState(false);
   const [cost, setCost] = useState(0);
+  const [emission, setEmission] = useState(0);
+
+  const [exchangeRates, setExchangeRates] = useState(null);
+  localStorage.setItem("exchangeRates", JSON.stringify(exchangeRates));
+
+  const fetchExchangeRates = () => {
+    fetch("https://open.er-api.com/v6/latest/HUF")
+      .then((response) => response.json())
+      .then((data) => setExchangeRates(data.rates))
+      .catch((error) => console.error("Error while fetching exchange rates", error));
+  };
+
+  const [historyCount, setHistoryCount] = useState(0);
+
+  const loadHistory = () => {
+    try {
+      UserDataService.history(decode(localStorage.getItem("token")).user_id, localStorage.getItem("token"))
+        .then((response) => {
+          const historyCount = response.data.length;
+          setHistoryCount(historyCount);
+          localStorage.setItem("historyCount", historyCount);
+        })
+        .catch((error) => {
+          console.error("Error while loading history", error);
+        });
+    } catch (error) {
+      console.error("Error decoding the token", error);
+    }
+  };
 
   const calculateCost = () => {
-    if (
-      lockerOptions[formData.senderLocker]?.label.split(" - ")[0] === lockerOptions[formData.receiverLocker - 1]?.label.split(" - ")[0]
-    ) {
-      setCost(390);
-    } else {
-      setCost(490);
-    }
+    const senderLabel = lockerOptions[formData.senderLocker]?.label.split(" - ")[0];
+    const receiverLabel = lockerOptions[formData.receiverLocker - 1]?.label.split(" - ")[0];
+    setCost(senderLabel === receiverLabel ? 390 : 490);
   };
 
   useEffect(() => {
@@ -38,28 +61,21 @@ export const Home = () => {
     setShowMap(false);
 
     if (selectedLocker > 0) {
-      const delay = 500;
-
-      timer = setTimeout(() => {
-        setShowMap(true);
-      }, delay);
+      timer = setTimeout(() => setShowMap(true), 500);
     }
 
     return () => clearTimeout(timer);
   }, [selectedLocker]);
 
   useEffect(() => {
-    setSenderLockerAddress(
-      formData.senderLocker ? lockerOptions.find((locker) => String(locker.id) === String(formData.senderLocker))?.label || "" : ""
-    );
-  }, [formData, lockerOptions]);
+    setFormData((prevFormData) => ({ ...prevFormData, senderLocker: selectedLocker }));
+  }, [selectedLocker, lockerOptions]);
 
   const handleLockerChange = (e) => {
     const value = parseInt(e.target.value, 10);
-    // Check if the selected location is different from the current one
     if (value !== selectedLocker) {
       setSelectedLockerForMap(value);
-      setShowMap(false); // Revert to false to show the loading again
+      setShowMap(false);
     }
   };
 
@@ -69,23 +85,24 @@ export const Home = () => {
       .then((response) => response.json())
       .then((data) => {
         if (data.length > 0) {
-          console.log(data);
-          const latitude = data[0].lat;
-          const longitude = data[0].lon;
+          const { lat, lon } = data[0];
           const updatedLockerOptions = [...lockerOptions];
-          updatedLockerOptions[selectedLockerForMap - 1].coordinates = { latitude, longitude };
-          console.log(updatedLockerOptions[selectedLockerForMap - 1]);
+          updatedLockerOptions[selectedLockerForMap - 1].coordinates = { latitude: lat, longitude: lon };
           setLockerOptions(updatedLockerOptions);
-          console.log(
-            `https://maps.google.com/maps?q=${lockerOptions[selectedLockerForMap - 1]?.coordinates?.latitude || 0},${
-              lockerOptions[selectedLockerForMap - 1]?.coordinates?.longitude || 0
-            }&hl=en&z=14&output=embed`
-          );
-          console.log(lockerOptions[selectedLockerForMap - 1]);
         }
       })
       .catch((error) => {
         console.error("Error while fetching coordinates:", error);
+      });
+  };
+
+  const getEmission = () => {
+    EmissionDataService.getEmissions()
+      .then((response) => {
+        setEmission(response.data.All.toFixed(3));
+      })
+      .catch((error) => {
+        console.error("Error while loading emission", error);
       });
   };
 
@@ -97,9 +114,10 @@ export const Home = () => {
           label: `${locker.City} - ${locker.Address}`,
         }));
 
-        const uniqueLockerOptions = Array.from(new Set(lockerOptions.map((option) => option.label))).map((label) => {
-          return { id: lockerOptions.find((option) => option.label === label).id, label: label };
-        });
+        const uniqueLockerOptions = Array.from(new Set(lockerOptions.map((option) => option.label))).map((label) => ({
+          id: lockerOptions.find((option) => option.label === label).id,
+          label: label,
+        }));
 
         setLockerOptions(uniqueLockerOptions);
       })
@@ -109,6 +127,9 @@ export const Home = () => {
   };
 
   useEffect(() => {
+    loadHistory();
+    getEmission();
+    fetchExchangeRates();
     loadLockerOptions();
   }, []);
 
@@ -119,17 +140,7 @@ export const Home = () => {
         fetchCoordinates(selectedLockerInfo.label);
       }
     }
-
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      senderLocker: selectedLocker,
-    }));
   }, [selectedLockerForMap, lockerOptions]);
-
-  const calculateCO2 = () => {
-    let totalkm = 5234569;
-    return totalkm * 105 * 0.001; //average truck co2 emissions per km
-  };
 
   return (
     <main>
@@ -157,7 +168,7 @@ export const Home = () => {
             )}
           </div>
           <div className="hero-image col-md-6">
-            <img src="assets/images/undraw_delivery_truck_vt6p.svg" alt="hero" />
+            <img src="/assets/images/undraw_delivery_truck_vt6p.svg" alt="hero" />
           </div>
         </div>
       </div>
@@ -198,7 +209,7 @@ export const Home = () => {
         <div className="sending-boxes row col-12">
           <div className="sending-box col-md-4">
             <h2>Create an account</h2>
-            <img src="assets/images/undraw_female_avatar_efig.svg" alt="box" />
+            <img src="/assets/images/undraw_female_avatar_efig.svg" alt="box" />
             <p>
               You can only dispatch a package if you have a PackX Account.{" "}
               <Link to="/register" className="link">
@@ -209,7 +220,7 @@ export const Home = () => {
           </div>
           <div className="sending-box col-md-4">
             <h2>Give the package details</h2>
-            <img src="assets/images/undraw_server_status_re_n8ln.svg" alt="box" />
+            <img src="/assets/images/undraw_server_status_re_n8ln.svg" alt="box" />
             <p>
               You can select the closest locker to you and the destination locker too. Select the size of the package and the delivery
               method.
@@ -217,7 +228,7 @@ export const Home = () => {
           </div>
           <div className="sending-box col-md-4">
             <h2>Track your package</h2>
-            <img src="assets/images/undraw_location_tracking_re_n3ok.svg" alt="box" />
+            <img src="/assets/images/undraw_location_tracking_re_n3ok.svg" alt="box" />
             <p>You can follow along your package and get a notification when it arrives at the destination.</p>
           </div>
         </div>
@@ -225,7 +236,7 @@ export const Home = () => {
       <div className="checkrates features row col-12">
         <div className="container">
           <div className="checkrates-img col-md-6">
-            <img src="assets/images/undraw_mobile_search_jxq5.svg" alt="login" />
+            <img src="/assets/images/undraw_mobile_search_jxq5.svg" alt="login" />
           </div>
           <div className="checkrates-form form-container col-md-6 mt-5">
             <h1 className="title">Check rates</h1>
@@ -279,14 +290,14 @@ export const Home = () => {
         <div className="container">
           <div className="packxcolor feature col-md-4">
             <h3>Together we saved a total amount of</h3>
-            <h5> {calculateCO2()} </h5>
+            <h5> {emission} </h5>
             <h3>kilogramms of CO2</h3>
             <p>and counting...</p>
           </div>
         </div>
       </div>
       <div className="package-locations row col-12">
-        <h1 className="title">Package point locations</h1>
+        <h1 className="home-title">Package point locations</h1>
         <div className="container">
           <div className="checkrates-img col-md-6">
             <div style={{ flex: 1 }}>
@@ -314,7 +325,7 @@ export const Home = () => {
             <div className="map-home">
               {selectedLockerForMap !== 0 && (
                 <div className="loading-logo">
-                  <img src="assets/loading/loading_trans.gif" alt="loading" />
+                  <img src="/assets/loading/loading_trans.gif" alt="loading" />
                 </div>
               )}
               {selectedLockerForMap > 0 && lockerOptions[selectedLockerForMap - 1]?.coordinates && (
@@ -324,17 +335,21 @@ export const Home = () => {
                     src={`https://maps.google.com/maps?q=${lockerOptions[selectedLockerForMap - 1]?.coordinates?.latitude || 0},${
                       lockerOptions[selectedLockerForMap - 1]?.coordinates?.longitude || 0
                     }&hl=en&z=14&output=embed`}
-                    width="100%"
-                    height="450"
+                    width="900rem"
+                    height="600rem"
                     style={{ border: 0 }}
                     allowFullScreen=""
-                    loading="lazy"
+                    className="location-map"
                   ></iframe>
                 </div>
               )}
               {selectedLockerForMap === 0 && (
                 <div className="image-container">
-                  <img className="home-map-image" src="assets/images/undraw_current_location_re_j130.svg" alt="login" />
+                  <img
+                    className="home-map-image"
+                    src="/assets/images/undraw_current_location_re_j130.svg"
+                    alt="login"
+                  />
                 </div>
               )}
             </div>

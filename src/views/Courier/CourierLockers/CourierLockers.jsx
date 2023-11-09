@@ -8,11 +8,25 @@ import { useAuth } from "../../../context/auth";
 
 export function CourierLockers() {
   const { isLoggedIn } = useAuth();
-
   const [lockers, setLockers] = useState([]);
   const [fullness, setFullness] = useState([]);
   const [sortCriteria, setSortCriteria] = useState(null);
-  const [sortOrder, setSortOrder] = useState("asc"); // "asc" for ascending, "desc" for descending
+  const [sortOrder, setSortOrder] = useState("asc");
+
+  useEffect(() => {
+    const getAllLockers = async () => {
+      try {
+        const response = await LockerDataService.getAll();
+        const { lockers, percents } = response.data;
+        setLockers(lockers);
+        setFullness(percents);
+      } catch (error) {
+        console.error("Error while loading lockers", error);
+      }
+    };
+
+    getAllLockers();
+  }, []);
 
   const sortLockersByName = () => {
     setSortCriteria("name");
@@ -26,64 +40,29 @@ export function CourierLockers() {
     sortLockers();
   };
 
-  // Sorting logic
   const sortLockers = () => {
     const sortedLockers = [...lockers];
 
     if (sortCriteria === "name") {
-      sortedLockers.sort((a, b) => {
-        if (sortOrder === "asc") {
-          return a.City.localeCompare(b.City);
-        } else {
-          return b.City.localeCompare(a.City);
-        }
-      });
+      sortedLockers.sort((a, b) => (sortOrder === "asc" ? a.City.localeCompare(b.City) : b.City.localeCompare(a.City)));
     } else if (sortCriteria === "fullness") {
       sortedLockers.sort((a, b) => {
         const fullnessA = fullness[a.ID - 1];
         const fullnessB = fullness[b.ID - 1];
-
-        if (sortOrder === "asc") {
-          return fullnessA - fullnessB;
-        } else {
-          return fullnessB - fullnessA;
-        }
+        return sortOrder === "asc" ? fullnessA - fullnessB : fullnessB - fullnessA;
       });
     }
 
     setLockers(sortedLockers);
   };
 
-  function getProgressBarColorClass(percentage) {
-    if (percentage <= 50) {
-      return "green-bar";
-    } else if (percentage <= 70) {
-      return "yellow-bar";
-    } else {
-      return "red-bar";
-    }
-  }
-
-  const getAllLockers = () => {
-    LockerDataService.getAll()
-      .then((response) => {
-        setLockers(response.data.lockers);
-        setFullness(response.data.percents);
-      })
-      .catch((error) => {
-        console.error("Error while loading lockers", error);
-      });
+  const getProgressBarColorClass = (percentage) => {
+    if (percentage <= 50) return "green-bar";
+    if (percentage <= 70) return "yellow-bar";
+    return "red-bar";
   };
 
-  useEffect(() => {
-    getAllLockers();
-  }, []);
-
-  const calculateProgressBarStyle = (percentage) => {
-    return {
-      width: percentage + "%",
-    };
-  };
+  const calculateProgressBarStyle = (percentage) => ({ width: percentage + "%" });
 
   if (!isLoggedIn) {
     return <NoPermission />;
@@ -97,13 +76,11 @@ export function CourierLockers() {
           <button className="btn submit-btn me-3 col-md-2" onClick={sortLockersByName}>
             Sort by Name {sortCriteria === "name" && (sortOrder === "asc" ? "▲" : "▼")}
           </button>
-
           <button className="btn submit-btn col-md-2" onClick={sortLockersByFullness}>
             Sort by Fullness {sortCriteria === "fullness" && (sortOrder === "asc" ? "▲" : "▼")}
           </button>
         </div>
       </div>
-
       <div className="row">
         {lockers.map((locker, index) => (
           <div className="col-md-6" key={index}>
@@ -111,30 +88,16 @@ export function CourierLockers() {
               <div className="history-item">
                 <h5 className="card-title">Locker ID: {locker.ID}</h5>
                 <p className="card-text">City: {locker.City}</p>
-                <p className="card-text">Locker Address: {locker.Address}</p>
-                <p className="card-text">
-                  Capacity: {Math.ceil(locker.Capacity * (fullness[locker.ID - 1] / 100))} / {locker.Capacity}
-                </p>
+                <p className='card-text'>Locker Address: {locker.Address}</p>
+                <p className="card-text">Capacity: {Math.ceil(locker.Capacity * (fullness[locker.ID - 1] / 100))} / {locker.Capacity}</p>
                 <div className="progress">
-                  <div
-                    className={`progress-bar ${getProgressBarColorClass(fullness[locker.ID - 1])}`}
-                    style={calculateProgressBarStyle(fullness[locker.ID - 1])}
-                  >
+                  <div className={`progress-bar ${getProgressBarColorClass(fullness[locker.ID - 1])}`} style={calculateProgressBarStyle(fullness[locker.ID - 1])}>
                     {fullness[locker.ID - 1]}%
                   </div>
                 </div>
               </div>
-              <Link className="btn submit-btn me-3" to={`/locker/packages/${locker.ID}`}>
-                Show Packages
-              </Link>
-              <a
-                href={"https://www.google.com/maps/place/" + locker.City + "+" + locker.Address}
-                target="_blank"
-                rel="noreferrer"
-                className="btn submit-btn"
-              >
-                Map
-              </a>
+              <Link className="btn submit-btn me-3" to={`/locker/packages/${locker.ID}`}>Show Packages</Link>
+              <a href={`https://www.google.com/maps/place/${locker.City}+${locker.Address}`} target="_blank" rel="noreferrer" className="btn submit-btn">Map</a>
             </div>
           </div>
         ))}

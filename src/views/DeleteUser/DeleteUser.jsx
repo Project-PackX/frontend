@@ -1,35 +1,29 @@
-import { useState, useRef } from "react";
+import React, { useState } from "react";
 import { useAuth } from "../../context/auth";
+import UserDataService from "../../services/user";
 import ReCaptchaWidget from "../../components/reCAPTCHA/reCAPTCHA";
 import "./deleteuser.css";
 import { NoPermission } from "../../components/Slave/NoPermission/NoPermission";
+import { useNavigate } from "react-router-dom";
 
 export const DeleteUser = () => {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, logout } = useAuth();
   const access_level = parseInt(localStorage.getItem("access_level"));
-  console.log(access_level);
-
   const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
-  const onRecaptchaChange = (isVerified) => {
-    setIsRecaptchaVerified(isVerified);
-  };
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
+  const [formData, setFormData] = useState({ email: "" });
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    setFormData({ ...formData, [name]: value });
   };
-  const [passwordsMatch, setPasswordsMatch] = useState(true);
 
-  const handleSubmit = (e) => {
+  const onRecaptchaChange = (isVerified) => {
+    setIsRecaptchaVerified(isVerified);
+  };
+
+  const handleDeleteUser = (e) => {
     e.preventDefault();
 
     if (!isRecaptchaVerified) {
@@ -37,40 +31,18 @@ export const DeleteUser = () => {
       return;
     }
 
-    if (formData.password === formData.confirmPassword) {
-      // Passwords match, you can proceed with form submission or other actions.
-      setPasswordsMatch(true);
-
-      // Add your form submission logic here.
+    if (formData.email === localStorage.getItem("email") && formData.name === localStorage.getItem("name")) {
+      UserDataService.deleteUser(localStorage.getItem("user_id"), localStorage.getItem("token"))
+        .then(() => {
+          logout();
+          navigate("/successfulresponse");
+        })
+        .catch((error) => {
+          setError("An error occurred while deleting the user.");
+        });
     } else {
-      // Passwords do not match.
-      setPasswordsMatch(false);
+      setError("The email address you entered does not match your account.");
     }
-
-    // Create a JSON object to send to the server with updated data
-    const UserData = {
-      Email: formData.email,
-      Password: formData.password,
-    };
-  };
-
-  const [showPassword, setShowPassword] = useState({ password: false, confirmPassword: false });
-  const timers = useRef({ password: null, confirmPassword: null });
-
-  const handleShowPassword = (field) => {
-    const newShowPassword = { ...showPassword };
-    newShowPassword[field] = true;
-    setShowPassword(newShowPassword);
-
-    if (timers.current[field]) {
-      clearTimeout(timers.current[field]);
-    }
-
-    timers.current[field] = setTimeout(() => {
-      const newShowPassword = { ...showPassword };
-      newShowPassword[field] = false;
-      setShowPassword(newShowPassword);
-    }, 300);
   };
 
   if (access_level === 2) {
@@ -79,7 +51,7 @@ export const DeleteUser = () => {
         <div className="d-flex justify-content-center align-items-center vh-100">
           <div className="text-center">
             <h1>You do not have permission to view this page.</h1>
-            <img className="error-image" src="assets/images/undraw_access_denied_re_awnf.svg" alt="user-data" />
+            <img className="error-image" src="/assets/images/undraw_access_denied_re_awnf.svg" alt="user-data" />
           </div>
         </div>
       </div>
@@ -96,7 +68,21 @@ export const DeleteUser = () => {
         <h1 className="delete-title">Delete your account</h1>
         <p className="delete-subtitle">Please note that this process cannot be undone.</p>
         {error && <div className="error-message">{error}</div>}
-        <form onSubmit={handleSubmit}>
+        <form>
+          <div className="mb-3">
+            <label htmlFor="name" className="form-label">
+              Name
+            </label>
+            <input
+              type="text"
+              className="form-input"
+              id="name"
+              name="name"
+              required
+              value={formData.name}
+              onChange={handleInputChange}
+            />
+          </div>
           <div className="mb-3">
             <label htmlFor="email" className="form-label">
               Email
@@ -111,58 +97,22 @@ export const DeleteUser = () => {
               onChange={handleInputChange}
             />
           </div>
-          <div className="mb-3">
-            <label htmlFor="password" className="form-label">
-              Password
+          <div className="mb-3 register-form-check">
+            <input type="checkbox" className="register-form-check-input" id="acceptTerms" required />
+            <label className="register-form-check-label" htmlFor="acceptTerms">
+              I have read that this process is not reversible and permanent.
             </label>
-            <div className="password-input-container">
-              <input
-                type={showPassword.password ? "text" : "password"}
-                className="form-input"
-                id="password"
-                name="password"
-                required
-                value={formData.password}
-                onChange={handleInputChange}
-              />
-              <button type="button" onClick={() => handleShowPassword("password")} className="show-password-button">
-                <img className="showpass-image" src="assets/icons/showpass.png" alt="showpass" />
-              </button>
-            </div>
           </div>
-          <div className="mb-3">
-            <label htmlFor="confirmPassword" className="form-label">
-              Confirm password
-            </label>
-            <div className="password-input-container">
-              <input
-                type={showPassword.confirmPassword ? "text" : "password"}
-                className="form-input"
-                id="confirmPassword"
-                name="confirmPassword"
-                required
-                value={formData.confirmPassword}
-                onChange={handleInputChange}
-              />
-              <button type="button" onClick={() => handleShowPassword("confirmPassword")} className="show-password-button">
-                <img className="showpass-image" src="assets/icons/showpass.png" alt="showpass" />
-              </button>
-            </div>
-          </div>
-
-          {passwordsMatch === false && <div className="alert alert-danger">Passwords do not match.</div>}
-
           <div>
             <ReCaptchaWidget onRecaptchaChange={onRecaptchaChange} />
           </div>
-
-          <button type="submit" className="delete-btn">
+          <button type="button" onClick={handleDeleteUser} className="delete-btn">
             Delete
           </button>
         </form>
       </div>
       <div className="col-md-6">
-        <img className="image" src="assets/images/undraw_throw_away_re_x60k.svg" alt="user-data" />
+        <img className="image" src="/assets/images/undraw_throw_away_re_x60k.svg" alt="user-data" />
       </div>
     </div>
   );

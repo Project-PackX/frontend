@@ -7,7 +7,7 @@
 }
 
 .codeauth-title {
-    font-size: 48px;
+    font-size: 3rem;
     margin-bottom: 20px;
     text-align: center;
 }
@@ -18,7 +18,7 @@
 }
 
 .codeauth-subtitle {
-    font-size: 18px;
+    font-size: 1rem;
     color: var(--gray);
 }
 
@@ -31,7 +31,7 @@
 
 .form-label {
     font-weight: bold;
-    font-size: 12px;
+    font-size: 1rem;
     color: #303030;
     margin-bottom: 5px;
 }
@@ -62,6 +62,12 @@
 
 .error-message {
     color: var(--red);
-    font-size: 12px;
+    font-size: 1rem;
+    margin-top: 10px;
+}
+
+.success-message {
+    color: var(--green);
+    font-size: 1rem;
     margin-top: 10px;
 }

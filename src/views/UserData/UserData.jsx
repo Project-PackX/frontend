@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/auth";
 import UserDataService from "../../services/user";
 import decode from "jwt-decode";
 import ReCaptchaWidget from "../../components/reCAPTCHA/reCAPTCHA";
+import { NoPermission } from "../../components/Slave/NoPermission/NoPermission";
+import { useNavigate } from "react-router-dom";
 import "./userdata.css";
 
 export const UserData = () => {
   const { isLoggedIn } = useAuth();
-  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     address: "",
@@ -16,11 +16,14 @@ export const UserData = () => {
     email: "",
   });
   const [error, setError] = useState("");
-
   const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
-  const onRecaptchaChange = (isVerified) => {
-    setIsRecaptchaVerified(isVerified);
-  };
+  const navigate = useNavigate();
+
+  const isAlphaNumeric = (input) => /^[a-zA-Z0-9áéíóöőúüűÁÉÍÓÖŐÚÜŰ\s.,/-]*$/.test(input);
+  const isAddressValid = (address) => /^[a-zA-Z0-9áéíóöőúüűÁÉÍÓÖŐÚÜŰ\s.,/-]*$/.test(address);
+  const isEmailValid = (email) =>
+    /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email) && email.split("@").length === 2 && email.split(".").length >= 2;
+  const isPhoneNumberValid = (phone) => /^[0-9+]{1,15}$/.test(phone);
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -43,28 +46,43 @@ export const UserData = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (!isRecaptchaVerified) {
       setError("Please verify that you're a human.");
       return;
     }
 
-    // Create a JSON object to send to the server with updated data
+    for (const input of [
+      { id: "name", label: "Name", validator: isAlphaNumeric },
+      { id: "address", label: "Address", validator: isAddressValid },
+      { id: "email", label: "Email", validator: isEmailValid },
+      { id: "phone", label: "Phone", validator: isPhoneNumberValid },
+    ]) {
+      if (formData[input.id] && !input.validator(formData[input.id])) {
+        alert(`Please enter valid information to the: "${input.label}" field`);
+        return;
+      }
+    }
+
     const updatedUserData = {
       Name: formData.name,
       Address: formData.address,
       Phone: formData.phone,
       Email: formData.email,
     };
+    const token = localStorage.getItem("token");
+    const userId = decode(token).user_id;
 
-    // Send the updated data to the server
-    UserDataService.updateUser(decode(localStorage.getItem("token")).user_id, localStorage.getItem("token"), updatedUserData)
+    UserDataService.updateUser(userId, token, updatedUserData)
       .then((response) => {
         console.log("User data updated successfully", response.data);
-        localStorage.setItem("name", response.data.name);
-        localStorage.setItem("address", response.data.address);
-        localStorage.setItem("phone", response.data.phone);
-        localStorage.setItem("email", response.data.email);
+        ["Name", "Address", "Phone", "Email"].forEach((field) => {
+          localStorage.setItem(field, response.data[field]);
+        });
+        localStorage.setItem("name", formData.name);
+        localStorage.setItem("address", formData.address);
+        localStorage.setItem("phone", formData.phone);
+        localStorage.setItem("email", formData.email);
+        navigate("/successfulresponse", { state: { referrer: "userdata" } });
       })
       .catch((error) => {
         setError("Error updating user data. Please try again.");
@@ -73,57 +91,32 @@ export const UserData = () => {
   };
 
   if (!isLoggedIn) {
-    return (
-      <div className="container">
-        <div className="d-flex justify-content-center align-items-center vh-100">
-          <div className="text-center">
-            <h1>Please log in to access this feature.</h1>
-            <img className="error-image" src="assets/images/undraw_access_denied_re_awnf.svg" alt="user-data" />
-          </div>
-        </div>
-      </div>
-    );
+    return <NoPermission />;
   }
 
   return (
     <div className="userdata container row col-12">
-      <div className="form-container col-md-6 mt-5">
+      <div className="userdata-form-container col-md-6 mt-5">
         <h1 className="userdata-title">Edit Your User Data</h1>
-        <p className="delete-subtitle">Here you can modify your account informations.</p>
+        <p className="delete-subtitle">Here you can modify your account information.</p>
         {error && <div className="error-message">{error}</div>}
         <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label htmlFor="name" className="form-label">
-              Name
-            </label>
-            <input type="text" className="form-input" name="name" value={formData.name} onChange={handleInputChange} />
-          </div>
-
-          <div className="mb-3">
-            <label htmlFor="address" className="form-label">
-              Address
-            </label>
-            <input type="text" className="form-input" name="address" value={formData.address} onChange={handleInputChange} />
-          </div>
-
-          <div className="mb-3">
-            <label htmlFor="phone" className="form-label">
-              Phone
-            </label>
-            <input type="text" className="form-input" name="phone" value={formData.phone} onChange={handleInputChange} />
-          </div>
-
-          <div>
-            <ReCaptchaWidget onRecaptchaChange={onRecaptchaChange} />
-          </div>
-
+          {["name", "address", "phone"].map((field) => (
+            <div className="mb-3" key={field}>
+              <label htmlFor={field} className="userdata-form-label">
+                {field.charAt(0).toUpperCase() + field.slice(1)}
+              </label>
+              <input type="text" className="userdata-form-input" name={field} value={formData[field]} onChange={handleInputChange} />
+            </div>
+          ))}
+          <ReCaptchaWidget onRecaptchaChange={setIsRecaptchaVerified} />
           <button type="submit" className="userdata-btn">
             Save
           </button>
         </form>
       </div>
       <div className="col-md-6">
-        <img className="image" src="assets/images/undraw_private_data_re_4eab.svg" alt="user-data" />
+        <img className="image" src="/assets/images/undraw_private_data_re_4eab.svg" alt="user-data" />
       </div>
     </div>
   );

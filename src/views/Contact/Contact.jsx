@@ -5,16 +5,12 @@ export const Contact = () => {
   const [showMap, setShowMap] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowMap(true);
-    }, 500);
-
+    const timer = setTimeout(() => setShowMap(true), 500);
     return () => clearTimeout(timer);
   }, []);
 
   const downloadVCard = () => {
     const vCardUrl = "/assets/vcf/packx.vcf";
-
     const a = document.createElement("a");
     a.href = vCardUrl;
     a.download = "packx.vcf";
@@ -48,10 +44,11 @@ export const Contact = () => {
                   style={{ border: 0, display: showMap ? "block" : "none" }}
                   allowFullScreen
                   src={`https://maps.google.com/maps?q=47.6804636,17.7461013&hl=en&z=14&output=embed`}
+                  className="contact-map"
                 />
               ) : (
                 <div className="loading-logo-contact">
-                  <img src="assets/loading/loading_trans.gif" alt="loading" />
+                  <img src="/assets/loading/loading_trans.gif" alt="loading" />
                 </div>
               )}
             </div>

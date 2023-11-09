@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import UserDataService from "../../services/user";
 import { useAuth } from "../../context/auth";
 import ReCaptchaWidget from "../../components/reCAPTCHA/reCAPTCHA";
+import jwtDecode from "jwt-decode";
 import "./login.css";
 import { AlreadyLoggedIn } from "../../components/Slave/AlreadyLoggedIn/AlreadyLoggedIn";
 
@@ -11,22 +12,14 @@ export const Login = () => {
   const { login, isLoggedIn } = useAuth();
 
   const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
-  const onRecaptchaChange = (isVerified) => {
-    setIsRecaptchaVerified(isVerified);
-  };
+  const onRecaptchaChange = (isVerified) => setIsRecaptchaVerified(isVerified);
 
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-  const [error, setError] = useState(""); // Error state to display error message if login fails
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
-    setFormData({
-      ...formData,
-      [id]: value,
-    });
+    setFormData({ ...formData, [id]: value });
   };
 
   const handleSubmit = (e) => {
@@ -37,27 +30,23 @@ export const Login = () => {
       return;
     }
 
-    // Create a JSON object to send to the server
-    const requestData = {
-      Email: formData.email,
-      Password: formData.password,
-    };
+    const requestData = { Email: formData.email, Password: formData.password };
 
-    // Call the login method from UserDataService to send the data to the server
     UserDataService.login(requestData)
       .then((response) => {
-        localStorage.setItem("token", response.data.token);
-        localStorage.setItem("name", response.data.name);
-        localStorage.setItem("email", response.data.email);
-        localStorage.setItem("address", response.data.address);
-        localStorage.setItem("phone", response.data.phone);
-        login(); // Call the login function from the authentication context
+        const { token, user } = response.data;
+        console.log("Server response", response.data);
+        localStorage.setItem("token", token);
+        localStorage.setItem("name", user.Name);
+        localStorage.setItem("email", user.Email);
+        localStorage.setItem("address", user.Address);
+        localStorage.setItem("phone", user.Phone);
+        localStorage.setItem("user_id", jwtDecode(token).user_id);
+        login();
+        console.log("user logged in successfully", token);
         navigate("/");
-        console.log("user logged in successfully", response.data.token);
       })
-      .catch((error) => {
-        setError("Error while logging in. Please check your email and password.");
-      });
+      .catch(() => setError("Error while logging in. Please check your email and password."));
   };
 
   if (isLoggedIn) {
@@ -66,35 +55,33 @@ export const Login = () => {
 
   return (
     <div className="login container row col-12">
-      <div className="form-container col-md-6 mt-5">
+      <div className="login-form-container col-md-6 mt-5">
         <h1 className="title">Welcome back!</h1>
-        <p className="subtitle">Please enter your details</p>
-        {error && <div className="error-message">{error}</div>} {/* Display error message if error state is set */}
+        <p className="login-subtitle">Please enter your details</p>
+        {error && <div className="error-message">{error}</div>}
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
-            <label htmlFor="username" className="form-label">
+            <label htmlFor="email" className="login-form-label">
               Email
             </label>
-            <input type="text" className="form-input" id="email" required value={formData.email} onChange={handleInputChange} />
+            <input type="text" className="login-form-input" id="email" required value={formData.email} onChange={handleInputChange} />
           </div>
           <div className="mb-3">
-            <label htmlFor="password" className="form-label">
+            <label htmlFor="password" className="login-form-label">
               Password
             </label>
             <input
               type="password"
-              className="form-input"
+              className="login-form-input"
               id="password"
               required
               value={formData.password}
               onChange={handleInputChange}
             />
           </div>
-
           <div>
             <ReCaptchaWidget onRecaptchaChange={onRecaptchaChange} />
           </div>
-
           <button type="submit" className="login-btn">
             Log In
           </button>
@@ -115,7 +102,7 @@ export const Login = () => {
         </p>
       </div>
       <div className="col-md-6">
-        <img src="assets/images/undraw_delivery_truck_vt6p.svg" alt="login" />
+        <img src="/assets/images/undraw_delivery_truck_vt6p.svg" alt="login" />
       </div>
     </div>
   );

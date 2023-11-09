@@ -15,7 +15,7 @@ In case you want to preview a production-ready build:
 
 Vite requires us to use the conventional `.jsx` extension for components (or views) and contexts.
 
-That means that `CourierPackages.jsx` becomes `CourierPackage.js`
+That means that `CourierPackages.js` becomes `CourierPackage.jsx`
 
 ## Asset Handling
 

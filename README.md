@@ -3,7 +3,7 @@
 ## Development
 
 > [!WARNING]  
-> This project migrated to Vite, you can find the key differences [here](docs/vite.md).
+> This project migrated to Vite, you can find the key differences [here](./docs/vite.md).
 
 1. `npm install`
 2. Create a `.env` file based on the `.env.example`

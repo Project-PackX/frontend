@@ -5,9 +5,10 @@
 > [!WARNING]  
 > This project migrated to Vite, you can find the key differences [here](docs/vite.md).
 
-1. Create a `.env` file based on the `.env.example`
-2. Run `npm run dev` (supports hot reload)
-3. That's it!
+1. `npm install`
+2. Create a `.env` file based on the `.env.example`
+3. Run `npm run dev` (supports hot reload)
+4. That's it!
 
 ## Docker
 

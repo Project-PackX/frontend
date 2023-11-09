@@ -1,8 +1,8 @@
-import {Link, useNavigate} from 'react-router-dom';
-import {useAuth} from '../../context/auth';
-import decode from 'jwt-decode';
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/auth";
+import decode from "jwt-decode";
 
-import './navbar.css';
+import "./navbar.css";
 
 export const Navbar = () => {
   const navigate = useNavigate();
@@ -11,36 +11,36 @@ export const Navbar = () => {
   let access_level = 1; // Default access level
 
   try {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token) {
-      ({access_level} = decode(token));
+      ({ access_level } = decode(token));
     }
   } catch (error) {
     console.error("Error decoding token:", error);
-    navigate('/login');
+    navigate("/login");
   }
 
-  localStorage.setItem('access_level', access_level);
+  localStorage.setItem("access_level", access_level);
 
   const handleLogout = () => {
     logout();
-    navigate('/');
+    navigate("/");
   };
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       {access_level === 1 ? (
         <Link to="/" className="navbar-brand mx-5">
-          <img className="navbar-logo-user" src={require("../../assets/logos/packx_full_white.svg").default} alt="logo"/>
+          <img className="navbar-logo-user" src="/assets/logos/packx_full_white.svg" alt="logo" />
         </Link>
       ) : access_level === 2 ? (
-          <Link to="/" className="navbar-brand mx-5">
-            <img className="navbar-logo-courier" src={require("../../assets/logos/packx_full_white_courier.svg").default} alt="logo"/>
-          </Link>
+        <Link to="/" className="navbar-brand mx-5">
+          <img className="navbar-logo-courier" src="/assets/logos/packx_full_white_courier.svg" alt="logo" />
+        </Link>
       ) : (
-          <Link to="/" className="navbar-brand mx-5">
-            <img className="navbar-logo-admin" src={require("../../assets/logos/packx_full_white_admin.svg").default} alt="logo"/>
-          </Link>
+        <Link to="/" className="navbar-brand mx-5">
+          <img className="navbar-logo-admin" src="/assets/logos/packx_full_white_admin.svg" alt="logo" />
+        </Link>
       )}
       <button
         className="navbar-toggler"
@@ -58,98 +58,122 @@ export const Navbar = () => {
           {isLoggedIn ? (
             <li className="nav-item dropdown">
               {access_level === 2 ? (
-                  <div className="nav-item dropdown">
-                    <a className="nav-link dropdown-toggle mx-2" href="#" id="navbarDarkDropdownMenuLinkDelivery" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">
-                      Delivery
-                    </a>
-                    <ul className="dropdown-menu dropdown-menu-light">
-                      <li>
-                        <Link className="dropdown-item" to="/courier-packages">
-                          <p className='button-text mb-0'>Packages</p>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link className="dropdown-item" to="/courier-lockers">
-                          <p className='button-text mb-0'>Lockers</p>
-                        </Link>
-                      </li>
-                    </ul>
-                  </div>
+                <div className="nav-item dropdown">
+                  <a
+                    className="nav-link dropdown-toggle mx-2"
+                    href="#"
+                    id="navbarDarkDropdownMenuLinkDelivery"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Delivery
+                  </a>
+                  <ul className="dropdown-menu dropdown-menu-light">
+                    <li>
+                      <Link className="dropdown-item" to="/courier-packages">
+                        <p className="button-text mb-0">Packages</p>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="/courier-lockers">
+                        <p className="button-text mb-0">Lockers</p>
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
               ) : null}
               {access_level === 3 ? (
-                  <div className="nav-item dropdown">
-                    <a className="nav-link dropdown-toggle mx-2" href="#" id="navbarDarkDropdownMenuLinkDelivery" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">
-                      Admin
-                    </a>
-                    <ul className="dropdown-menu dropdown-menu-light">
-                      <li>
-                        <Link className="dropdown-item" to="/admin-users">
-                          <p className='button-text mb-0'>Users</p>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link className="dropdown-item" to="/admin-lockers">
-                          <p className='button-text mb-0'>Lockers</p>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link className="dropdown-item" to="/admin-packages">
-                          <p className='button-text mb-0'>Packages</p>
-                        </Link>
-                      </li>
-                    </ul>
-                  </div>
+                <div className="nav-item dropdown">
+                  <a
+                    className="nav-link dropdown-toggle mx-2"
+                    href="#"
+                    id="navbarDarkDropdownMenuLinkDelivery"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Admin
+                  </a>
+                  <ul className="dropdown-menu dropdown-menu-light">
+                    <li>
+                      <Link className="dropdown-item" to="/admin-users">
+                        <p className="button-text mb-0">Users</p>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="/admin-lockers">
+                        <p className="button-text mb-0">Lockers</p>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="/admin-packages">
+                        <p className="button-text mb-0">Packages</p>
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
               ) : null}
               <div className="nav-item dropdown">
-                <a className="nav-link dropdown-toggle mx-2" href="#" id="navbarDarkDropdownMenuLinkDelivery" role="button"
-                   data-bs-toggle="dropdown" aria-expanded="false">
+                <a
+                  className="nav-link dropdown-toggle mx-2"
+                  href="#"
+                  id="navbarDarkDropdownMenuLinkDelivery"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
                   Package
                 </a>
                 <ul className="dropdown-menu dropdown-menu-light">
                   <li>
                     <Link className="dropdown-item" to="/track">
-                      <p className='button-text mb-0'>Track</p>
+                      <p className="button-text mb-0">Track</p>
                     </Link>
                   </li>
                   <li>
                     <Link className="dropdown-item" to="/dispatch">
-                      <p className='button-text mb-0'>Dispatch</p>
+                      <p className="button-text mb-0">Dispatch</p>
                     </Link>
                   </li>
                   <li>
                     <Link className="dropdown-item" to="/history">
-                      <p className='button-text mb-0'>History</p>
+                      <p className="button-text mb-0">History</p>
                     </Link>
                   </li>
                 </ul>
               </div>
               <div className="nav-item dropdown">
-                <a className="nav-link dropdown-toggle mx-2" href="#" id="navbarDarkDropdownMenuLinkUser" role="button"
-                   data-bs-toggle="dropdown" aria-expanded="false">
+                <a
+                  className="nav-link dropdown-toggle mx-2"
+                  href="#"
+                  id="navbarDarkDropdownMenuLinkUser"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
                   User
                 </a>
                 <ul className="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkDropdownMenuLinkUser">
                   <li>
                     <Link className="dropdown-item" to="/loyalty">
-                      <p className='button-text mb-0'>Loyalty tier</p>
+                      <p className="button-text mb-0">Loyalty tier</p>
                     </Link>
                   </li>
                   <li>
                     <Link className="dropdown-item" to="/userdata">
-                      <p className='button-text mb-0'>Edit user data</p>
+                      <p className="button-text mb-0">Edit user data</p>
                     </Link>
                   </li>
                   <li>
                     <Link className="dropdown-item" to="/resetpasswd">
-                      <p className='button-text mb-0'>Reset password</p>
+                      <p className="button-text mb-0">Reset password</p>
                     </Link>
                   </li>
                   {access_level !== 2 && (
                     <li>
                       <Link className="dropdown-item" to="/deleteuser">
-                        <p className='button-text mb-0'>Delete account</p>
+                        <p className="button-text mb-0">Delete account</p>
                       </Link>
                     </li>
                   )}
@@ -159,24 +183,21 @@ export const Navbar = () => {
           ) : (
             <li className="nav-item">
               <Link className="nav-link" to="/track">
-                <p className='button-text mb-0'>Track</p>
+                <p className="button-text mb-0">Track</p>
               </Link>
             </li>
           )}
           <li className="nav-item">
             <Link className="nav-link" to="/aboutus">
-              <p className='button-text mb-0'>About us</p>
+              <p className="button-text mb-0">About us</p>
             </Link>
           </li>
           <li className="nav-item">
             <Link className="button button-secondary" to="/contactus">
-              <p className='button-text mb-0'>Contact us</p>
+              <p className="button-text mb-0">Contact us</p>
             </Link>
           </li>
-          {isLoggedIn ? (
-            // User is logged in, so don't display the "Register" button
-            null
-          ) : (
+          {isLoggedIn ? null : ( // User is logged in, so don't display the "Register" button
             // User is not logged in, display the "Register" button
             <li className="nav-item">
               <Link className="button button-primary" to="/register">
@@ -186,17 +207,17 @@ export const Navbar = () => {
           )}
           <li className="nav-item">
             {isLoggedIn ? (
-                <button className="button button-primary" onClick={handleLogout}>
-                  <p className='button-text mb-0'>Log out, {localStorage.getItem("name")}</p>
-                </button>
-              ) : (
+              <button className="button button-primary" onClick={handleLogout}>
+                <p className="button-text mb-0">Log out, {localStorage.getItem("name")}</p>
+              </button>
+            ) : (
               <Link className="button button-primary" to="/login">
-                <p className='button-text mb-0'>Log in</p>
+                <p className="button-text mb-0">Log in</p>
               </Link>
-              )}
-              </li>
-            </ul>
-          </div>
+            )}
+          </li>
+        </ul>
+      </div>
     </nav>
   );
 };

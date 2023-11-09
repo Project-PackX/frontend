@@ -1,8 +1,8 @@
 import axios from "axios";
 
 export default axios.create({
-    baseURL: "http://packx-sandbox.overlab.hu:8000/api",
-    headers: {
-        "Content-type": "application/json"
-    }
-})
+  baseURL: import.meta.env.PACKX_BACKEND_API_BASE_URL,
+  headers: {
+    "Content-type": "application/json",
+  },
+});

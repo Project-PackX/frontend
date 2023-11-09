@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import { useAuth } from '../../context/auth';
-import UserDataService from '../../services/user';
-import ReCaptchaWidget from '../../components/reCAPTCHA/reCAPTCHA';
-import './deleteuser.css';
-import { NoPermission } from '../../components/Slave/NoPermission/NoPermission';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { useAuth } from "../../context/auth";
+import UserDataService from "../../services/user";
+import ReCaptchaWidget from "../../components/reCAPTCHA/reCAPTCHA";
+import "./deleteuser.css";
+import { NoPermission } from "../../components/Slave/NoPermission/NoPermission";
+import { useNavigate } from "react-router-dom";
 
 export const DeleteUser = () => {
   const { isLoggedIn, logout } = useAuth();
-  const access_level = parseInt(localStorage.getItem('access_level'));
+  const access_level = parseInt(localStorage.getItem("access_level"));
   const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
-  const [formData, setFormData] = useState({ email: '' });
-  const [error, setError] = useState('');
+  const [formData, setFormData] = useState({ email: "" });
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
@@ -31,17 +31,17 @@ export const DeleteUser = () => {
       return;
     }
 
-    if (formData.email === localStorage.getItem('email') && formData.name === localStorage.getItem('name')) {
-      UserDataService.deleteUser(localStorage.getItem('user_id'), localStorage.getItem('token'))
+    if (formData.email === localStorage.getItem("email") && formData.name === localStorage.getItem("name")) {
+      UserDataService.deleteUser(localStorage.getItem("user_id"), localStorage.getItem("token"))
         .then(() => {
           logout();
-          navigate('/successfulresponse');
+          navigate("/successfulresponse");
         })
         .catch((error) => {
-          setError('An error occurred while deleting the user.');
+          setError("An error occurred while deleting the user.");
         });
     } else {
-      setError('The email address you entered does not match your account.');
+      setError("The email address you entered does not match your account.");
     }
   };
 
@@ -51,11 +51,7 @@ export const DeleteUser = () => {
         <div className="d-flex justify-content-center align-items-center vh-100">
           <div className="text-center">
             <h1>You do not have permission to view this page.</h1>
-            <img
-              className="error-image"
-              src={require('../../assets/images/undraw_access_denied_re_awnf.svg').default}
-              alt="user-data"
-            />
+            <img className="error-image" src="/assets/images/undraw_access_denied_re_awnf.svg" alt="user-data" />
           </div>
         </div>
       </div>
@@ -116,11 +112,7 @@ export const DeleteUser = () => {
         </form>
       </div>
       <div className="col-md-6">
-        <img
-          className="image"
-          src={require('../../assets/images/undraw_throw_away_re_x60k.svg').default}
-          alt="user-data"
-        />
+        <img className="image" src="/assets/images/undraw_throw_away_re_x60k.svg" alt="user-data" />
       </div>
     </div>
   );

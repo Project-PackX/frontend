@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import PackageService from "../../../services/package";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../context/auth";
 import { NoPermission } from "../../../components/Slave/NoPermission/NoPermission";
 import './courierpackages.css';
 
-import DispatchSvg from '../../../assets/images/undraw_data_processing_yrrv.svg';
-import TransitSvg from '../../../assets/images/undraw_aircraft_re_m05i.svg';
-import InWarehouseSvg from '../../../assets/images/undraw_building_re_xfcm.svg';
-import InDeliverySvg from '../../../assets/images/undraw_delivery_truck_vt6p.svg';
-import DeliveredSvg from '../../../assets/images/undraw_order_delivered_re_v4ab.svg';
+import DispatchSvg from '/assets/images/undraw_data_processing_yrrv.svg';
+import TransitSvg from '/assets/images/undraw_aircraft_re_m05i.svg';
+import InWarehouseSvg from '/assets/images/undraw_building_re_xfcm.svg';
+import InDeliverySvg from '/assets/images/undraw_delivery_truck_vt6p.svg';
+import DeliveredSvg from '/assets/images/undraw_order_delivered_re_v4ab.svg';
 
 export function CourierPackages() {
   const token = localStorage.getItem('token');

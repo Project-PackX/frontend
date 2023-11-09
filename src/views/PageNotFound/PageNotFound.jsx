@@ -1,6 +1,5 @@
-import React from 'react';
 import './pagenotfound.css';
-import notFoundImage from '../../assets/images/undraw_page_not_found_re_e9o6.svg';
+import notFoundImage from '/assets/images/undraw_page_not_found_re_e9o6.svg';
 
 export const PageNotFound = () => (
   <div className="error-container">

@@ -4,11 +4,11 @@ import PackageDataService from '../../services/package.js';
 import { Loading } from '../../components/Loading/Loading.jsx';
 import './package-status.css';
 
-import DispatchSvg from '../../assets/images/undraw_data_processing_yrrv.svg';
-import TransitSvg from '../../assets/images/undraw_aircraft_re_m05i.svg';
-import InWarehouseSvg from '../../assets/images/undraw_building_re_xfcm.svg';
-import InDeliverySvg from '../../assets/images/undraw_delivery_truck_vt6p.svg';
-import DeliveredSvg from '../../assets/images/undraw_order_delivered_re_v4ab.svg';
+import DispatchSvg from '/assets/images/undraw_data_processing_yrrv.svg';
+import TransitSvg from '/assets/images/undraw_aircraft_re_m05i.svg';
+import InWarehouseSvg from '/assets/images/undraw_building_re_xfcm.svg';
+import InDeliverySvg from '/assets/images/undraw_delivery_truck_vt6p.svg';
+import DeliveredSvg from '/assets/images/undraw_order_delivered_re_v4ab.svg';
 
 export const PackageStatus = () => {
     const [packageData, setPackageData] = useState(null);

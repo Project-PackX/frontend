@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import UserDataService from '../../services/user';
-import LockerDataService from '../../services/locker';
-import EmissionDataService from '../../services/emissions';
-import { useAuth } from '../../context/auth';
-import decode from 'jwt-decode';
-import './history.css';
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import UserDataService from "../../services/user";
+import LockerDataService from "../../services/locker";
+import { useAuth } from "../../context/auth";
+import decode from "jwt-decode";
+import "./history.css";
 import { NoPermission } from "../../components/Slave/NoPermission/NoPermission";
 
 export const History = () => {
@@ -73,7 +72,7 @@ export const History = () => {
           setIsLoading(false);
         });
     } catch (error) {
-      console.error('Error decoding the token', error);
+      console.error("Error decoding the token", error);
       setTokenDecodingError(true);
     }
   };
@@ -107,7 +106,11 @@ export const History = () => {
       {!isLoading && history.length > 0 ? (
         <div className="row">
           <div className="dropdown text-end">
-            <button className="button button-primary dropdown-toggle currency-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <button
+              className="button button-primary dropdown-toggle currency-dropdown"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
               {selectedCurrency}
             </button>
             <ul className="dropdown-menu" aria-labelledby="currencyDropdown">
@@ -135,16 +138,16 @@ export const History = () => {
               </div>
             </div>
           ))}
-          {history.length % 3 !== 0 && (
-            <img src={require("../../assets/images/undraw_file_searching_re_3evy.svg").default} alt="history" />
-          )}
+          {history.length % 3 !== 0 && <img src="assets/images/undraw_file_searching_re_3evy.svg" alt="history" />}
         </div>
       ) : null}
       {!isLoading && history.length === 0 && (
         <div className="no-history">
-          <img src={require("../../assets/images/undraw_void_-3-ggu.svg").default} alt="login" />
+          <img src="assets/images/undraw_void_-3-ggu.svg" alt="login" />
           <h1>You have not sent any package with us yet.</h1>
-          <Link to="/dispatch" className="history-btn">Send now</Link>
+          <Link to="/dispatch" className="history-btn">
+            Send now
+          </Link>
         </div>
       )}
     </div>

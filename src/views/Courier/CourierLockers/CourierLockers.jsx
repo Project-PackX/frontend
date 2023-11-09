@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import LockerDataService from "../../../services/locker";
+
 import "./courierlockers.css";
 import { NoPermission } from "../../../components/Slave/NoPermission/NoPermission";
 import { useAuth } from "../../../context/auth";

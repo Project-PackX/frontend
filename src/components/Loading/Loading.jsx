@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 export const Loading = () => {
   const [loading, setLoading] = useState(true);
@@ -14,7 +14,7 @@ export const Loading = () => {
 
   return loading ? (
     <div className="loading">
-      <img src={require("../../assets/loading/loading_trans.gif")} alt="loading..." />
+      <img src="assets/loading/loading_trans.gif" alt="loading..." />
     </div>
   ) : null;
 };

@@ -9,7 +9,7 @@ export const NoPermission = () => {
                 <div className="text-center">
                     <h1>You have no permission to view this page</h1>
                     <p className="text-muted ">Please log in to access this feature</p>
-                    <img className="error-image my-5" src={require("../../../assets/images/undraw_access_denied_re_awnf.svg").default} alt="user-data" />
+                    <img className="error-image my-5" src="/assets/images/undraw_access_denied_re_awnf.svg" alt="user-data" />
                 </div>
             </div>
         </div>

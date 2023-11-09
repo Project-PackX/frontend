@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import './contact.css';
+import { useState, useEffect } from "react";
+import "./contact.css";
 
 export const Contact = () => {
   const [showMap, setShowMap] = useState(false);
@@ -10,10 +10,10 @@ export const Contact = () => {
   }, []);
 
   const downloadVCard = () => {
-    const vCardUrl = '/assets/vcf/packx.vcf';
-    const a = document.createElement('a');
+    const vCardUrl = "/assets/vcf/packx.vcf";
+    const a = document.createElement("a");
     a.href = vCardUrl;
-    a.download = 'packx.vcf';
+    a.download = "packx.vcf";
     a.click();
   };
 
@@ -23,9 +23,7 @@ export const Contact = () => {
         <div className="contact-data-container">
           <div className="feature contact-data col-md-6">
             <h1 className="contact-title">Management warehouse</h1>
-            <h1 className="contact-subtitle">
-              Hungary - Győr-Moson-Sopron - 9028 Győr, Tibormajori Utca 70
-            </h1>
+            <h1 className="contact-subtitle">Hungary - Győr-Moson-Sopron - 9028 Győr, Tibormajori Utca 70</h1>
             <h2>
               <a href="tel:+36201234567">+36 20 123 45 67</a>
             </h2>
@@ -43,14 +41,14 @@ export const Contact = () => {
                   title="Warehouse location"
                   width="800rem"
                   height="450rem"
-                  style={{ border: 0, display: showMap ? 'block' : 'none' }}
+                  style={{ border: 0, display: showMap ? "block" : "none" }}
                   allowFullScreen
                   src={`https://maps.google.com/maps?q=47.6804636,17.7461013&hl=en&z=14&output=embed`}
-                  className='contact-map'
+                  className="contact-map"
                 />
               ) : (
                 <div className="loading-logo-contact">
-                  <img src={require('../../assets/loading/loading_trans.gif')} alt="loading" />
+                  <img src="/assets/loading/loading_trans.gif" alt="loading" />
                 </div>
               )}
             </div>

@@ -35,7 +35,7 @@ export const DeleteUser = () => {
       UserDataService.deleteUser(localStorage.getItem("user_id"), localStorage.getItem("token"))
         .then(() => {
           logout();
-          navigate("/successfulresponse");
+          navigate("successfulresponse", { state: { referrer: "deleteuser" } });
         })
         .catch((error) => {
           setError("An error occurred while deleting the user.");

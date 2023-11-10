@@ -46,14 +46,14 @@ export const About = () => {
             text="We are a university startup company with a dedicated and enthusiastic team. Our journey started in 2022 as a little project, which developed into the final form of the currently-existing PackX. The original idea was to bring innovation to the delivery industry. We take full advantage of digitalization and automation to offer world-class delivery solutions to our customers."
           />
           <div className="col-md-7">
-            <Image imgSrc={require("/assets/logos/pack_norm_black.svg")} imgAlt="startup" className="about-img-right" />
+            <Image imgSrc="/assets/logos/pack_norm_black.svg" imgAlt="startup" className="about-img-right" />
           </div>
         </div>
       </div>
       <div className="container about-container">
         <div className="row">
           <div className="col-md-7">
-            <Image imgSrc={require("/assets/images/undraw_in_no_time_-6-igu.svg")} imgAlt="system" className="about-img-left" />
+            <Image imgSrc="/assets/images/undraw_in_no_time_-6-igu.svg" imgAlt="system" className="about-img-left" />
           </div>
           <Column
             title="How it works?"
@@ -68,7 +68,7 @@ export const About = () => {
             text="The PackX experience is unlike any other carrier could ever provide. Every item gets our 'Quick'n Go' sorting treatment, resulting in fast warehouse logistics processing and the quickest delivery possible. Our truck fleet is completely electric, further reducing the carbon footprint of our company."
           />
           <div className="col-md-7">
-            <Image imgSrc={require("/assets/images/undraw_environment_iaus.svg")} imgAlt="electric" className="about-img-right" />
+            <Image imgSrc="/assets/images/undraw_environment_iaus.svg" imgAlt="electric" className="about-img-right" />
           </div>
         </div>
       </div>
@@ -76,35 +76,35 @@ export const About = () => {
         <h1 className="about-title">Designed and created by</h1>
         <div className="row justify-content-center about-logo-container">
           <Person
-            imgSrc={require("/assets/people/karcsi.jpg")}
+            imgSrc="/assets/people/karcsi.jpg"
             imgAlt="Szakály Károly"
             name="Szakály Károly"
             github="https://github.com/szkly"
             role="DevOps and Backend"
           />
           <Person
-            imgSrc={require("/assets/people/artur.jpg")}
+            imgSrc="/assets/people/artur.jpg"
             imgAlt="Friedrich Artúr"
             name="Friedrich Artúr"
             github="https://github.com/arturfriedrich"
             role="Frontend and UX Design"
           />
           <Person
-            imgSrc={require("/assets/people/domi.jpg")}
+            imgSrc="/assets/people/domi.jpg"
             imgAlt="Szilágyi Dominik"
             name="Szilágyi Dominik"
             github="https://github.com/dominikszilagyi"
             role="Backend"
           />
           <Person
-            imgSrc={require("/assets/people/zsombi.jpg")}
+            imgSrc="/assets/people/zsombi.jpg"
             imgAlt="Töreky Zsombor"
             name="Töreky Zsombor"
             github="https://github.com/tzsombi01"
             role="Backend"
           />
           <Person
-            imgSrc={require("/assets/people/danci.jpg")}
+            imgSrc="/assets/people/danci.jpg"
             imgAlt="Székely Dániel"
             name="Székely Dániel"
             github="https://github.com/MrHumanRebel"

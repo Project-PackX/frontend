@@ -225,318 +225,312 @@ export const Dispatch = () => {
         setDeliveryCostUSD(deliveryCostUSD);
       }
     }
+  };
 
-    const displayPrice = () => {
-      switch (selectedCurrency) {
-        case "HUF":
-          return `${deliveryCost} HUF`;
-        case "EUR":
-          return `${deliveryCostEUR} EUR`;
-        case "USD":
-          return `${deliveryCostUSD} USD`;
-        default:
-          return `${deliveryCost} HUF`;
-      }
-    };
+  const displayPrice = () => {
+    switch (selectedCurrency) {
+      case "HUF":
+        return `${deliveryCost} HUF`;
+      case "EUR":
+        return `${deliveryCostEUR} EUR`;
+      case "USD":
+        return `${deliveryCostUSD} USD`;
+      default:
+        return `${deliveryCost} HUF`;
+    }
+  };
 
-    const handleSubmit = (e) => {
-      e.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-      if (!isRecaptchaVerified) {
-        setError("Please verify that you're a human.");
-        return;
-      }
-
-      if (formData.senderLocker === formData.receiverLocker) {
-        setError("Sender locker and receiver locker cannot be the same");
-        return;
-      }
-
-      const requestData = {
-        SenderLockerId: +formData.senderLocker, // Convert to uint
-        DestinationLockerId: +formData.receiverLocker, // Convert to uint
-        receiverName: formData.receiverName,
-        receiverEmail: formData.receiverEmail,
-        packageSize: formData.packageSize,
-        isRapid: formData.isRapid,
-        isUltraRapid: formData.isUltraRapid,
-        isSameDay: formData.isSameDay,
-        note: formData.note,
-        userId: formData.userId,
-        price: deliveryCost,
-        DeliveryDate: new Date(estDeliveryDate).toISOString(),
-      };
-
-      // Make a request to the server
-      PackageDataService.new(requestData, localStorage.getItem("token"))
-        .then((response) => {
-          console.log("Package dispatched successfully");
-          localStorage.setItem("historyCount", currentOrderNumber + 1);
-          navigate("/successfulresponse", { state: { referrer: "dispatch" } });
-        })
-        .catch((error) => {
-          const serverResponse = error.response.data.Message; // Define serverResponse here
-
-          if (serverResponse === "Sender locker's capacity is full") {
-            setError(
-              <div className="alert alert-danger">Sender locker's capacity is full. Please choose a different sender locker.</div>
-            );
-          } else if (serverResponse === "Destination locker's capacity is full") {
-            setError(
-              <div className="alert alert-danger">
-                Destination locker's capacity is full. Please choose a different receiver locker.
-              </div>
-            );
-          } else {
-            console.error("Error while dispatching the package", error);
-            setError(<div className="alert alert-danger">Error while dispatching the package</div>);
-          }
-        });
-    };
-
-    const getLoyaltyPercentage = (level) => {
-      if (level >= 7) {
-        return 10;
-      }
-      if (level >= 5) {
-        return 7.5;
-      }
-      if (level >= 3) {
-        return 5;
-      }
-      return 0;
-    };
-
-    if (!isLoggedIn || tokenDecodingError) {
-      return <NoPermission />;
+    if (!isRecaptchaVerified) {
+      setError("Please verify that you're a human.");
+      return;
     }
 
-    return (
-      <div className="container my-5 col-md-8">
-        <div className="col-12">
-          <div className="row">
-            <div className="col-md-6">
-              <h1>Send Package</h1>
-            </div>
-            <div className="col-md-6 dropdown text-end">
-              <button
-                className="button button-primary dropdown-toggle currency-dropdown"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                {selectedCurrency}
-              </button>
-              <ul className="dropdown-menu" aria-labelledby="currencyDropdown">
-                {["HUF", "EUR", "USD"].map((currency) => (
-                  <li key={currency}>
-                    <a className="dropdown-item" onClick={() => handleCurrencyChange(currency)}>
-                      {currency}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
+    if (formData.senderLocker === formData.receiverLocker) {
+      setError("Sender locker and receiver locker cannot be the same");
+      return;
+    }
 
-        <div className="user-data p-4 my-4">
-          <p>
-            Your email address: <strong>{localStorage.getItem("email")}</strong>
-          </p>
-          <p>
-            Your name: <strong>{localStorage.getItem("name")}</strong>
-          </p>
-        </div>
+    const requestData = {
+      SenderLockerId: +formData.senderLocker, // Convert to uint
+      DestinationLockerId: +formData.receiverLocker, // Convert to uint
+      receiverName: formData.receiverName,
+      receiverEmail: formData.receiverEmail,
+      packageSize: formData.packageSize,
+      isRapid: formData.isRapid,
+      isUltraRapid: formData.isUltraRapid,
+      isSameDay: formData.isSameDay,
+      note: formData.note,
+      userId: formData.userId,
+      price: deliveryCost,
+      DeliveryDate: new Date(estDeliveryDate).toISOString(),
+    };
 
-        <form onSubmit={handleSubmit}>
-          <div className="mb-3 d-flex align-items-center">
-            <div style={{ flex: 1 }}>
-              <label htmlFor="senderLocker" className="form-label">
-                Sender Locker
-              </label>
-              <select name="senderLocker" className="form-select" value={formData.senderLocker} onChange={handleInputChange}>
-                <option value="0">Select Sender Locker</option>
-                {lockerOptions.map((option) => (
-                  <option key={option.id} value={option.id}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-            {senderLockerAddress && (
-              <a
-                href={`https://www.google.com/maps/place/${senderLockerAddress}`}
-                target="_blank"
-                rel="noreferrer"
-                className="btn submit-btn map-btn"
-              >
-                Map
-              </a>
-            )}
-            {senderLockerAddress && (
-              <p className="mb-0 ms-5">
-                Capacity:{" "}
-                {formData.senderLocker
-                  ? lockerOptions.find((option) => option.id === +formData.senderLocker).maxcapacity -
-                    lockerOptions.find((option) => option.id === +formData.senderLocker).numberofpackages
-                  : 0}
-              </p>
-            )}
-          </div>
+    // Make a request to the server
+    PackageDataService.new(requestData, localStorage.getItem("token"))
+      .then((response) => {
+        console.log("Package dispatched successfully");
+        localStorage.setItem("historyCount", currentOrderNumber + 1);
+        navigate("/successfulresponse", { state: { referrer: "dispatch" } });
+      })
+      .catch((error) => {
+        const serverResponse = error.response.data.Message; // Define serverResponse here
 
-          <div className="mb-3 d-flex align-items-center">
-            <div style={{ flex: 1 }}>
-              <label htmlFor="receiverLocker" className="form-label">
-                Receiver Locker
-              </label>
-              <select name="receiverLocker" className="form-select" value={formData.receiverLocker} onChange={handleInputChange}>
-                <option value="0">Select Receiver Locker</option>
-                {lockerOptions.map((option) => (
-                  <option key={option.id} value={option.id}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-            {receiverLockerAddress && (
-              <a
-                href={`https://www.google.com/maps/place/${receiverLockerAddress}`}
-                target="_blank"
-                rel="noreferrer"
-                className="btn submit-btn map-btn"
-              >
-                Map
-              </a>
-            )}
-            {receiverLockerAddress && (
-              <p className="mb-0 ms-5">
-                Capacity:{" "}
-                {formData.receiverLocker
-                  ? lockerOptions.find((option) => option.id === +formData.receiverLocker).maxcapacity -
-                    lockerOptions.find((option) => option.id === +formData.receiverLocker).numberofpackages
-                  : 0}
-              </p>
-            )}
-          </div>
-
-          <div className="mb-3">
-            <label htmlFor="receiverName" className="form-label">
-              Receiver Name
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              name="receiverName"
-              value={formData.receiverName}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-
-          <div className="mb-3">
-            <label htmlFor="receiverEmail" className="form-label">
-              Receiver Email
-            </label>
-            <input
-              type="email"
-              className="form-control"
-              name="receiverEmail"
-              value={formData.receiverEmail}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-
-          <div className="mb-3">
-            <label className="form-label">Package Size</label>
-            <div className="d-flex">
-              {["small", "medium", "large"].map((size) => (
-                <div className="card package-size-card mx-2" key={size}>
-                  <label className={`card-body ${formData.packageSize === size ? "border border-primary" : ""}`}>
-                    <input
-                      type="radio"
-                      className="form-check-input d-none"
-                      name="packageSize"
-                      value={size}
-                      checked={formData.packageSize === size}
-                      onChange={handleInputChange}
-                    />
-                    <div className="text-center">
-                      <img
-                        src="/assets/icons/box.svg"
-                        alt={`${size} Package`}
-                        className={`img-fluid ${size}`}
-                      />
-                      <p className="mb-0">{size.charAt(0).toUpperCase() + size.slice(1)}</p>
-                    </div>
-                  </label>
-                </div>
-              ))}
-            </div>
-            {formData.packageSize && (
-              <p className="package-size">
-                <strong>Package Size:</strong>{" "}
-                {formData.packageSize === "small"
-                  ? "Max size: 20x20x20"
-                  : formData.packageSize === "medium"
-                  ? "Max size: 50x50x50"
-                  : "Max size: 100x100x100"}{" "}
-                centimeters
-              </p>
-            )}
-          </div>
-
-          <div className="mb-3">
-            <label htmlFor="note" className="form-label">
-              Note
-            </label>
-            <textarea className="form-control" name="note" value={formData.note} onChange={handleInputChange} />
-          </div>
-
-          {["Normal", "Rapid", "UltraRapid", "SameDay"].map((deliveryType) => (
-            <div className="mb-3 form-check" key={deliveryType}>
-              <input
-                type="radio"
-                className="form-check-input"
-                id={`is${deliveryType}`}
-                checked={formData[`is${deliveryType}`]}
-                onChange={() => handleCheckboxChange(`is${deliveryType}`)}
-              />
-              <label className="form-check-label" htmlFor={`is${deliveryType}`}>{`${deliveryType} delivery`}</label>
-            </div>
-          ))}
-
-          {isAfterNoon && <div className="alert alert-danger">You can only select SameDay delivery until noon.</div>}
-
-          <div className="mb-3">
-            <p>Delivery cost: {displayPrice()}</p>
-          </div>
-
-          <div className="mb-3">
-            {currentOrderNumber >= 3 && (
-              <p>Loyalty discount of {getLoyaltyPercentage(currentOrderNumber)}% has been automatically subtracted.</p>
-            )}
-          </div>
-
-          <div className="mb-3">
-            <p>
-              Estimated delivery date: <span>{estDeliveryDate}</span>
-            </p>
-          </div>
-
-          <div>
-            <ReCaptchaWidget onRecaptchaChange={setIsRecaptchaVerified} />
-          </div>
-
-          <button type="submit" className="btn submit-btn">
-            Send
-          </button>
-
-          <div className="my-3">
-            <p className="text-danger">{error}</p>
-          </div>
-        </form>
-      </div>
-    );
+        if (serverResponse === "Sender locker's capacity is full") {
+          setError(
+            <div className="alert alert-danger">Sender locker's capacity is full. Please choose a different sender locker.</div>
+          );
+        } else if (serverResponse === "Destination locker's capacity is full") {
+          setError(
+            <div className="alert alert-danger">Destination locker's capacity is full. Please choose a different receiver locker.</div>
+          );
+        } else {
+          console.error("Error while dispatching the package", error);
+          setError(<div className="alert alert-danger">Error while dispatching the package</div>);
+        }
+      });
   };
+
+  const getLoyaltyPercentage = (level) => {
+    if (level >= 7) {
+      return 10;
+    }
+    if (level >= 5) {
+      return 7.5;
+    }
+    if (level >= 3) {
+      return 5;
+    }
+    return 0;
+  };
+
+  if (!isLoggedIn || tokenDecodingError) {
+    return <NoPermission />;
+  }
+
+  return (
+    <div className="container my-5 col-md-8">
+      <div className="col-12">
+        <div className="row">
+          <div className="col-md-6">
+            <h1>Send Package</h1>
+          </div>
+          <div className="col-md-6 dropdown text-end">
+            <button
+              className="button button-primary dropdown-toggle currency-dropdown"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              {selectedCurrency}
+            </button>
+            <ul className="dropdown-menu" aria-labelledby="currencyDropdown">
+              {["HUF", "EUR", "USD"].map((currency) => (
+                <li key={currency}>
+                  <a className="dropdown-item" onClick={() => handleCurrencyChange(currency)}>
+                    {currency}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div className="user-data p-4 my-4">
+        <p>
+          Your email address: <strong>{localStorage.getItem("email")}</strong>
+        </p>
+        <p>
+          Your name: <strong>{localStorage.getItem("name")}</strong>
+        </p>
+      </div>
+
+      <form onSubmit={handleSubmit}>
+        <div className="mb-3 d-flex align-items-center">
+          <div style={{ flex: 1 }}>
+            <label htmlFor="senderLocker" className="form-label">
+              Sender Locker
+            </label>
+            <select name="senderLocker" className="form-select" value={formData.senderLocker} onChange={handleInputChange}>
+              <option value="0">Select Sender Locker</option>
+              {lockerOptions.map((option) => (
+                <option key={option.id} value={option.id}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+          {senderLockerAddress && (
+            <a
+              href={`https://www.google.com/maps/place/${senderLockerAddress}`}
+              target="_blank"
+              rel="noreferrer"
+              className="btn submit-btn map-btn"
+            >
+              Map
+            </a>
+          )}
+          {senderLockerAddress && (
+            <p className="mb-0 ms-5">
+              Capacity:{" "}
+              {formData.senderLocker
+                ? lockerOptions.find((option) => option.id === +formData.senderLocker).maxcapacity -
+                  lockerOptions.find((option) => option.id === +formData.senderLocker).numberofpackages
+                : 0}
+            </p>
+          )}
+        </div>
+
+        <div className="mb-3 d-flex align-items-center">
+          <div style={{ flex: 1 }}>
+            <label htmlFor="receiverLocker" className="form-label">
+              Receiver Locker
+            </label>
+            <select name="receiverLocker" className="form-select" value={formData.receiverLocker} onChange={handleInputChange}>
+              <option value="0">Select Receiver Locker</option>
+              {lockerOptions.map((option) => (
+                <option key={option.id} value={option.id}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+          {receiverLockerAddress && (
+            <a
+              href={`https://www.google.com/maps/place/${receiverLockerAddress}`}
+              target="_blank"
+              rel="noreferrer"
+              className="btn submit-btn map-btn"
+            >
+              Map
+            </a>
+          )}
+          {receiverLockerAddress && (
+            <p className="mb-0 ms-5">
+              Capacity:{" "}
+              {formData.receiverLocker
+                ? lockerOptions.find((option) => option.id === +formData.receiverLocker).maxcapacity -
+                  lockerOptions.find((option) => option.id === +formData.receiverLocker).numberofpackages
+                : 0}
+            </p>
+          )}
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="receiverName" className="form-label">
+            Receiver Name
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            name="receiverName"
+            value={formData.receiverName}
+            onChange={handleInputChange}
+            required
+          />
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="receiverEmail" className="form-label">
+            Receiver Email
+          </label>
+          <input
+            type="email"
+            className="form-control"
+            name="receiverEmail"
+            value={formData.receiverEmail}
+            onChange={handleInputChange}
+            required
+          />
+        </div>
+
+        <div className="mb-3">
+          <label className="form-label">Package Size</label>
+          <div className="d-flex">
+            {["small", "medium", "large"].map((size) => (
+              <div className="card package-size-card mx-2" key={size}>
+                <label className={`card-body ${formData.packageSize === size ? "border border-primary" : ""}`}>
+                  <input
+                    type="radio"
+                    className="form-check-input d-none"
+                    name="packageSize"
+                    value={size}
+                    checked={formData.packageSize === size}
+                    onChange={handleInputChange}
+                  />
+                  <div className="text-center">
+                    <img src="/assets/icons/box.svg" alt={`${size} Package`} className={`img-fluid ${size}`} />
+                    <p className="mb-0">{size.charAt(0).toUpperCase() + size.slice(1)}</p>
+                  </div>
+                </label>
+              </div>
+            ))}
+          </div>
+          {formData.packageSize && (
+            <p className="package-size">
+              <strong>Package Size:</strong>{" "}
+              {formData.packageSize === "small"
+                ? "Max size: 20x20x20"
+                : formData.packageSize === "medium"
+                ? "Max size: 50x50x50"
+                : "Max size: 100x100x100"}{" "}
+              centimeters
+            </p>
+          )}
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="note" className="form-label">
+            Note
+          </label>
+          <textarea className="form-control" name="note" value={formData.note} onChange={handleInputChange} />
+        </div>
+
+        {["Normal", "Rapid", "UltraRapid", "SameDay"].map((deliveryType) => (
+          <div className="mb-3 form-check" key={deliveryType}>
+            <input
+              type="radio"
+              className="form-check-input"
+              id={`is${deliveryType}`}
+              checked={formData[`is${deliveryType}`]}
+              onChange={() => handleCheckboxChange(`is${deliveryType}`)}
+            />
+            <label className="form-check-label" htmlFor={`is${deliveryType}`}>{`${deliveryType} delivery`}</label>
+          </div>
+        ))}
+
+        {isAfterNoon && <div className="alert alert-danger">You can only select SameDay delivery until noon.</div>}
+
+        <div className="mb-3">
+          <p>Delivery cost: {displayPrice()}</p>
+        </div>
+
+        <div className="mb-3">
+          {currentOrderNumber >= 3 && (
+            <p>Loyalty discount of {getLoyaltyPercentage(currentOrderNumber)}% has been automatically subtracted.</p>
+          )}
+        </div>
+
+        <div className="mb-3">
+          <p>
+            Estimated delivery date: <span>{estDeliveryDate}</span>
+          </p>
+        </div>
+
+        <div>
+          <ReCaptchaWidget onRecaptchaChange={setIsRecaptchaVerified} />
+        </div>
+
+        <button type="submit" className="btn submit-btn">
+          Send
+        </button>
+
+        <div className="my-3">
+          <p className="text-danger">{error}</p>
+        </div>
+      </form>
+    </div>
+  );
 };

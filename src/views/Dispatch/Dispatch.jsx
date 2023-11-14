@@ -123,6 +123,7 @@ export const Dispatch = () => {
     if (lockerId === "0") {
       return ""; // Skip locker capacity and calculation for the initial "Select Sender/Receiver Locker" option
     }
+
     return lockerOptions.find((locker) => String(locker.id) === String(lockerId))?.label || "";
   };
 
@@ -130,20 +131,33 @@ export const Dispatch = () => {
     if (lockerId === "0") {
       return 0; // Skip locker capacity for the initial "Select Sender/Receiver Locker" option
     }
-    console.log(lockerOptions);
-    return lockerOptions.find((option) => option.id === +lockerId).maxcapacity -
-      lockerOptions.find((option) => option.id === +lockerId).numberofpackages;
+
+    return (
+      lockerOptions.find((option) => option.id === +lockerId).maxcapacity -
+      lockerOptions.find((option) => option.id === +lockerId).numberofpackages
+    );
+  };
+
+  const calculateMaxCapacity = (numberOfPackages, percentUsed, defaultValue) => {
+    if (percentUsed == 0) {
+      return defaultValue;
+    }
+
+    const maxCapacity = Math.round((numberOfPackages / percentUsed) * 100);
+    return maxCapacity;
   };
 
   const loadLockerOptions = () => {
     LockerDataService.getAll()
       .then((response) => {
-        const lockerOptions = response.data.lockers.map((locker, index) => ({
+        const { lockers, numberofpackages, percents } = response.data;
+
+        const lockerOptions = lockers.map((locker, i) => ({
           id: locker.ID,
           label: `${locker.City} - ${locker.Address}`,
-          numberofpackages: response.data.numberofpackages[index], // Assign numberofpackages from the response
-          percents: response.data.percents[index], // Assign percents from the response
-          maxcapacity: Math.round((response.data.numberofpackages[index] / response.data.percents[index]) * 100),
+          numberofpackages: numberofpackages[i], // Assign numberofpackages from the response
+          percents: percents[i], // Assign percents from the response
+          maxcapacity: calculateMaxCapacity(numberofpackages[i], percents[i], locker.Capacity),
         }));
 
         const uniqueLockerOptions = Array.from(new Set(lockerOptions.map((option) => option.label))).map((label) => ({
@@ -387,11 +401,7 @@ export const Dispatch = () => {
               Map
             </a>
           )}
-          {senderLockerAddress && (
-            <p className="mb-0 ms-5">
-              Capacity: {displayLockerCapacity(formData.senderLocker)}
-            </p>
-          )}
+          {senderLockerAddress && <p className="mb-0 ms-5">Capacity: {displayLockerCapacity(formData.senderLocker)}</p>}
         </div>
 
         <div className="mb-3 d-flex align-items-center">
@@ -418,11 +428,7 @@ export const Dispatch = () => {
               Map
             </a>
           )}
-          {receiverLockerAddress && (
-            <p className="mb-0 ms-5">
-              Capacity: {displayLockerCapacity(formData.receiverLocker)}
-            </p>
-          )}
+          {receiverLockerAddress && <p className="mb-0 ms-5">Capacity: {displayLockerCapacity(formData.receiverLocker)}</p>}
         </div>
 
         <div className="mb-3">

@@ -119,7 +119,21 @@ export const Dispatch = () => {
     return currentHour < 12;
   };
 
-  const findLockerAddress = (lockerId) => lockerOptions.find((locker) => String(locker.id) === String(lockerId))?.label || "";
+  const findLockerAddress = (lockerId) => {
+    if (lockerId === "0") {
+      return ""; // Skip locker capacity and calculation for the initial "Select Sender/Receiver Locker" option
+    }
+    return lockerOptions.find((locker) => String(locker.id) === String(lockerId))?.label || "";
+  };
+
+  const displayLockerCapacity = (lockerId) => {
+    if (lockerId === "0") {
+      return 0; // Skip locker capacity for the initial "Select Sender/Receiver Locker" option
+    }
+    console.log(lockerOptions);
+    return lockerOptions.find((option) => option.id === +lockerId).maxcapacity -
+      lockerOptions.find((option) => option.id === +lockerId).numberofpackages;
+  };
 
   const loadLockerOptions = () => {
     LockerDataService.getAll()
@@ -375,11 +389,7 @@ export const Dispatch = () => {
           )}
           {senderLockerAddress && (
             <p className="mb-0 ms-5">
-              Capacity:{" "}
-              {formData.senderLocker
-                ? lockerOptions.find((option) => option.id === +formData.senderLocker).maxcapacity -
-                  lockerOptions.find((option) => option.id === +formData.senderLocker).numberofpackages
-                : 0}
+              Capacity: {displayLockerCapacity(formData.senderLocker)}
             </p>
           )}
         </div>
@@ -410,11 +420,7 @@ export const Dispatch = () => {
           )}
           {receiverLockerAddress && (
             <p className="mb-0 ms-5">
-              Capacity:{" "}
-              {formData.receiverLocker
-                ? lockerOptions.find((option) => option.id === +formData.receiverLocker).maxcapacity -
-                  lockerOptions.find((option) => option.id === +formData.receiverLocker).numberofpackages
-                : 0}
+              Capacity: {displayLockerCapacity(formData.receiverLocker)}
             </p>
           )}
         </div>

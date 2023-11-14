@@ -219,6 +219,7 @@ export const Dispatch = () => {
 
       if (exchangeRates) {
         const exchangeRateHUFToEUR = exchangeRates.EUR;
+        const exchangeRateHUFToUSD = exchangeRates.USD;
         const deliveryCostEUR = (deliveryCostHUF * exchangeRateHUFToEUR).toFixed(2);
         const deliveryCostUSD = (deliveryCostHUF * exchangeRateHUFToUSD).toFixed(2);
         setDeliveryCostEUR(deliveryCostEUR);

@@ -138,15 +138,6 @@ export const Dispatch = () => {
     );
   };
 
-  const calculateMaxCapacity = (numberOfPackages, percentUsed, defaultValue) => {
-    if (percentUsed == 0) {
-      return defaultValue;
-    }
-
-    const maxCapacity = Math.round((numberOfPackages / percentUsed) * 100);
-    return maxCapacity;
-  };
-
   const loadLockerOptions = () => {
     LockerDataService.getAll()
       .then((response) => {
@@ -157,7 +148,7 @@ export const Dispatch = () => {
           label: `${locker.City} - ${locker.Address}`,
           numberofpackages: numberofpackages[i], // Assign numberofpackages from the response
           percents: percents[i], // Assign percents from the response
-          maxcapacity: calculateMaxCapacity(numberofpackages[i], percents[i], locker.Capacity),
+          maxcapacity: locker.Capacity,
         }));
 
         const uniqueLockerOptions = Array.from(new Set(lockerOptions.map((option) => option.label))).map((label) => ({

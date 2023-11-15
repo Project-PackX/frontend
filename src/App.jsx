@@ -1,40 +1,39 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css'
-import CustomCursor from './components/CustomCursor/CustomCursor';
-import ScrollToTop from './components/ScrollToTop/ScrollToTop';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import CustomCursor from "./components/CustomCursor/CustomCursor";
+import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 
-import { Navbar } from './components/Navbar/Navbar';
-import { Footer } from './components/Footer/Footer';
+import { Navbar } from "./components/Navbar/Navbar";
+import { Footer } from "./components/Footer/Footer";
 
-import { Home } from './views/Home/Home';
-import { Track } from './views/Track/Track';
-import { Login } from './views/Login/Login';
-import { CodeAuth } from './views/CodeAuth/CodeAuth';
-import { ResetPasswd } from './views/ResetPasswd/ResetPasswd';
-import { UserData } from './views/UserData/UserData';
-import { DeleteUser } from './views/DeleteUser/DeleteUser';
-import { Register } from './views/Register/Register';
-import { Loyalty } from './views/Loyalty/Loyalty';
-import { Contact } from './views/Contact/Contact';
-import { About } from './views/About/About';
-import { PackageStatus } from './views/PackageStatus/PackageStatus';
+import { Home } from "./views/Home/Home";
+import { Track } from "./views/Track/Track";
+import { Login } from "./views/Login/Login";
+import { CodeAuth } from "./views/CodeAuth/CodeAuth";
+import { ResetPasswd } from "./views/ResetPasswd/ResetPasswd";
+import { UserData } from "./views/UserData/UserData";
+import { DeleteUser } from "./views/DeleteUser/DeleteUser";
+import { Register } from "./views/Register/Register";
+import { Loyalty } from "./views/Loyalty/Loyalty";
+import { Contact } from "./views/Contact/Contact";
+import { About } from "./views/About/About";
+import { PackageStatus } from "./views/PackageStatus/PackageStatus";
 import { PageNotFound } from "./views/PageNotFound/PageNotFound";
 import { Policy } from "./views/Policy/Policy";
 
-import { AuthProvider } from './context/auth';
+import { AuthProvider } from "./context/auth";
 import { Dispatch } from "./views/Dispatch/Dispatch";
 import { History } from "./views/History/History";
-import { SuccessfulResponse } from './components/Slave/SuccessfulResponse/SuccessfulResponse';
+import { SuccessfulResponse } from "./components/Slave/SuccessfulResponse/SuccessfulResponse";
 
 import { CourierPackages } from "./views/Courier/CourierPackages/CourierPackages";
 import { CourierLockers } from "./views/Courier/CourierLockers/CourierLockers";
 import { Packages } from "./views/Courier/CourierLockers/Packages";
-import {AdminPackages} from "./views/Admin/Packages/AdminPackages";
-import {AdminLockers} from "./views/Admin/Lockers/AdminLockers";
-import {AdminUsers} from "./views/Admin/Users/AdminUsers";
+import { AdminPackages } from "./views/Admin/Packages/AdminPackages";
+import { AdminLockers } from "./views/Admin/Lockers/AdminLockers";
+import { AdminUsers } from "./views/Admin/Users/AdminUsers";
 
 function App() {
-
   return (
     <AuthProvider>
       <CustomCursor />

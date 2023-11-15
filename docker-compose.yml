@@ -3,10 +3,12 @@ version: "3.8"
 services:
   packx-frontend:
     container_name: packx-frontend
-    image: ghcr.io/project-packx/backend
+    image: ghcr.io/project-packx/frontend
     build: .
     ports:
       - 3000:80
+    environment:
+      - PACKX_BACKEND_API_BASE_URL
     networks:
       - packx-frontend
     restart: unless-stopped

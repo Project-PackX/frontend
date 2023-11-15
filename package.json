@@ -27,6 +27,7 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
+    "@import-meta-env/unplugin": "^0.5.1",
     "@types/react": "^18.2.34",
     "@types/react-dom": "^18.2.14",
     "@vitejs/plugin-react": "^4.1.1",

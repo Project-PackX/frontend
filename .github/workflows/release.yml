@@ -30,13 +30,13 @@ jobs:
       new_semver: ${{ steps.semantic.outputs.new_release_git_tag }}
 
   docker:
+    needs: semantic-release
+    if: needs.semantic-release.outputs.release_published == 'true'
+
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
-
-    needs: semantic-release
-    if: needs.semantic-release.outputs.release_published
 
     steps:
       - uses: actions/checkout@v4

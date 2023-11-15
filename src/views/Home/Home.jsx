@@ -47,9 +47,40 @@ export const Home = () => {
   };
 
   const calculateCost = () => {
-    const senderLabel = lockerOptions[formData.senderLocker]?.label.split(" - ")[0];
+
+    // Colsole log all locker info
+    console.log("Locker Options:", lockerOptions);
+
+    const senderLabel = lockerOptions[formData.senderLocker - 1]?.label.split(" - ")[0];
     const receiverLabel = lockerOptions[formData.receiverLocker - 1]?.label.split(" - ")[0];
-    setCost(senderLabel === receiverLabel ? 390 : 490);
+    
+  
+    console.log("Sender Label:", senderLabel);
+    console.log("Receiver Label:", receiverLabel);
+  
+    // Check if both sender and receiver are in the same city
+    let sameCity = senderLabel === receiverLabel;
+  
+    console.log("Same City:", sameCity);
+  
+    // Set the cost based on whether they are in the same city or not
+    let calculatedCost = sameCity ? 390 : 490;
+  
+    // Include exchange rates if available
+    if (exchangeRates) {
+      const selectedCurrency = localStorage.getItem("selectedCurrency");
+  
+      if (selectedCurrency === "HUF") {
+        setCost(`${calculatedCost} HUF`);
+        return;
+      } else if (selectedCurrency === "EUR") {
+        calculatedCost = calculatedCost * exchangeRates.EUR;
+        setCost(`${calculatedCost} EUR`);
+      } else if (selectedCurrency === "USD") {
+        calculatedCost = calculatedCost * exchangeRates.USD;
+        setCost(`${calculatedCost} USD`);
+      }
+    }  
   };
 
   useEffect(() => {
@@ -280,7 +311,7 @@ export const Home = () => {
                 </select>
               </div>
               {formData.senderLocker !== 0 && formData.receiverLocker !== 0 && (
-                <p className="cost-display">Delivery cost: {cost} Ft</p>
+                <p className="cost-display">Delivery cost: {cost}</p>
               )}
             </form>
           </div>

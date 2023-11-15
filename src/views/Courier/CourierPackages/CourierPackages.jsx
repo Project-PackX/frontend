@@ -91,7 +91,7 @@ export function CourierPackages() {
     if (exchangeRates) {
       getAllCourierPackages();
     }
-  }, [exchangeRates]);
+  }, []);
 
   if (!isLoggedIn) {
     return (
@@ -100,45 +100,47 @@ export function CourierPackages() {
   }
 
   return (
-    <div>
-      <h1>Courier Packages</h1>
-      <div className="currency-dropdown-container">
-        <div className="dropdown text-end">
-          <button className="button button-primary dropdown-toggle currency-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
-            {selectedCurrency}
-          </button>
-          <ul className="dropdown-menu" aria-labelledby="currencyDropdown">
-            {['HUF', 'EUR', 'USD'].map(currency => (
-              <li key={currency}>
-                <a className="dropdown-item" onClick={() => handleCurrencyChange(currency)}>{currency}</a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-      {packages.map((item, index) => (
-        <div className="col-md-4" key={index}>
-          <div className="history-card">
-            <div className="history-item">
-              <h5 className="card-title">Track ID: {item.TrackID}</h5>
-              <h5 className="card-text">Status: {statuses[index]}</h5>
-              <p className="card-text">Created At: {item.CreatedAt}</p>
-              <p className='card-text'>Sender Locker Address: {item.SenderLockerLabel}</p>
-              <p className='card-text'>Destination Locker Address: {item.ReceiverLockerLabel}</p>
-              <p className="card-text">Price: {displayPrice(item)}</p>
-              <p className="card-text">Delivery Date: {item.DeliveryDate}</p>
-              <p className="card-text">Note: {item.Note}</p>
-            </div>
-            <div className="courier-status-icon">
-              <img src={getStatusSvg(statuses[index])} alt={statuses[index]} />
-            </div>
-            <Link to={`/track/${item.TrackID}`} className="btn login-btn">
-              Track
-            </Link>
-            <button disabled={statuses[index] === "Delivered"} className="btn login-btn" onClick={handleSkipToNextStatus(item.ID)}>Jump to next status</button>
+    <div className="history-container">
+      <div className="row">
+        <h1>Courier Packages</h1>
+        <div className="currency-dropdown-container">
+          <div className="dropdown text-end">
+            <button className="button button-primary dropdown-toggle currency-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              {selectedCurrency}
+            </button>
+            <ul className="dropdown-menu" aria-labelledby="currencyDropdown">
+              {['HUF', 'EUR', 'USD'].map(currency => (
+                <li key={currency}>
+                  <a className="dropdown-item" onClick={() => handleCurrencyChange(currency)}>{currency}</a>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
-      ))}
+        {packages.map((item, index) => (
+          <div className="col-md-4" key={index}>
+            <div className="history-card">
+              <div className="history-item">
+                <h5 className="card-title">Track ID: {item.TrackID}</h5>
+                <h5 className="card-text">Status: {statuses[index]}</h5>
+                <p className="card-text">Created At: {item.CreatedAt}</p>
+                <p className='card-text'>Sender Locker Address: {item.SenderLockerLabel}</p>
+                <p className='card-text'>Destination Locker Address: {item.ReceiverLockerLabel}</p>
+                <p className="card-text">Price: {displayPrice(item)}</p>
+                <p className="card-text">Delivery Date: {item.DeliveryDate}</p>
+                <p className="card-text">Note: {item.Note}</p>
+              </div>
+              <div className="courier-status-icon">
+                <img src={getStatusSvg(statuses[index])} alt={statuses[index]} />
+              </div>
+              <Link to={`/track/${item.TrackID}`} className="btn login-btn">
+                Track
+              </Link>
+              <button disabled={statuses[index] === "Delivered"} className="btn login-btn" onClick={handleSkipToNextStatus(item.ID)}>Jump to next status</button>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

@@ -4,12 +4,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../../context/auth";
 import { NoPermission } from "../../../components/Slave/NoPermission/NoPermission";
 import './courierpackages.css';
-
-import DispatchSvg from '/assets/images/undraw_data_processing_yrrv.svg';
-import TransitSvg from '/assets/images/undraw_aircraft_re_m05i.svg';
-import InWarehouseSvg from '/assets/images/undraw_building_re_xfcm.svg';
-import InDeliverySvg from '/assets/images/undraw_delivery_truck_vt6p.svg';
-import DeliveredSvg from '/assets/images/undraw_order_delivered_re_v4ab.svg';
+import LockerDataService from "../../../services/locker";
 
 export function CourierPackages() {
   const token = localStorage.getItem('token');
@@ -18,6 +13,7 @@ export function CourierPackages() {
   const { isLoggedIn } = useAuth();
   const [packages, setPackages] = useState([]);
   const [statuses, setStatuses] = useState([]);
+  const [lockerOptions, setLockerOptions] = useState([]);
   const exchangeRates = JSON.parse(localStorage.getItem("exchangeRates"));
   const [selectedCurrency, setSelectedCurrency] = useState(localStorage.getItem("selectedCurrency") || "HUF");
 
@@ -26,11 +22,32 @@ export function CourierPackages() {
     localStorage.setItem('selectedCurrency', currency);
   };
 
+  const loadLockerOptions = () => {
+    LockerDataService.getAll()
+        .then(response => {
+          const lockerOptions = response.data.lockers.map(locker => ({
+            id: locker.ID,
+            label: `${locker.City} - ${locker.Address}`,
+          }));
+          setLockerOptions(lockerOptions);
+        })
+        .catch(error => console.error("Error while loading locker options", error));
+  };
+
+  useEffect(() => {
+    loadLockerOptions();
+  }, []);
+
   const getAllCourierPackages = () => {
     PackageService.getCourierPackages(user_id, token)
       .then((response) => {
-        const formattedPackages = response.data.packages.map((item, index) => {
+        const formattedPackages = response.data.packages.map((item) => {
           if (exchangeRates) {
+            console.log(response)
+            const senderLockerId = parseInt(item.SenderLockerId);
+            const destinationLockerId = parseInt(item.DestinationLockerId);
+            const senderLocker = lockerOptions.find(locker => locker.id === senderLockerId);
+            const receiverLocker = lockerOptions.find(locker => locker.id === destinationLockerId);
             const deliveryCostHUF = parseFloat(item.Price);
             const deliveryCostEUR = (deliveryCostHUF * exchangeRates.EUR).toFixed(2);
             const deliveryCostUSD = (deliveryCostHUF * exchangeRates.USD).toFixed(2);
@@ -39,6 +56,8 @@ export function CourierPackages() {
               ...item,
               CreatedAt: new Date(item.CreatedAt).toLocaleString(),
               DeliveryDate: new Date(item.DeliveryDate).toLocaleString(),
+              SenderLockerLabel: senderLocker ? senderLocker.label : "N/A",
+              ReceiverLockerLabel: receiverLocker ? receiverLocker.label : "N/A",
               DeliveryCostHUF: deliveryCostHUF,
               DeliveryCostEUR: deliveryCostEUR,
               DeliveryCostUSD: deliveryCostUSD,
@@ -90,6 +109,8 @@ export function CourierPackages() {
       <NoPermission />
     );
   }
+
+  console.log(packages);
 
   return (
     <div className="history-container">

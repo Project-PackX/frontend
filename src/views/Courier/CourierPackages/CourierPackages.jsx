@@ -79,14 +79,6 @@ export function CourierPackages() {
       });
   };
 
-  const getStatusSvg = (status) => ({
-    'Dispatch': DispatchSvg,
-    'Transit': TransitSvg,
-    'In Warehouse': InWarehouseSvg,
-    'In Delivery': InDeliverySvg,
-    'Delivered': DeliveredSvg,
-  }[status] || DispatchSvg);
-
   useEffect(() => {
     if (exchangeRates) {
       getAllCourierPackages();
@@ -129,9 +121,6 @@ export function CourierPackages() {
                 <p className="card-text">Price: {displayPrice(item)}</p>
                 <p className="card-text">Delivery Date: {item.DeliveryDate}</p>
                 <p className="card-text">Note: {item.Note}</p>
-              </div>
-              <div className="courier-status-icon">
-                <img src={getStatusSvg(statuses[index])} alt={statuses[index]} />
               </div>
               <Link to={`/track/${item.TrackID}`} className="btn login-btn">
                 Track

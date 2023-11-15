@@ -94,7 +94,7 @@ export const History = () => {
     if (lockerOptions.length > 0 && exchangeRates) {
       loadHistory();
     }
-  }, [lockerOptions, exchangeRates, selectedCurrency]);
+  }, [lockerOptions, selectedCurrency]);
 
   if (!isLoggedIn || tokenDecodingError) {
     return <NoPermission />;

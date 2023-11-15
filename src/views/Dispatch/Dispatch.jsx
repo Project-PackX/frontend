@@ -219,7 +219,6 @@ export const Dispatch = () => {
       if (senderLocker && receiverLocker) {
         if (senderLocker.split(" - ")[0] === receiverLocker.split(" - ")[0]) {
           deliveryCostHUF += 390;
-        } else {
         }
       } else {
         console.error("Sender and receiver lockers must be selected");
@@ -290,7 +289,7 @@ export const Dispatch = () => {
 
     // Make a request to the server
     PackageDataService.new(requestData, localStorage.getItem("token"))
-      .then((response) => {
+      .then(() => {
         console.log("Package dispatched successfully");
         localStorage.setItem("historyCount", currentOrderNumber + 1);
         navigate("/successfulresponse", { state: { referrer: "dispatch" } });
@@ -392,7 +391,7 @@ export const Dispatch = () => {
               Map
             </a>
           )}
-          {senderLockerAddress && <p className="mb-0 ms-5">Capacity: {displayLockerCapacity(formData.senderLocker)}</p>}
+          {senderLockerAddress && <p className="capacity-display">Capacity: {displayLockerCapacity(formData.senderLocker)}</p>}
         </div>
 
         <div className="mb-3 d-flex align-items-center">
@@ -419,7 +418,7 @@ export const Dispatch = () => {
               Map
             </a>
           )}
-          {receiverLockerAddress && <p className="mb-0 ms-5">Capacity: {displayLockerCapacity(formData.receiverLocker)}</p>}
+          {receiverLockerAddress && <p className="capacity-display">Capacity: {displayLockerCapacity(formData.receiverLocker)}</p>}
         </div>
 
         <div className="mb-3">

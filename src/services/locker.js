@@ -8,6 +8,14 @@ class LockerDataService {
         return http.get("/lockers/all");
     }
 
+    addLocker(data, token) {
+        return http.post("/lockers/new", data, {
+            headers: {
+                Authorization: `${token}`
+            }
+        });
+    }
+
     getPackages(id, token) {
         return http.get(`/lockers/packages/${id}`, {
             headers: {

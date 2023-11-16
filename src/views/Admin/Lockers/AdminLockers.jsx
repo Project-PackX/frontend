@@ -75,9 +75,9 @@ export function AdminLockers() {
                 <div className="row">
                     <h1 className="col-md-5">Lockers</h1>
                     <div className="col-md-1 me-5"></div>
-                    <button className="btn submit-btn locker-btn me-2 col-md-1">
+                    <Link to="/add-locker" className="btn submit-btn locker-btn me-2 col-md-1">
                         +
-                    </button>
+                    </Link>
                     <button className="btn submit-btn locker-btn me-2 col-md-2" onClick={sortLockersByName}>
                         Sort by Name {sortCriteria === "name" && (sortOrder === "asc" ? "▲" : "▼")}
                     </button>

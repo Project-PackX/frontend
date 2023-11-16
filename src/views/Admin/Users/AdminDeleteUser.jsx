@@ -61,7 +61,7 @@ export const AdminDeleteUser = () => {
   return (
     <div className="delete container row col-12">
       <div className="form-container col-md-6 mt-5">
-        <h1 className="delete-title">Delete your account</h1>
+        <h1 className="delete-title">Delete accounts</h1>
         <p className="delete-subtitle">Please note that this process cannot be undone.</p>
         {error && <div className="error-message">{error}</div>}
         <form>

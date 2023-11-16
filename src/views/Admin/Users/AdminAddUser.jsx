@@ -3,10 +3,20 @@ import { useNavigate } from "react-router-dom";
 import UserDataService from "../../../services/user";
 import "../../Register/register.css";
 import {useAuth} from "../../../context/auth";
+import ReCaptchaWidget from "../../../components/reCAPTCHA/reCAPTCHA";
 import {NoPermission} from "../../../components/Slave/NoPermission/NoPermission";
 
 export const AdminAddUser = () => {
     const navigate = useNavigate();
+    const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
+
+    const isAlphaNumeric = (input) => /^[a-zA-Z0-9áéíóöőúüűÁÉÍÓÖŐÚÜŰ\s.,/-]*$/.test(input);
+    const isAddressValid = (address) => /^[a-zA-Z0-9áéíóöőúüűÁÉÍÓÖŐÚÜŰ\s.,/-]*$/.test(address);
+    const isEmailValid = (email) =>
+      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email) && email.split("@").length === 2 && email.split(".").length >= 2;
+    const isPhoneNumberValid = (phone) => /^[0-9+]{1,15}$/.test(phone);
+
+    const onRecaptchaChange = (isVerified) => setIsRecaptchaVerified(isVerified);
 
     const { isLoggedIn } = useAuth();
     const access_level = parseInt(localStorage.getItem("access_level"));
@@ -34,16 +44,16 @@ export const AdminAddUser = () => {
         e.preventDefault();
 
         for (const input of [
-            { id: "name", label: "Name" },
-            { id: "address", label: "Address" },
-            { id: "email", label: "Email" },
-            { id: "phone", label: "Phone" },
-        ]) {
-            if (formData[input.id].trim() === "") {
-                setError(<ErrorMessage message={'Please enter information to the "${input.label}" field'} />);
-                return;
+            { id: "name", label: "Name", validator: isAlphaNumeric },
+            { id: "address", label: "Address", validator: isAddressValid },
+            { id: "email", label: "Email", validator: isEmailValid },
+            { id: "phone", label: "Phone", validator: isPhoneNumberValid },
+          ]) {
+            if (formData[input.id] && !input.validator(formData[input.id])) {
+              alert(`Please enter valid information to the: "${input.label}" field`);
+              return;
             }
-        }
+          }
 
         const requestData = {
             Name: formData.name,
@@ -94,6 +104,9 @@ export const AdminAddUser = () => {
                             />
                         </div>
                     ))}
+                    <div>
+                        <ReCaptchaWidget onRecaptchaChange={onRecaptchaChange} />
+                    </div>
                     <button type="submit" className="register-btn">
                         Add user
                     </button>

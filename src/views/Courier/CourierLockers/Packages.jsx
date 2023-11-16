@@ -10,6 +10,7 @@ export const Packages = () => {
   const { id } = useParams();
   const [packages, setPackages] = useState([]);
   const token = localStorage.getItem('token');
+  const access_level = parseInt(localStorage.getItem("access_level"));
 
   const exchangeRates = JSON.parse(localStorage.getItem("exchangeRates"));
   const [selectedCurrency, setSelectedCurrency] = useState(localStorage.getItem("selectedCurrency") || "HUF");
@@ -69,10 +70,8 @@ export const Packages = () => {
     }
   }, [exchangeRates]);
 
-  if (!isLoggedIn) {
-    return (
-      <NoPermission />
-    );
+  if (!isLoggedIn || access_level <= 2) {
+    return <NoPermission />;
   }
 
   return (

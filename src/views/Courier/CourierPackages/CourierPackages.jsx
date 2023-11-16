@@ -16,6 +16,7 @@ export function CourierPackages() {
   const [lockerOptions, setLockerOptions] = useState([]);
   const exchangeRates = JSON.parse(localStorage.getItem("exchangeRates"));
   const [selectedCurrency, setSelectedCurrency] = useState(localStorage.getItem("selectedCurrency") || "HUF");
+  const access_level = parseInt(localStorage.getItem("access_level"));
 
   const handleCurrencyChange = (currency) => {
     setSelectedCurrency(currency);
@@ -104,10 +105,8 @@ export function CourierPackages() {
     }
   }, []);
 
-  if (!isLoggedIn) {
-    return (
-      <NoPermission />
-    );
+  if (!isLoggedIn || access_level <= 2) {
+    return <NoPermission />;
   }
 
   console.log(packages);

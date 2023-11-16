@@ -12,6 +12,7 @@ export function CourierLockers() {
   const [fullness, setFullness] = useState([]);
   const [sortCriteria, setSortCriteria] = useState(null);
   const [sortOrder, setSortOrder] = useState("asc");
+  const access_level = parseInt(localStorage.getItem("access_level"));
 
   useEffect(() => {
     const getAllLockers = async () => {
@@ -64,8 +65,9 @@ export function CourierLockers() {
 
   const calculateProgressBarStyle = (percentage) => ({ width: percentage + "%" });
 
-  if (!isLoggedIn) {
-    return <NoPermission />;
+  // if the access level is not 2 or 3 return true and show the NoPermission component
+  if (!isLoggedIn || access_level <= 2) {
+      return <NoPermission />;
   }
 
   return (

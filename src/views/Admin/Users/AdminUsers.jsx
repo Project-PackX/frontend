@@ -2,10 +2,15 @@ import { useState, useEffect } from 'react';
 import "./admin-users.css";
 import UserDatService from "../../../services/user";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Link} from "react-router-dom"; // Make sure to include Bootstrap CSS
+import {Link} from "react-router-dom";
+import {NoPermission} from "../../../components/Slave/NoPermission/NoPermission";
+import {useAuth} from "../../../context/auth"; // Make sure to include Bootstrap CSS
 
 export const AdminUsers = () => {
     const [users, setUsers] = useState([]);
+    const access_level = parseInt(localStorage.getItem("access_level"));
+
+    const { isLoggedIn } = useAuth();
 
     // get all user
     const getAllUsers = async () => {
@@ -31,6 +36,10 @@ export const AdminUsers = () => {
             return 'Normal User';
         }
     };
+
+    if (!isLoggedIn || access_level !== 3) {
+        return <NoPermission />;
+    }
 
     return (
         <div className="container mt-5">

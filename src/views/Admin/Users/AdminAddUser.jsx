@@ -9,6 +9,7 @@ export const AdminAddUser = () => {
     const navigate = useNavigate();
 
     const { isLoggedIn } = useAuth();
+    const access_level = parseInt(localStorage.getItem("access_level"));
 
     const [formData, setFormData] = useState({
         name: "",
@@ -56,10 +57,8 @@ export const AdminAddUser = () => {
             });
     };
 
-    if (!isLoggedIn) {
-        return (
-            <NoPermission />
-        );
+    if (!isLoggedIn || access_level !== 3) {
+        return <NoPermission />;
     }
 
     return (

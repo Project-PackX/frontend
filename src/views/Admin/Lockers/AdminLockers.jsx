@@ -12,6 +12,7 @@ export function AdminLockers() {
     const [fullness, setFullness] = useState([]);
     const [sortCriteria, setSortCriteria] = useState(null);
     const [sortOrder, setSortOrder] = useState("asc");
+    const access_level = parseInt(localStorage.getItem("access_level"));
 
     useEffect(() => {
         const getAllLockers = async () => {
@@ -64,7 +65,7 @@ export function AdminLockers() {
 
     const calculateProgressBarStyle = (percentage) => ({ width: percentage + "%" });
 
-    if (!isLoggedIn) {
+    if (!isLoggedIn || access_level !== 3) {
         return <NoPermission />;
     }
 

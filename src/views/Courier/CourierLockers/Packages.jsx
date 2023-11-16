@@ -68,7 +68,7 @@ export const Packages = () => {
     if (exchangeRates) {
       getLockerPackages();
     }
-  }, [exchangeRates]);
+  }, []);
 
   if (!isLoggedIn || access_level <= 2) {
     return <NoPermission />;

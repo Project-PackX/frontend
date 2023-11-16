@@ -33,6 +33,7 @@ import { AdminPackages } from "./views/Admin/Packages/AdminPackages";
 import { AdminLockers } from "./views/Admin/Lockers/AdminLockers";
 import { AdminUsers } from "./views/Admin/Users/AdminUsers";
 import {AdminAddUser} from "./views/Admin/Users/AdminAddUser";
+import { AdminDeleteUser } from "./views/Admin/Users/AdminDeleteUser";
 import {AddLocker} from "./views/Admin/Lockers/AddLocker";
 
 function App() {
@@ -66,6 +67,7 @@ function App() {
           <Route exact path="/admin-packages" element={<AdminPackages />} />
           <Route exact path="/admin-lockers" element={<AdminLockers />} />
           <Route exact path="/admin-users" element={<AdminUsers />} />
+          <Route exact path="/admin-delete-user" element={<AdminDeleteUser />} />
           <Route exact path="/add-new-user" element={<AdminAddUser />} />
           <Route exact path="/add-locker" element={<AddLocker />} />
           <Route path="*" element={<PageNotFound />} />

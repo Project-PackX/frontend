@@ -22,7 +22,13 @@ export const SuccessfulResponse = () => {
         message = 'Your user account has been permanently deleted! Hope to see you soon.';
         linkTo = '/';
         actionText = 'Home';
-    } else if (location.state?.referrer === 'userdata') {
+    } 
+    else if (location.state?.referrer === 'admin-delete-user') {
+        message = 'The account has been permanently deleted!';
+        linkTo = '/admin-users';
+        actionText = 'Users';
+    } 
+    else if (location.state?.referrer === 'userdata') {
         message = 'Your user data has been updated successfully.';
         linkTo = '/';
         actionText = 'Home';

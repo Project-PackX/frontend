@@ -44,10 +44,15 @@ export const AdminUsers = () => {
     return (
         <div className="container mt-5">
             <div className="d-flex justify-content-between align-items-center">
-                <h1>Admin Users</h1>
-                <Link to="/add-new-user" className="btn submit-btn">
-                    Add User
-                </Link>
+                <h1>All users</h1>
+                <div className="d-flex">
+                    <Link to="/add-new-user" className="btn submit-btn mr-2">
+                        Add User
+                    </Link>
+                    <Link to="/admin-delete-user" className="btn submit-btn">
+                        Delete User
+                    </Link>
+                </div>
             </div>
             <table className="table">
                 <thead className="thead-dark">

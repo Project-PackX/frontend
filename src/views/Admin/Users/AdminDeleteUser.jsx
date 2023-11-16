@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import { useAuth } from "../../context/auth";
-import UserDataService from "../../services/user";
-import ReCaptchaWidget from "../../components/reCAPTCHA/reCAPTCHA";
-import "./deleteuser.css";
-import { NoPermission } from "../../components/Slave/NoPermission/NoPermission";
+import { useAuth } from "../../../context/auth";
+import UserDataService from "../../../services/user";
+import ReCaptchaWidget from "../../../components/reCAPTCHA/reCAPTCHA";
+import { NoPermission } from "../../../components/Slave/NoPermission/NoPermission";
 import { useNavigate } from "react-router-dom";
+import jwtDecode from "jwt-decode";
 
-export const DeleteUser = () => {
+export const AdminDeleteUser = () => {
   const { isLoggedIn, logout } = useAuth();
   const access_level = parseInt(localStorage.getItem("access_level"));
   const [isRecaptchaVerified, setIsRecaptchaVerified] = useState(false);
-  const [formData, setFormData] = useState({ email: "" });
+  const [formData, setFormData] = useState({ name: "" });
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -30,22 +30,18 @@ export const DeleteUser = () => {
       setError("Please verify that you're a human.");
       return;
     }
-
-    if (formData.email === localStorage.getItem("email") && formData.name === localStorage.getItem("name")) {
-      UserDataService.deleteUser(localStorage.getItem("user_id"), localStorage.getItem("token"))
-        .then(() => {
-          logout();
-          navigate("successfulresponse", { state: { referrer: "deleteuser" } });
-        })
-        .catch((error) => {
-          setError("An error occurred while deleting the user.");
-        });
-    } else {
-      setError("The email address you entered does not match your account.");
+    else {
+    UserDataService.deleteUser(formData.name, localStorage.getItem("token"))
+    .then(() => {
+         navigate("/successfulresponse", { state: { referrer: "admin-delete-user" } });
+       })
+       .catch((error) => {
+         setError("An error occurred while deleting the user.");
+      });
     }
   };
 
-  if (access_level === 2 || access_level === 3) {
+  if (access_level === 1 || access_level === 2) {
     return (
       <div className="container">
         <div className="d-flex justify-content-center align-items-center vh-100">
@@ -71,7 +67,7 @@ export const DeleteUser = () => {
         <form>
           <div className="mb-3">
             <label htmlFor="name" className="form-label">
-              Name
+              User ID
             </label>
             <input
               type="text"
@@ -80,20 +76,6 @@ export const DeleteUser = () => {
               name="name"
               required
               value={formData.name}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="email" className="form-label">
-              Email
-            </label>
-            <input
-              type="text"
-              className="form-input"
-              id="email"
-              name="email"
-              required
-              value={formData.email}
               onChange={handleInputChange}
             />
           </div>

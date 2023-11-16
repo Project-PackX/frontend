@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import "./admin-users.css";
 import UserDatService from "../../../services/user";
-import 'bootstrap/dist/css/bootstrap.min.css'; // Make sure to include Bootstrap CSS
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {Link} from "react-router-dom"; // Make sure to include Bootstrap CSS
 
 export const AdminUsers = () => {
     const [users, setUsers] = useState([]);
@@ -27,13 +28,18 @@ export const AdminUsers = () => {
         } else if (email.endsWith('packx-courier.hu')) {
             return 'Courier';
         } else {
-            return 'User';
+            return 'Normal User';
         }
     };
 
     return (
         <div className="container mt-5">
-            <h1>Admin Users</h1>
+            <div className="d-flex justify-content-between align-items-center">
+                <h1>Admin Users</h1>
+                <Link to="/add-new-user" className="btn submit-btn">
+                    Add User
+                </Link>
+            </div>
             <table className="table">
                 <thead className="thead-dark">
                 <tr>
@@ -42,7 +48,7 @@ export const AdminUsers = () => {
                     <th>Address</th>
                     <th>Phone</th>
                     <th>Email</th>
-                    <th>Permission</th> {/* New column for Permission */}
+                    <th>Permission</th>
                     {/* Add other columns as needed */}
                 </tr>
                 </thead>
@@ -54,7 +60,7 @@ export const AdminUsers = () => {
                         <td>{user.Address}</td>
                         <td>{user.Phone}</td>
                         <td>{user.Email}</td>
-                        <td>{getUserPermission(user.Email)}</td> {/* Display Permission based on email */}
+                        <td>{getUserPermission(user.Email)}</td>
                         {/* Add other cells as needed */}
                     </tr>
                 ))}

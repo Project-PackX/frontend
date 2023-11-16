@@ -32,6 +32,7 @@ import { Packages } from "./views/Courier/CourierLockers/Packages";
 import { AdminPackages } from "./views/Admin/Packages/AdminPackages";
 import { AdminLockers } from "./views/Admin/Lockers/AdminLockers";
 import { AdminUsers } from "./views/Admin/Users/AdminUsers";
+import {AdminAddUser} from "./views/Admin/Users/AdminAddUser";
 
 function App() {
   return (
@@ -64,6 +65,7 @@ function App() {
           <Route exact path="/admin-packages" element={<AdminPackages />} />
           <Route exact path="/admin-lockers" element={<AdminLockers />} />
           <Route exact path="/admin-users" element={<AdminUsers />} />
+          <Route exact path="/add-new-user" element={<AdminAddUser />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
         <Footer />

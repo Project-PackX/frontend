@@ -11,6 +11,12 @@ export const AdminAddUser = () => {
     const { isLoggedIn } = useAuth();
     const access_level = parseInt(localStorage.getItem("access_level"));
 
+    // Error handling
+    const ErrorMessage = ({ message }) => (
+        <div className="setError setError-danger">{message}</div>
+    );
+    const [error, setError] = useState(null);
+
     const [formData, setFormData] = useState({
         name: "",
         address: "",
@@ -34,7 +40,7 @@ export const AdminAddUser = () => {
             { id: "phone", label: "Phone" },
         ]) {
             if (formData[input.id].trim() === "") {
-                alert(`Please enter information to the "${input.label}" field`);
+                setError(<ErrorMessage message={'Please enter information to the "${input.label}" field'} />);
                 return;
             }
         }
@@ -62,8 +68,8 @@ export const AdminAddUser = () => {
     }
 
     return (
-        <div className="register container row col-12">
-            <div className="register-form-container col-md-12 mt-5">
+        <div className="userdata container row col-12">
+            <div className="userdata-form-container col-md-6 mt-5">
                 <h1 className="register-title">Add user</h1>
                 <p className="register-subtitle">Please enter the details</p>
                 <form onSubmit={handleSubmit}>
@@ -92,6 +98,9 @@ export const AdminAddUser = () => {
                         Add user
                     </button>
                 </form>
+            </div>
+            <div className="col-md-6">
+                <img src="/assets/images/undraw_people_re_8spw.svg" alt="user-data" className="image" />
             </div>
         </div>
     );

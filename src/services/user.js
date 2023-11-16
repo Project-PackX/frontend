@@ -1,6 +1,9 @@
 import http from "../http-common";
 
 class UserDataService {
+    getAll() {
+        return http.get("/users/all");
+    }
     register(data) {
         return http.post("/users/register", data);
     }

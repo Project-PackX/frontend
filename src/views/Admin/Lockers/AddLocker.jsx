@@ -16,47 +16,73 @@ export const AddLocker = () => {
   );
   const [error, setError] = useState(null);
 
+  const fetchCoordinates = async (Address) => {
+    try {
+      const apiUrl = `https://geocode.maps.co/search?q=${Address}`;
+      const response = await fetch(apiUrl);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch coordinates. Status: ${response.status}`);
+      }
+      const data = await response.json();
+      if (data.length > 0) {
+        const { lat, lon } = data[0];
+        return { Latitude: lat, Longitude: lon };
+      } else {
+        throw new Error("No coordinates found for the given Address.");
+      }
+    } catch (error) {
+      console.error("Error while fetching coordinates:", error);
+      throw error;
+    }
+  };
+
   const [formData, setFormData] = useState({
-    city: "",
-    address: "",
-    latitude: 0,
-    longitude: 0,
-    capacity: 0,
+    City: "",
+    Address: "",
+    Latitude: 0,
+    Longitude: 0,
+    Capacity: 0,
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Do not allow higher capacity than 100
-    if (formData.capacity > 100) {
-      setError("Capacity cannot be higher than 100.");
-      return;
-    } else {
-      setError(null); // Clear the error if capacity is within limits
-    }
-
-    // Validate form data (you can add more validation as needed)
-    if (!formData.city || !formData.address || formData.capacity <= 0) {
-      setError("Please fill in all required fields.");
-      return;
-    } else {
-        setError(null); // Clear the error if all fields are filled
-    }
-
+    const fullAddress = formData.City + " " + formData.Address;
     try {
+      const coordinates = await fetchCoordinates(fullAddress);
+  
+      formData.Latitude = coordinates.Latitude;
+      formData.Longitude = coordinates.Longitude;
+
+      formData.Capacity = parseInt(formData.Capacity);
+      formData.Latitude = parseFloat(formData.Latitude);
+      formData.Longitude = parseFloat(formData.Longitude);
+        
+      // Do not allow higher Capacity than 100
+      if (formData.Capacity > 100) {
+        setError("Capacity cannot be higher than 100.");
+        return;
+      } else {
+        setError(null);
+      }
+  
+      if (!formData.City || !formData.Address || formData.Capacity <= 0) {
+        setError("Please fill in all required fields.");
+        return;
+      } else {
+        setError(null); 
+      }
       // Call the service to add a locker
       const response = await LockerDataService.addLocker(formData, token);
-
       // Handle the response as needed
       console.log("Locker added successfully", response.data);
       navigate("/admin-lockers", { state: { referrer: "add-locker" } });
-
       // Optionally, redirect or perform other actions after successful submission
     } catch (error) {
       console.error("Error adding locker", error);
       // Handle the error (e.g., show an error message to the user)
     }
   };
+  
 
   // Permission check
   if (!isLoggedIn || accessLevel !== 3) {
@@ -71,9 +97,9 @@ export const AddLocker = () => {
         {error && <ErrorMessage message={error} />} {/* Render error message if exists */}
         <form onSubmit={handleSubmit}>
           {[
-            { id: "city", label: "City", type: "text" },
-            { id: "address", label: "Address", type: "text" },
-            { id: "capacity", label: "Capacity", type: "number" },
+            { id: "City", label: "City", type: "text" },
+            { id: "Address", label: "Address", type: "text" },
+            { id: "Capacity", label: "Capacity", type: "number" },
           ].map((input) => (
             <div key={input.id} className="mb-3">
               <label htmlFor={input.id} className="register-form-label">

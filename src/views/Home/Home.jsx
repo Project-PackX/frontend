@@ -19,7 +19,10 @@ export const Home = () => {
   const [emission, setEmission] = useState(0);
 
   const [exchangeRates, setExchangeRates] = useState(null);
-  localStorage.setItem("selectedCurrency", "HUF");
+  // Set default currency to HUF if not set yet
+  if (!localStorage.getItem("selectedCurrency")) {
+    localStorage.setItem("selectedCurrency", "HUF");
+  }
   localStorage.setItem("exchangeRates", JSON.stringify(exchangeRates));
 
   const fetchExchangeRates = () => {

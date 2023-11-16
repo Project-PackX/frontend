@@ -19,6 +19,7 @@ export const Home = () => {
   const [emission, setEmission] = useState(0);
 
   const [exchangeRates, setExchangeRates] = useState(null);
+  localStorage.setItem("selectedCurrency", "HUF");
   localStorage.setItem("exchangeRates", JSON.stringify(exchangeRates));
 
   const fetchExchangeRates = () => {
@@ -79,6 +80,9 @@ export const Home = () => {
       } else if (selectedCurrency === "USD") {
         calculatedCost = calculatedCost * exchangeRates.USD;
         setCost(`${calculatedCost} USD`);
+      }
+      else {
+        setCost(`${calculatedCost} HUF`);
       }
     }  
   };

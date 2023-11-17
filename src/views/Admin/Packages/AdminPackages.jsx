@@ -23,7 +23,11 @@ export const AdminPackages = () => {
     const fetchPackages = async () => {
         try {
             const response = await PackageDataService.getAll(token);
-            setPackages(response.data.Csomagok);
+            setPackages(response.data.Csomagok.map(pkg => ({
+                ...pkg,
+                DeliveryDate: new Date(pkg.DeliveryDate).toLocaleString() || "N/A",
+                Co2: parseFloat(pkg.Co2).toFixed(2)
+            })));
         } catch (error) {
             console.error("Error while loading packages", error);
         }

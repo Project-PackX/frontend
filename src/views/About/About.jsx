@@ -3,7 +3,7 @@ import "./about.css";
 
 export const About = () => {
   const [clickCount, setClickCount] = useState(0);
-  const maxClickCount = 5;
+  const maxClickCount = 3;
 
   const handleImageClick = () => {
     if (clickCount < maxClickCount) setClickCount(clickCount + 1);

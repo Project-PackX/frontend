@@ -18,6 +18,12 @@ export const Home = () => {
   const [cost, setCost] = useState(0);
   const [emission, setEmission] = useState(0);
 
+  // Error handling
+  const ErrorMessage = ({ message }) => (
+    <div className="alert alert-danger">{message}</div>
+  );
+  const [error, setError] = useState(null);
+
   const [exchangeRates, setExchangeRates] = useState(null);
   // Set default currency to HUF if not set yet
   if (!localStorage.getItem("selectedCurrency")) {
@@ -51,44 +57,58 @@ export const Home = () => {
   };
 
   const calculateCost = () => {
-
-    // Colsole log all locker info
-    console.log("Locker Options:", lockerOptions);
-
-    const senderLabel = lockerOptions[formData.senderLocker - 1]?.label.split(" - ")[0];
-    const receiverLabel = lockerOptions[formData.receiverLocker - 1]?.label.split(" - ")[0];
-    
+    const senderLockerOption = lockerOptions[formData.senderLocker - 1];
+    const receiverLockerOption = lockerOptions[formData.receiverLocker - 1];
   
-    console.log("Sender Label:", senderLabel);
-    console.log("Receiver Label:", receiverLabel);
+    if (senderLockerOption && receiverLockerOption) {
+      if (formData.senderLocker === formData.receiverLocker) {
+        // Sender and receiver lockers are the same
+        setError("Sender and receiver locker cannot be the same.");
+        setCost(0); // Reset cost to 0
+      } else {
+        const senderLabel = senderLockerOption.label.split(" - ")[0];
+        const receiverLabel = receiverLockerOption.label.split(" - ")[0];
   
-    // Check if both sender and receiver are in the same city
-    let sameCity = senderLabel === receiverLabel;
+        let sameCity = senderLabel === receiverLabel;
+        let calculatedCost = sameCity ? 390 : 690;
   
-    console.log("Same City:", sameCity);
+        if (!sameCity) {
+          if (
+            (senderLabel === "Győr" && receiverLabel === "Budapest") ||
+            (senderLabel === "Budapest" && receiverLabel === "Győr")
+          ) {
+            calculatedCost = 590;
+          } else if (
+            (senderLabel === "Győr" && receiverLabel === "Szombathely") ||
+            (senderLabel === "Szombathely" && receiverLabel === "Győr")
+          ) {
+            calculatedCost = 490;
+          }
+        }
   
-    // Set the cost based on whether they are in the same city or not
-    let calculatedCost = sameCity ? 390 : 490;
+        if (exchangeRates) {
+          const selectedCurrency = localStorage.getItem("selectedCurrency");
   
-    // Include exchange rates if available
-    if (exchangeRates) {
-      const selectedCurrency = localStorage.getItem("selectedCurrency");
-  
-      if (selectedCurrency === "HUF") {
-        setCost(`${calculatedCost} HUF`);
-        return;
-      } else if (selectedCurrency === "EUR") {
-        calculatedCost = calculatedCost * exchangeRates.EUR;
-        setCost(`${calculatedCost} EUR`);
-      } else if (selectedCurrency === "USD") {
-        calculatedCost = calculatedCost * exchangeRates.USD;
-        setCost(`${calculatedCost} USD`);
+          if (selectedCurrency === "HUF") {
+            setCost(`${calculatedCost} HUF`);
+          } else if (selectedCurrency === "EUR") {
+            calculatedCost *= exchangeRates.EUR;
+            setCost(`${calculatedCost} EUR`);
+          } else if (selectedCurrency === "USD") {
+            calculatedCost *= exchangeRates.USD;
+            setCost(`${calculatedCost} USD`);
+          } else {
+            setCost(`${calculatedCost} HUF`);
+          }
+          setError(null);
+        }
       }
-      else {
-        setCost(`${calculatedCost} HUF`);
-      }
-    }  
+    } else {
+      setError("Sender and receiver lockers must be selected.");
+    }
   };
+  
+  
 
   useEffect(() => {
     calculateCost();

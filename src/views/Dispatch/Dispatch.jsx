@@ -192,7 +192,7 @@ export const Dispatch = () => {
         deliveryCostHUF += 390;
         break;
       case "medium":
-        deliveryCostHUF += 690;
+        deliveryCostHUF += 590;
         break;
       case "large":
         deliveryCostHUF += 890;
@@ -203,13 +203,13 @@ export const Dispatch = () => {
     }
 
     if (formData.isRapid) {
-      deliveryCostHUF += 890;
+      deliveryCostHUF += 590;
     }
     if (formData.isUltraRapid) {
-      deliveryCostHUF += 1190;
+      deliveryCostHUF += 990;
     }
     if (formData.isSameDay) {
-      deliveryCostHUF += 1590;
+      deliveryCostHUF += 1490;
     }
 
     if (formData.senderLocker && formData.receiverLocker) {
@@ -217,13 +217,31 @@ export const Dispatch = () => {
       const receiverLocker = findLockerAddress(formData.receiverLocker);
 
       if (senderLocker && receiverLocker) {
-        if (senderLocker.split(" - ")[0] === receiverLocker.split(" - ")[0]) {
+        const senderCity = senderLocker.split(" - ")[0];
+        const receiverCity = receiverLocker.split(" - ")[0];
+      
+        if (senderCity === receiverCity) {
           deliveryCostHUF += 390;
+        } else {
+          if (
+            (senderCity === "Győr" && receiverCity === "Budapest") ||
+            (senderCity === "Budapest" && receiverCity === "Győr")
+          ) {
+            deliveryCostHUF += 590;
+          } else if (
+            (senderCity === "Győr" && receiverCity === "Szombathely") ||
+            (senderCity === "Szombathely" && receiverCity === "Győr")
+          ) {
+            deliveryCostHUF += 490;
+          } else {
+            deliveryCostHUF += 690;
+          }
         }
       } else {
         console.error("Sender and receiver lockers must be selected");
         return;
       }
+      
 
       if (currentOrderNumber >= 7) {
         deliveryCostHUF /= 1.1;

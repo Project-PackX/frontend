@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import LockerDataService from "../../../services/locker";
 import { useEffect, useState } from "react";
 import { NoPermission } from "../../../components/Slave/NoPermission/NoPermission";
@@ -64,6 +64,14 @@ export const Packages = () => {
     }
   };
 
+    const location = useLocation();
+    let linkTo = '';
+    if (location.state?.referrer === 'courier-lockers') {
+        linkTo = '/courier-lockers';
+    } else if (location.state?.referrer === 'admin-lockers') {
+        linkTo = '/admin-lockers';
+    } 
+
   useEffect(() => {
     if (exchangeRates) {
       getLockerPackages();
@@ -89,7 +97,7 @@ export const Packages = () => {
           </ul>
         </div>
       </div>
-      <Link className="btn submit-btn" to="/courier-lockers">Back to lockers</Link>
+      <Link className="btn submit-btn" to={linkTo}>Back to lockers</Link>
       <table className="table">
         <thead>
           <tr>

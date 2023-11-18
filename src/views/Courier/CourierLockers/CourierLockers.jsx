@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import LockerDataService from "../../../services/locker";
 
 import "./courierlockers.css";
@@ -7,6 +7,7 @@ import { NoPermission } from "../../../components/Slave/NoPermission/NoPermissio
 import { useAuth } from "../../../context/auth";
 
 export function CourierLockers() {
+  const navigate = useNavigate();
   const { isLoggedIn } = useAuth();
   const [lockers, setLockers] = useState([]);
   const [fullness, setFullness] = useState([]);
@@ -65,6 +66,10 @@ export function CourierLockers() {
 
   const calculateProgressBarStyle = (percentage) => ({ width: percentage + "%" });
 
+  const showButton = (locker_ID) => {
+    navigate(`/locker/packages/${locker_ID}`, { state: { referrer: "courier-lockers" } });
+};
+
   // if the access level is not 2 or 3 return true and show the NoPermission component
   if (!isLoggedIn || access_level <= 2) {
       return <NoPermission />;
@@ -98,7 +103,12 @@ export function CourierLockers() {
                   </div>
                 </div>
               </div>
-              <Link className="btn submit-btn me-3" to={`/locker/packages/${locker.ID}`}>Show Packages</Link>
+              <button
+                  className="btn submit-btn me-3"
+                  onClick={() => showButton(locker.ID)}
+                  > Show Packages
+              </button>
+
               <a href={`https://www.google.com/maps/place/${locker.City}+${locker.Address}`} target="_blank" rel="noreferrer" className="btn submit-btn">Map</a>
             </div>
           </div>

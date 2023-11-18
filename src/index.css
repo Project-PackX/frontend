@@ -114,3 +114,39 @@ code {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--purple) !important;
 }
+
+/* If the recognized device is a mobile device, hide the cursor and the scrollbar, and make every picture smaller */
+
+/* If the recognized device is a mobile device */
+@media only screen and (max-width: 767px) {
+  * {
+    cursor: none !important;
+  }
+
+  /* Hide the scrollbar on mobile devices */
+  ::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  /* Adjust styles for images on mobile devices */
+  img {
+    max-width: 65%; /* Make images responsive */
+  }
+}
+
+/* If the recognized device is a tablet */
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+  * {
+    cursor: none !important;
+  }
+
+  /* Hide the scrollbar on tablets */
+  ::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  /* Adjust styles for images on tablets */
+  img {
+    max-width: 70%; /* Make images responsive */
+  }
+}

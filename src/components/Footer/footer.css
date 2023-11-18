@@ -74,3 +74,25 @@
     margin: 0 auto;
     display: block;
 }
+
+@media (max-width: 600px) {
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .footer-left,
+    .footer-right {
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+
+    .social-links li {
+        margin-right: 5px;
+    }
+
+    .foot-logo {
+        width: 25%;
+        margin-bottom: 25px;
+    }
+}

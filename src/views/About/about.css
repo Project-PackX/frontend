@@ -101,4 +101,72 @@
     clear: both;
 }
 
+/* Mobile view styles for .about-container */
+@media only screen and (max-width: 767px) {
+    .about-container {
+        padding: 20px; /* Adjust padding for smaller screens */
+    }
+
+    .about-title {
+        font-size: 1.8rem; /* Adjust title font size for smaller screens */
+        margin-bottom: 10px; /* Adjust margin for smaller screens */
+    }
+
+    .about-subtitle {
+        font-size: 1.2rem; /* Adjust subtitle font size for smaller screens */
+        margin-bottom: 20px; /* Adjust margin for smaller screens */
+    }
+
+    .about-data {
+        font-size: 1rem; /* Adjust data font size for smaller screens */
+    }
+
+    .about-people-data {
+        font-size: 0.9rem; /* Adjust people data font size for smaller screens */
+    }
+
+    .about-people-link {
+        font-size: 1rem; /* Adjust people link font size for smaller screens */
+    }
+
+    .about-content {
+        padding: 10px; /* Adjust padding for smaller screens */
+    }
+
+    .about-person-container {
+        padding: 10px 0; /* Adjust padding for smaller screens */
+    }
+
+    .about-logo-container {
+        flex-direction: column; /* Stack logo columns in a column layout */
+        margin-top: 10px; /* Adjust margin for smaller screens */
+    }
+
+    .about-logo-column {
+        padding: 10px;
+    }
+
+    .about-logo-column img {
+        max-width: 100%; /* Make logo images responsive */
+    }
+
+    .about-img-sze {
+        width: 100%; /* Adjust image size for smaller screens */
+        border-radius: 25px; /* Adjust border radius for smaller screens */
+    }
+
+    .about-img-profile {
+        width: 30%; /* Adjust image size for smaller screens */
+        border-radius: 50%;
+        margin: 0 auto; /* Center the image */
+        margin-bottom: 10px; /* Adjust margin for smaller screens */
+    }
+
+    .about-img-right,
+    .about-img-left {
+        width: 100%; /* Make images take up the full width on smaller screens */
+        float: none; /* Remove float on smaller screens */
+        clear: both;
+    }
+}
 

@@ -24,7 +24,7 @@ export default function CustomCursor() {
   return (
     <div className="custom-cursor">
       {/* Use a conditional rendering based on the screen size */}
-      {window.innerWidth > 1023 /* Adjust the breakpoint as needed for tablets */ && (
+      {window.innerWidth > 1000 /* Adjust the breakpoint as needed for tablets */ && (
       <AnimatedCursor
         {...cursorStyle}
         clickables={[

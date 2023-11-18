@@ -60,3 +60,22 @@ li {
 .dropdowns {
     display: flex;
 }
+
+/* Adjust styles for smaller screens (e.g., tablets and mobiles) */
+@media only screen and (max-width: 1023px) {
+    .navbar {
+        height: auto; /* Adjust height for smaller screens */
+    }
+
+    .nav-link {
+        font-size: 14px; /* Reduce font size for smaller screens */
+    }
+
+    .nav-item {
+        margin: 0; /* Remove margin for smaller screens */
+    }
+
+    .dropdowns {
+        flex-direction: column; /* Stack dropdowns vertically for smaller screens */
+    }
+}

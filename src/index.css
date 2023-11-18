@@ -128,14 +128,20 @@ code {
     display: none !important;
   }
 
+  /*Make all text size smaller based on the parent*/
+  * {
+    font-size: 0.95em;
+  }
+
   /* Adjust styles for images on mobile devices */
   img {
-    max-width: 65%; /* Make images responsive */
+    max-width: 85%; /* Make images responsive */
   }
+
 }
 
 /* If the recognized device is a tablet */
-@media only screen and (min-width: 768px) and (max-width: 1023px) {
+@media only screen and (min-width: 768px) and (max-width: 1000px) {
   * {
     cursor: none !important;
   }
@@ -145,8 +151,13 @@ code {
     display: none !important;
   }
 
+  /*Make all text size smaller based on the parent*/
+  * {
+    font-size: 0.98em;
+  }
+   
   /* Adjust styles for images on tablets */
   img {
-    max-width: 70%; /* Make images responsive */
+    max-width: 95%; /* Make images responsive */
   }
 }

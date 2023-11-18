@@ -79,3 +79,55 @@
     color: var(--purple);
     padding: 5px;
 }
+
+/* Adjust styles for smaller screens (e.g., tablets and mobiles) */
+@media only screen and (max-width: 767px) {
+
+    .register {
+        height: auto; /* Allow the height to adjust based on content */
+        padding: 20px;
+    }
+
+    .register-form-container {
+        max-width: 100%; /* Adjust the width to fit the screen */
+    }
+
+    .register-title {
+        font-size: 1.5rem;
+        margin-bottom: 10px; /* Adjust spacing for smaller screens */
+    }
+
+    .register-subtitle {
+        font-size: 0.9rem;
+        margin-bottom: 30px; /* Adjust spacing for smaller screens */
+    }
+
+    .register-form-label {
+        font-size: 0.7rem;
+        margin-bottom: 3px; /* Adjust spacing for smaller screens */
+    }
+
+    .register-btn {
+        font-size: 0.9rem;
+        margin-top: 15px; /* Adjust spacing for smaller screens */
+    }
+
+    .register-text {
+        margin-top: 15px; /* Adjust spacing for smaller screens */
+        font-size: 0.7rem;
+    }
+
+    .register-link {
+        font-size: 0.7rem;
+    }
+
+    /* Add styles to prevent the image from going into the navbar */
+    .your-navbar-class {
+        overflow: hidden; /* Hide any content that overflows the navbar */
+    }
+
+    /* Add styles to prevent the form fields from going into the footer */
+    .your-footer-class {
+        overflow: hidden; /* Hide any content that overflows the footer */
+    }
+}

@@ -282,3 +282,21 @@
     font-weight: bold;
     text-align: center;
 }
+
+@media (max-width: 768px) {
+    .map-home {
+      padding-top: 100%;
+      padding-bottom: 100%;
+      padding-left: 10%;
+      padding-right: 10%;
+    }
+  
+    .location-map {
+      padding-top: 100%; /* Adjust the aspect ratio for mobile view */
+    }
+  
+    /* Additional styles for mobile map */
+    .location-map-mobile {
+      padding-top: 100%;
+    }
+  }

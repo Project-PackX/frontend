@@ -42,6 +42,7 @@ export const Login = () => {
         localStorage.setItem("address", user.Address);
         localStorage.setItem("phone", user.Phone);
         localStorage.setItem("user_id", jwtDecode(token).user_id);
+        localStorage.setItem("login_date", new Date().toISOString());
         login();
         console.log("user logged in successfully", token);
         navigate("/");

@@ -35,6 +35,7 @@ import { AdminUsers } from "./views/Admin/Users/AdminUsers";
 import {AdminAddUser} from "./views/Admin/Users/AdminAddUser";
 import { AdminDeleteUser } from "./views/Admin/Users/AdminDeleteUser";
 import {AddLocker} from "./views/Admin/Lockers/AddLocker";
+import {Locker} from "./views/LockerUI/Locker";
 
 function App() {
   return (
@@ -42,7 +43,7 @@ function App() {
       <CustomCursor />
       <ScrollToTop />
       <Router>
-        <Navbar />
+        { location.pathname !== "/locker/" && <Navbar /> }
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route exact path="/track" element={<Track />} />
@@ -70,9 +71,10 @@ function App() {
           <Route exact path="/admin-delete-user" element={<AdminDeleteUser />} />
           <Route exact path="/add-new-user" element={<AdminAddUser />} />
           <Route exact path="/add-locker" element={<AddLocker />} />
+          <Route exact path="/locker" element={<Locker />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
-        <Footer />
+        { location.pathname !== "/locker/" && <Footer /> }
       </Router>
     </AuthProvider>
   );

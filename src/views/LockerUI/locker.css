@@ -1,0 +1,39 @@
+.keypad-container {
+    margin-top: 20px;
+}
+
+.entered-numbers-container {
+    height: 60px;
+}
+
+.keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+    max-width: 600px;
+    margin: 0 auto;
+    grid-template-areas:
+    "one two three"
+    "four five six"
+    "seven eight zero"
+    "clear enter enter";
+}
+
+.entered-numbers {
+    font-size: 3rem;
+    margin-bottom: 200px;
+}
+
+.btn-outline-primary {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.zero-button {
+    grid-area: zero;
+}
+
+.btn-custom {
+    font-size: 2rem;
+    padding: 20px;
+}

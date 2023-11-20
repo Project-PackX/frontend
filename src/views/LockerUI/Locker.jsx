@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './Locker.css';
+import './locker.css';
 
 export const Locker = () => {
     const [enteredNumbers, setEnteredNumbers] = useState('');

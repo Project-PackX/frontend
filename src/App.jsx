@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import CustomCursor from "./components/CustomCursor/CustomCursor";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
+import DarkModeToggle from "./components/DarkMode/DarkMode";
 
 import { Navbar } from "./components/Navbar/Navbar";
 import { Footer } from "./components/Footer/Footer";
@@ -76,6 +77,7 @@ function App() {
         </Routes>
         { location.pathname !== "/locker/" && <Footer /> }
       </Router>
+      <DarkModeToggle />
     </AuthProvider>
   );
 }

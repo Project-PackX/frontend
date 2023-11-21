@@ -1,0 +1,19 @@
+.react-toggle {
+    height: 30px; /* Adjust the height as needed */
+}
+
+.toggle-container {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    filter: grayscale(100%);
+  }
+
+body.dark *:not(img):not(button) {
+    background-color: var(--black);
+    color: var(--white);
+}

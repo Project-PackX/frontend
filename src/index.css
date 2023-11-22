@@ -42,6 +42,10 @@ code {
   line-height: normal;
 }
 
+.container {
+  min-height: calc(100vh - 100px);
+}
+
 .button-primary {
   background-color: var(--white);
   border: 3px solid var(--white);

@@ -101,7 +101,7 @@ export const History = () => {
   }
 
   return (
-    <div className="history-container">
+    <div className="container history-container">
       {!isLoading && history.length > 0 && <h1>History</h1>}
       {!isLoading && history.length > 0 ? (
         <div className="row">

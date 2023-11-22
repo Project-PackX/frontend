@@ -4,7 +4,6 @@ import "./footer.css";
 export const Footer = () => {
   return (
     <footer className="bg-dark text-light py-3 custom-footer">
-      <div className="container">
         <div className="footer-content">
           <div className="footer-left">
             <div className="contact-info">
@@ -33,7 +32,6 @@ export const Footer = () => {
             Terms and conditions
           </Link>
         </p>
-      </div>
     </footer>
   );
 };

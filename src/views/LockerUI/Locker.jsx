@@ -21,8 +21,8 @@ export const Locker = () => {
         <div className="d-flex align-items-center justify-content-center vh-100">
             <div className="text-center">
                 <div className="keypad-container">
-                    <div className="entered-numbers-container">
-                        <div className="entered-numbers btn-custom">{enteredNumbers}</div>
+                    <div className="entered-numbers-container mb-5">
+                        <div className="entered-numbers">{enteredNumbers}</div>
                     </div>
                     <div className="keypad">
                         {[1, 2, 3, 4, 5, 6, 7, 8, 0, 9].map((number) => (

@@ -32,7 +32,11 @@ class PackageDataService {
             }
         });
     }
+
+    getPackageByLockerCode(code) {
+        return http.get(`/packages/code/${code}`);
+    }
+
 }
 
-// eslint-disable-next-line import/no-anonymous-default-export
 export default new PackageDataService();

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './locker.css';
+import PackageDataService from '../../services/package';
 
 export const Locker = () => {
     const [enteredNumbers, setEnteredNumbers] = useState('');
@@ -15,6 +16,13 @@ export const Locker = () => {
 
     const handleEnter = () => {
         console.log('Enter pressed. Do something with entered numbers:', enteredNumbers);
+        PackageDataService.getPackageByLockerCode(enteredNumbers.toString())
+            .then((response) => {
+                console.log(response.data);
+            })
+            .catch((e) => {
+                console.log(e);
+            });
     };
 
     return (

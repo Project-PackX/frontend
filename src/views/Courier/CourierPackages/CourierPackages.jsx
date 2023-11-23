@@ -105,7 +105,10 @@ export function CourierPackages() {
     }
   }, []);
 
-  if (!isLoggedIn || access_level <= 2) {
+
+  console.log(isLoggedIn, access_level)
+
+  if (!isLoggedIn || access_level < 2) {
     return <NoPermission />;
   }
 

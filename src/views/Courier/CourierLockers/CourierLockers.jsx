@@ -71,7 +71,7 @@ export function CourierLockers() {
 };
 
   // if the access level is not 2 or 3 return true and show the NoPermission component
-  if (!isLoggedIn || access_level <= 2) {
+  if (!isLoggedIn || access_level < 2) {
       return <NoPermission />;
   }
 

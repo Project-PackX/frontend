@@ -40,13 +40,9 @@ export const History = () => {
 
   const isPackageCancellable = (item) => {
     try {
-      // Use the package status from state directly
-      console.log("packageStatus", packageStatus);
       const timeDifference = new Date().getTime() - new Date(item.CreatedAt).getTime();
-      const isStatusDispatch = packageStatus === "Dispatch";
+      const isStatusDispatch = packageStatus.Status === "Dispatch";
       const isPackageCancellable = timeDifference < 86400000 && isStatusDispatch;
-  
-      console.log("isPackageCancellable", isPackageCancellable);
       return isPackageCancellable;
     } catch (e) {
       console.error("Error getting package status", e);

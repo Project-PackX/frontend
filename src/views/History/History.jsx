@@ -36,22 +36,30 @@ export const History = () => {
       .then((response) => setPackageStatus(response.data))
       .catch((e) => console.error(e));
   };
-
-  useEffect(() => {
-    if (history.length > 0) {
-      history.forEach((item) => {
-        getPackageStatus(item.TrackID);
-      });
-    }
-  }, [history]);
   
+
   const isPackageCancellable = (item) => {
     try {
-      console.log("packageStatus", item.packageStatus.Status);
-      const timeDifference = new Date().getTime() - new Date(item.CreatedAt).getTime();
-      const isStatusDispatch = item.packageStatus.Status === "Dispatch";
-      const isPackageCancellable = timeDifference < 86400000 && isStatusDispatch;
-      return isPackageCancellable;
+      // Check if packageStatus is not null
+      if (packageStatus !== null) {
+        // Find the package status for the specific TrackID
+        const statusObj = packageStatus.find(status => status.Data.TrackID === item.TrackID);
+  
+        if (statusObj) {
+          const timeDifference = new Date().getTime() - new Date(item.CreatedAt).getTime();
+          const isStatusDispatch = statusObj.Status === 'Dispatch';
+          const isPackageCancellable = timeDifference < 86400000 && isStatusDispatch;
+  
+          console.log("isPackageCancellable", isPackageCancellable);
+          return isPackageCancellable;
+        } else {
+          // If status for the TrackID is not found, assume it's not cancellable
+          return false;
+        }
+      } else {
+        // If packageStatus is null, assume cancellation is not possible
+        return false;
+      }
     } catch (e) {
       console.error("Error getting package status", e);
       return false;
@@ -153,28 +161,31 @@ export const History = () => {
     const fetchPackageStatus = async (id) => {
       try {
         const response = await PackageDataService.get(id);
-        return response.data;
+        return response.data; // Return the package status
       } catch (e) {
         console.error("Error getting package status", e);
         return null;
       }
     };
   
-    const updatePackageStatus = async () => {
+    const fetchPackageStatusForHistory = async () => {
+      // Fetch package status for each item in history
+      const packageStatusPromises = history.map((item) =>
+        fetchPackageStatus(item.TrackID)
+      );
+  
       try {
-        const updatedHistory = await Promise.all(
-          history.map(async (item) => {
-            const status = await fetchPackageStatus(item.TrackID);
-            return { ...item, packageStatus: status };
-          })
-        );
-        setHistory(updatedHistory);
+        const packageStatusResults = await Promise.all(packageStatusPromises);
+        // Now packageStatusResults is an array of package statuses corresponding to each item in history
+        setPackageStatus(packageStatusResults);
       } catch (error) {
-        console.error("Error updating package status", error);
+        console.error("Error fetching package statuses", error);
       }
     };
   
-    updatePackageStatus();
+    if (history.length > 0) {
+      fetchPackageStatusForHistory();
+    }
   }, [history]);
 
   if (!isLoggedIn || tokenDecodingError) {

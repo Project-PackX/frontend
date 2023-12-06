@@ -36,12 +36,20 @@ export const History = () => {
       .then((response) => setPackageStatus(response.data))
       .catch((e) => console.error(e));
   };
-  
 
+  useEffect(() => {
+    if (history.length > 0) {
+      history.forEach((item) => {
+        getPackageStatus(item.TrackID);
+      });
+    }
+  }, [history]);
+  
   const isPackageCancellable = (item) => {
     try {
+      console.log("packageStatus", item.packageStatus.Status);
       const timeDifference = new Date().getTime() - new Date(item.CreatedAt).getTime();
-      const isStatusDispatch = packageStatus.Status === "Dispatch";
+      const isStatusDispatch = item.packageStatus.Status === "Dispatch";
       const isPackageCancellable = timeDifference < 86400000 && isStatusDispatch;
       return isPackageCancellable;
     } catch (e) {
@@ -49,6 +57,7 @@ export const History = () => {
       return false;
     }
   };
+  
 
   const handleCancelPackage = async (trackId) => {
     try {
@@ -141,18 +150,31 @@ export const History = () => {
   }, [lockerOptions, selectedCurrency]);
 
   useEffect(() => {
-    if (history.length > 0) {
-      const fetchPackageStatus = async (id) => {
-        try {
-          const response = await PackageDataService.get(id);
-          setPackageStatus(response.data);
-        } catch (e) {
-          console.error("Error getting package status", e);
-        }
-      };
+    const fetchPackageStatus = async (id) => {
+      try {
+        const response = await PackageDataService.get(id);
+        return response.data;
+      } catch (e) {
+        console.error("Error getting package status", e);
+        return null;
+      }
+    };
   
-      fetchPackageStatus(history[0].TrackID); // You can choose any appropriate package ID
-    }
+    const updatePackageStatus = async () => {
+      try {
+        const updatedHistory = await Promise.all(
+          history.map(async (item) => {
+            const status = await fetchPackageStatus(item.TrackID);
+            return { ...item, packageStatus: status };
+          })
+        );
+        setHistory(updatedHistory);
+      } catch (error) {
+        console.error("Error updating package status", error);
+      }
+    };
+  
+    updatePackageStatus();
   }, [history]);
 
   if (!isLoggedIn || tokenDecodingError) {

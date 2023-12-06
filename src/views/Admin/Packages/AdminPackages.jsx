@@ -3,7 +3,7 @@ import "./admin-packages.css";
 import { NoPermission } from "../../../components/Slave/NoPermission/NoPermission";
 import { useAuth } from "../../../context/auth";
 import PackageDataService from "../../../services/package";
-import 'bootstrap/dist/css/bootstrap.min.css'; // Make sure to include Bootstrap CSS
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export const AdminPackages = () => {
     const { isLoggedIn } = useAuth();
@@ -11,7 +11,6 @@ export const AdminPackages = () => {
     const token = localStorage.getItem("token");
 
     const [packages, setPackages] = useState([]);
-    console.log(packages)
 
     useEffect(() => {
         if (isLoggedIn && access_level === 3) {
@@ -30,6 +29,20 @@ export const AdminPackages = () => {
             })));
         } catch (error) {
             console.error("Error while loading packages", error);
+        }
+    };
+
+    const handleDeletePackage = async (packageId) => {
+        if (window.confirm("Are you sure you want to delete this package?")) {
+            try {
+                // Call the deletePackage method from PackageDataService
+                await PackageDataService.deletePackage(packageId, token);
+                
+                // After successful deletion, fetch updated packages
+                await fetchPackages();
+            } catch (error) {
+                console.error("Error while deleting package", error);
+            }
         }
     };
 
@@ -55,7 +68,7 @@ export const AdminPackages = () => {
                     <th>Co2</th>
                     <th>Note</th>
                     <th>Courier ID</th>
-                    {/* Add other columns as needed */}
+                    <th>Delete</th> {/* New column for the Delete button */}
                 </tr>
                 </thead>
                 <tbody>
@@ -73,7 +86,11 @@ export const AdminPackages = () => {
                         <td>{pkg.Co2}</td>
                         <td>{pkg.Note}</td>
                         <td>{pkg.CourierID}</td>
-                        {/* Add other cells as needed */}
+                        <td>
+                            <button onClick={() => handleDeletePackage(pkg.ID)} className="btn btn-danger">
+                                Delete
+                            </button>
+                        </td>
                     </tr>
                 ))}
                 </tbody>

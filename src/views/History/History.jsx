@@ -1,13 +1,16 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import UserDataService from "../../services/user";
 import LockerDataService from "../../services/locker";
+import PackageDataService from '../../services/package.js';
 import { useAuth } from "../../context/auth";
 import decode from "jwt-decode";
 import "./history.css";
 import { NoPermission } from "../../components/Slave/NoPermission/NoPermission";
 
 export const History = () => {
+  const navigate = useNavigate();
   const [history, setHistory] = useState([]);
   const { isLoggedIn } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
@@ -15,12 +18,45 @@ export const History = () => {
   const exchangeRates = JSON.parse(localStorage.getItem("exchangeRates"));
   const [selectedCurrency, setSelectedCurrency] = useState(localStorage.getItem("selectedCurrency") || "HUF");
   const [tokenDecodingError, setTokenDecodingError] = useState(false);
+  const cancelPackage = PackageDataService.cancelPackage;
+  const token = localStorage.getItem('token');
 
   useEffect(() => localStorage.setItem('selectedCurrency', selectedCurrency), [selectedCurrency]);
 
   const handleCurrencyChange = (currency) => {
-    setSelectedCurrency(currency);
-    localStorage.setItem('selectedCurrency', currency);
+      setSelectedCurrency(currency);
+      localStorage.setItem('selectedCurrency', currency);
+  };
+
+  const isPackageCancellable = async (item) => {
+    try {
+      const packageStatusResponse = await PackageDataService.get(item.TrackID);
+      const packageStatus = packageStatusResponse.data.status;
+
+      const timeDifference = new Date().getTime() - new Date(item.CreatedAt).getTime();
+      const isStatusDispatch = packageStatus === "Dispatch";
+      const isPackageCancellable = timeDifference < 86400000 && isStatusDispatch;
+
+      return isPackageCancellable;
+    } catch (e) {
+      console.error("Error getting package status", e);
+      return false;
+    }
+  };
+
+  const handleCancelPackage = async (trackId) => {
+    try {
+      await cancelPackage(trackId, token);
+      // After successful cancellation, clear local data and reload history
+      setHistory([]);
+      setIsLoading(true);
+      loadHistory();
+      
+      // Navigate to the success response page
+      navigate("/successfulresponse", { state: { referrer: "cancel" } });
+    } catch (error) {
+      console.error('Error canceling package', error);
+    }
   };
 
   const loadLockerOptions = () => {
@@ -43,6 +79,7 @@ export const History = () => {
       )
         .then(response => {
           const formattedHistory = response.data.map(item => {
+            const packageId = item.TrackID;
             const senderLockerId = parseInt(item.SenderLockerId);
             const destinationLockerId = parseInt(item.DestinationLockerId);
             const senderLocker = lockerOptions.find(locker => locker.id === senderLockerId);
@@ -53,6 +90,7 @@ export const History = () => {
             const emissions = response.data.map(item => parseFloat(item.Co2).toFixed(2));
             const formattedItem = {
               ...item,
+              TrackID: packageId,
               CreatedAt: new Date(item.CreatedAt).toLocaleString() || "N/A",
               DeliveryDate: new Date(item.DeliveryDate).toLocaleString() || "N/A",
               SenderLockerLabel: senderLocker ? senderLocker.label : "N/A",
@@ -94,7 +132,7 @@ export const History = () => {
     if (lockerOptions.length > 0 && exchangeRates) {
       loadHistory();
     }
-  }, [lockerOptions, selectedCurrency]);
+  }, [lockerOptions, selectedCurrency, ]);
 
   if (!isLoggedIn || tokenDecodingError) {
     return <NoPermission />;
@@ -135,6 +173,14 @@ export const History = () => {
                 <Link to={`/track/${item.TrackID}`} className="btn login-btn">
                   Track
                 </Link>
+                {isPackageCancellable(item) && (
+                  <button
+                    className="btn login-btn"
+                    onClick={() => handleCancelPackage(item.TrackID)}
+                  >
+                    Cancel
+                  </button>
+                )}
               </div>
             </div>
           ))}

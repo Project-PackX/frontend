@@ -8,6 +8,7 @@ import { useAuth } from "../../context/auth";
 import decode from "jwt-decode";
 import "./history.css";
 import { NoPermission } from "../../components/Slave/NoPermission/NoPermission";
+import { get } from "jquery";
 
 export const History = () => {
   const navigate = useNavigate();
@@ -20,6 +21,8 @@ export const History = () => {
   const [tokenDecodingError, setTokenDecodingError] = useState(false);
   const cancelPackage = PackageDataService.cancelPackage;
   const token = localStorage.getItem('token');
+  const [packageStatus, setPackageStatus] = useState(null);
+
 
   useEffect(() => localStorage.setItem('selectedCurrency', selectedCurrency), [selectedCurrency]);
 
@@ -28,15 +31,22 @@ export const History = () => {
       localStorage.setItem('selectedCurrency', currency);
   };
 
-  const isPackageCancellable = async (item) => {
-    try {
-      const packageStatusResponse = await PackageDataService.get(item.TrackID);
-      const packageStatus = packageStatusResponse.data.status;
+  const getPackageStatus = (id) => {
+    PackageDataService.get(id)
+      .then((response) => setPackageStatus(response.data))
+      .catch((e) => console.error(e));
+  };
+  
 
+  const isPackageCancellable = (item) => {
+    try {
+      // Use the package status from state directly
+      console.log("packageStatus", packageStatus);
       const timeDifference = new Date().getTime() - new Date(item.CreatedAt).getTime();
       const isStatusDispatch = packageStatus === "Dispatch";
       const isPackageCancellable = timeDifference < 86400000 && isStatusDispatch;
-
+  
+      console.log("isPackageCancellable", isPackageCancellable);
       return isPackageCancellable;
     } catch (e) {
       console.error("Error getting package status", e);
@@ -132,7 +142,22 @@ export const History = () => {
     if (lockerOptions.length > 0 && exchangeRates) {
       loadHistory();
     }
-  }, [lockerOptions, selectedCurrency, ]);
+  }, [lockerOptions, selectedCurrency]);
+
+  useEffect(() => {
+    if (history.length > 0) {
+      const fetchPackageStatus = async (id) => {
+        try {
+          const response = await PackageDataService.get(id);
+          setPackageStatus(response.data);
+        } catch (e) {
+          console.error("Error getting package status", e);
+        }
+      };
+  
+      fetchPackageStatus(history[0].TrackID); // You can choose any appropriate package ID
+    }
+  }, [history]);
 
   if (!isLoggedIn || tokenDecodingError) {
     return <NoPermission />;

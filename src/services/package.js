@@ -38,7 +38,7 @@ class PackageDataService {
     }
 
     cancelPackage(id, token) {
-        return http.post(`/packages/cancel/${id}`, null, {
+        return http.delete(`/packages/${id}`, {
             headers: {
                 Authorization: `${token}`
             }

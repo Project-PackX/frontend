@@ -101,8 +101,10 @@ export const History = () => {
         localStorage.getItem('token')
       )
         .then(response => {
+          console.log("History response", response);
           const formattedHistory = response.data.map(item => {
-            const packageId = item.TrackID;
+            const trackID = item.TrackID;
+            const packageID = item.ID;
             const senderLockerId = parseInt(item.SenderLockerId);
             const destinationLockerId = parseInt(item.DestinationLockerId);
             const senderLocker = lockerOptions.find(locker => locker.id === senderLockerId);
@@ -113,7 +115,8 @@ export const History = () => {
             const emissions = response.data.map(item => parseFloat(item.Co2).toFixed(2));
             const formattedItem = {
               ...item,
-              TrackID: packageId,
+              TrackID: trackID,
+              PackageID: packageID,
               CreatedAt: new Date(item.CreatedAt).toLocaleString() || "N/A",
               DeliveryDate: new Date(item.DeliveryDate).toLocaleString() || "N/A",
               SenderLockerLabel: senderLocker ? senderLocker.label : "N/A",
@@ -230,7 +233,7 @@ export const History = () => {
                 {isPackageCancellable(item) && (
                   <button
                     className="btn login-btn"
-                    onClick={() => handleCancelPackage(item.TrackID)}
+                    onClick={() => handleCancelPackage(item.PackageID)}
                   >
                     Cancel
                   </button>

@@ -30,15 +30,17 @@ export const AdminDeleteUser = () => {
       setError("Please verify that you're a human.");
       return;
     }
-    else {
-    UserDataService.deleteUser(formData.name, localStorage.getItem("token"))
-    .then(() => {
-         navigate("/successfulresponse", { state: { referrer: "admin-delete-user" } });
-       })
-       .catch((error) => {
-         setError("An error occurred while deleting the user.");
+
+    const userIds = formData.name.split(',').map(id => id.trim()); // Splitting user IDs by comma
+    const promises = userIds.map(userId => UserDataService.deleteUser(userId, localStorage.getItem("token")));
+
+    Promise.all(promises)
+      .then(() => {
+        navigate("/successfulresponse", { state: { referrer: "admin-delete-user" } });
+      })
+      .catch((error) => {
+        setError("An error occurred while deleting the user(s).");
       });
-    }
   };
 
   if (access_level === 1 || access_level === 2) {

@@ -36,6 +36,10 @@ export const SuccessfulResponse = () => {
         message = 'Your password has been updated successfully.';
         linkTo = '/login';
         actionText = 'Login';
+    } else if (location.state?.referrer === 'cancel') {
+        message = 'Your package has been canceled successfully.';
+        linkTo = '/history';
+        actionText = 'History';
     }
     else {
         message = '';

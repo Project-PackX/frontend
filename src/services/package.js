@@ -37,6 +37,21 @@ class PackageDataService {
         return http.get(`/packages/code/${code}`);
     }
 
+    cancelPackage(id, token) {
+        return http.delete(`/packages/${id}`, {
+            headers: {
+                Authorization: `${token}`
+            }
+        });
+    }
+
+    deletePackage(id, token) {
+        return http.delete(`/packages/${id}`, {
+            headers: {
+                Authorization: `${token}`
+            }
+        });
+    }
 }
 
 export default new PackageDataService();

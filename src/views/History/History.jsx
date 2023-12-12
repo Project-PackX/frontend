@@ -1,13 +1,17 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import UserDataService from "../../services/user";
 import LockerDataService from "../../services/locker";
+import PackageDataService from '../../services/package.js';
 import { useAuth } from "../../context/auth";
 import decode from "jwt-decode";
 import "./history.css";
 import { NoPermission } from "../../components/Slave/NoPermission/NoPermission";
+import { get } from "jquery";
 
 export const History = () => {
+  const navigate = useNavigate();
   const [history, setHistory] = useState([]);
   const { isLoggedIn } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
@@ -15,12 +19,67 @@ export const History = () => {
   const exchangeRates = JSON.parse(localStorage.getItem("exchangeRates"));
   const [selectedCurrency, setSelectedCurrency] = useState(localStorage.getItem("selectedCurrency") || "HUF");
   const [tokenDecodingError, setTokenDecodingError] = useState(false);
+  const cancelPackage = PackageDataService.cancelPackage;
+  const token = localStorage.getItem('token');
+  const [packageStatus, setPackageStatus] = useState(null);
+
 
   useEffect(() => localStorage.setItem('selectedCurrency', selectedCurrency), [selectedCurrency]);
 
   const handleCurrencyChange = (currency) => {
-    setSelectedCurrency(currency);
-    localStorage.setItem('selectedCurrency', currency);
+      setSelectedCurrency(currency);
+      localStorage.setItem('selectedCurrency', currency);
+  };
+
+  const getPackageStatus = (id) => {
+    PackageDataService.get(id)
+      .then((response) => setPackageStatus(response.data))
+      .catch((e) => console.error(e));
+  };
+  
+
+  const isPackageCancellable = (item) => {
+    try {
+      // Check if packageStatus is not null
+      if (packageStatus !== null) {
+        // Find the package status for the specific TrackID
+        const statusObj = packageStatus.find(status => status.Data.TrackID === item.TrackID);
+  
+        if (statusObj) {
+          const timeDifference = new Date().getTime() - new Date(item.CreatedAt).getTime();
+          const isStatusDispatch = statusObj.Status === 'Dispatch';
+          const isPackageCancellable = timeDifference < 86400000 && isStatusDispatch;
+  
+          console.log("isPackageCancellable", isPackageCancellable);
+          return isPackageCancellable;
+        } else {
+          // If status for the TrackID is not found, assume it's not cancellable
+          return false;
+        }
+      } else {
+        // If packageStatus is null, assume cancellation is not possible
+        return false;
+      }
+    } catch (e) {
+      console.error("Error getting package status", e);
+      return false;
+    }
+  };
+  
+
+  const handleCancelPackage = async (trackId) => {
+    try {
+      await cancelPackage(trackId, token);
+      // After successful cancellation, clear local data and reload history
+      setHistory([]);
+      setIsLoading(true);
+      loadHistory();
+      
+      // Navigate to the success response page
+      navigate("/successfulresponse", { state: { referrer: "cancel" } });
+    } catch (error) {
+      console.error('Error canceling package', error);
+    }
   };
 
   const loadLockerOptions = () => {
@@ -42,7 +101,10 @@ export const History = () => {
         localStorage.getItem('token')
       )
         .then(response => {
+          console.log("History response", response);
           const formattedHistory = response.data.map(item => {
+            const trackID = item.TrackID;
+            const packageID = item.ID;
             const senderLockerId = parseInt(item.SenderLockerId);
             const destinationLockerId = parseInt(item.DestinationLockerId);
             const senderLocker = lockerOptions.find(locker => locker.id === senderLockerId);
@@ -53,6 +115,8 @@ export const History = () => {
             const emissions = response.data.map(item => parseFloat(item.Co2).toFixed(2));
             const formattedItem = {
               ...item,
+              TrackID: trackID,
+              PackageID: packageID,
               CreatedAt: new Date(item.CreatedAt).toLocaleString() || "N/A",
               DeliveryDate: new Date(item.DeliveryDate).toLocaleString() || "N/A",
               SenderLockerLabel: senderLocker ? senderLocker.label : "N/A",
@@ -96,6 +160,37 @@ export const History = () => {
     }
   }, [lockerOptions, selectedCurrency]);
 
+  useEffect(() => {
+    const fetchPackageStatus = async (id) => {
+      try {
+        const response = await PackageDataService.get(id);
+        return response.data; // Return the package status
+      } catch (e) {
+        console.error("Error getting package status", e);
+        return null;
+      }
+    };
+  
+    const fetchPackageStatusForHistory = async () => {
+      // Fetch package status for each item in history
+      const packageStatusPromises = history.map((item) =>
+        fetchPackageStatus(item.TrackID)
+      );
+  
+      try {
+        const packageStatusResults = await Promise.all(packageStatusPromises);
+        // Now packageStatusResults is an array of package statuses corresponding to each item in history
+        setPackageStatus(packageStatusResults);
+      } catch (error) {
+        console.error("Error fetching package statuses", error);
+      }
+    };
+  
+    if (history.length > 0) {
+      fetchPackageStatusForHistory();
+    }
+  }, [history]);
+
   if (!isLoggedIn || tokenDecodingError) {
     return <NoPermission />;
   }
@@ -135,6 +230,14 @@ export const History = () => {
                 <Link to={`/track/${item.TrackID}`} className="btn login-btn">
                   Track
                 </Link>
+                {isPackageCancellable(item) && (
+                  <button
+                    className="btn login-btn"
+                    onClick={() => handleCancelPackage(item.PackageID)}
+                  >
+                    Cancel
+                  </button>
+                )}
               </div>
             </div>
           ))}

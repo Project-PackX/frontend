@@ -170,7 +170,7 @@ export const Navbar = () => {
                       <p className="button-text mb-0">Reset password</p>
                     </Link>
                   </li>
-                  {access_level !== 2 || access_level !== 3 && (
+                  {access_level === 1  && (
                     <li>
                       <Link className="dropdown-item" to="/deleteuser">
                         <p className="button-text mb-0">Delete account</p>

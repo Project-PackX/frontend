@@ -20,6 +20,11 @@
     max-width: calc(100%);
 }
 
+.container .packxcolor {
+    height: auto;
+    margin: 4rem 0;
+}
+
 .packxcolor h5 {
     background: -webkit-linear-gradient(var(--purple), var(--blue));
     -webkit-background-clip: text;

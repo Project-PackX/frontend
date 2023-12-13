@@ -90,15 +90,15 @@ export const Home = () => {
           const selectedCurrency = localStorage.getItem("selectedCurrency");
   
           if (selectedCurrency === "HUF") {
-            setCost(`${calculatedCost} HUF`);
+            setCost(`${calculatedCost.toFixed(2)} HUF`);
           } else if (selectedCurrency === "EUR") {
             calculatedCost *= exchangeRates.EUR;
-            setCost(`${calculatedCost} EUR`);
+            setCost(`${calculatedCost.toFixed(2)} EUR`);
           } else if (selectedCurrency === "USD") {
             calculatedCost *= exchangeRates.USD;
-            setCost(`${calculatedCost} USD`);
+            setCost(`${calculatedCost.toFixed(2)} USD`);
           } else {
-            setCost(`${calculatedCost} HUF`);
+            setCost(`${calculatedCost.toFixed(2)} HUF`);
           }
           setError(null);
         }
